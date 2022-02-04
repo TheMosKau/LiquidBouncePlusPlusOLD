@@ -89,35 +89,35 @@ public class ColorMixer extends Module {
             
         // color generation
         if (lastColors.length <= 0 || lastColors.length != (blendAmount.get() * 2) - 1) {
-        Color[] generator = new Color[(blendAmount.get() * 2) - 1];
+            Color[] generator = new Color[(blendAmount.get() * 2) - 1];
 
-        // reflection is cool
-        for (int i = 1; i <= blendAmount.get(); i++) {
-            Color result = Color.white;
-            try {                
-                Field red = ColorMixer.class.getField("col"+i+"RedValue");
-                Field green = ColorMixer.class.getField("col"+i+"GreenValue");
-                Field blue = ColorMixer.class.getField("col"+i+"BlueValue");
+            // reflection is cool
+            for (int i = 1; i <= blendAmount.get(); i++) {
+                Color result = Color.white;
+                try {                
+                    Field red = ColorMixer.class.getField("col"+i+"RedValue");
+                    Field green = ColorMixer.class.getField("col"+i+"GreenValue");
+                    Field blue = ColorMixer.class.getField("col"+i+"BlueValue");
 
-                int r = ((IntegerValue)red.get(colMixer)).get();
-                int g = ((IntegerValue)red.get(colMixer)).get();
-                int b = ((IntegerValue)red.get(colMixer)).get();
+                    int r = ((IntegerValue)red.get(colMixer)).get();
+                    int g = ((IntegerValue)green.get(colMixer)).get();
+                    int b = ((IntegerValue)blue.get(colMixer)).get();
 
-                result = new Color(Math.max(0, Math.min(r, 255)), Math.max(0, Math.min(g, 255)), Math.max(0, Math.min(b, 255)));
-            } catch (Exception e) {
-                e.printStackTrace();
+                    result = new Color(Math.max(0, Math.min(r, 255)), Math.max(0, Math.min(g, 255)), Math.max(0, Math.min(b, 255)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                generator[i - 1] = result;
             }
 
-            generator[i - 1] = result;
-        }
+            int h = blendAmount.get();
+            for (int z = blendAmount.get() - 2; z >= 0; z--) {
+                generator[h] = generator[z];
+                h++;
+            }
 
-        int h = blendAmount.get();
-        for (int z = blendAmount.get() - 2; z >= 0; z--) {
-            generator[h] = generator[z];
-            h++;
-        }
-
-        lastColors = generator;
+            lastColors = generator;
         }
 
         // cache thingy
@@ -127,7 +127,7 @@ public class ColorMixer extends Module {
 
             for (int i = 0; i <= (blendAmount.get() * 2) - 2; i++)
             {
-                colorFraction[i] = (float) i / (float) ((blendAmount.get() * 2) - 2);
+                colorFraction[i] = (float)i / (float)((blendAmount.get() * 2) - 2);
             }
 
             lastFraction = colorFraction;
