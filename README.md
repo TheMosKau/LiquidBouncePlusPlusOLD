@@ -6,7 +6,7 @@ Website: https://liquidbounce.net \
 Forum: https://forums.ccbluex.net \
 YouTube: https://youtube.com/CCBlueX \
 Twitter: https://twitter.com/CCBlueX \
-Guilded: https://guilded.gg/CCBlueX \
+Guilded: https://guilded.gg/CCBlueX 
 ## LiquidBounce+ contact infos
 Discord: https://discord.io/LiquidBouncePlus (3rd party link)
 
