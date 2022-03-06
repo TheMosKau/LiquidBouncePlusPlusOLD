@@ -10,11 +10,10 @@ Guilded: https://guilded.gg/CCBlueX
 ## LiquidBounce+ contact infos
 Discord: https://discord.io/LiquidBouncePlus (3rd party link)
 
-## Third-party mods that are included in this build:
+## Third-party mods which are included in this build:
 - [FlorianMichael/ViaForge](https://github.com/FlorianMichael/ViaForge/)
 - [Sk1erLLC/Patcher](https://github.com/Sk1erLLC/Patcher/)
 - [Guichaguri/BetterFPS](https://github.com/Guichaguri/BetterFps/)
-- [UnlegitMC/FDPClient](https://github.com/UnlegitMC/FDPClient/) for AAC5 bypasses.
 - [Pokechu22/WorldDownloader](https://github.com/Pokechu22/WorldDownloader/) (contact me on Discord: why dont#0425 for legal actions.)
 
 ## Issues
