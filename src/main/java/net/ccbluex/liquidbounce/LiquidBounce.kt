@@ -30,12 +30,13 @@ import net.ccbluex.liquidbounce.utils.misc.sound.TipSoundManager
 import net.ccbluex.liquidbounce.betterfps.BetterFPSCore
 import net.minecraft.util.ResourceLocation
 import kotlin.concurrent.thread
+import java.io.File
 
 object LiquidBounce {
 
     // Client information
-    const val CLIENT_NAME = "UwU"
-    const val CLIENT_VERSION = "UwU"
+    const val CLIENT_NAME = "UwUClient"
+    const val CLIENT_VERSION = "UwU-Speciaw"
     const val CLIENT_CREATOR = "UwU"
     const val CLIENT_CLOUD = "https://wysi-foundation.github.io/LiquidCloud/LiquidBounce"
 
@@ -56,6 +57,10 @@ object LiquidBounce {
     lateinit var hud: HUD
 
     lateinit var clickGui: ClickGui
+
+    val uwutext = "uwu.txt"
+
+    var file = File(uwutext)
 
     // Menu Background
     var background: ResourceLocation? = null
@@ -150,7 +155,8 @@ object LiquidBounce {
         }
         ClientUtils.getLogger().info("Loading UwU Loader")
         ClientUtils.getLogger().info("Making rdeef blushed")
-        ClientUtils.getLogger().info("Running uwu.txt")
+        ClientUtils.getLogger().info("Writing uwu.txt")
+        file.writeText("Thanks tu wiquidbunce pwus for the base UwU and thanks tu yuu fur using this cwient tuu :3")
         ClientUtils.getLogger().info("Finished loading in ${System.currentTimeMillis() - lastTick}ms.")
 
         // Set is starting status
