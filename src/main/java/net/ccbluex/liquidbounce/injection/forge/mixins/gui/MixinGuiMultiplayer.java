@@ -45,7 +45,7 @@ public abstract class MixinGuiMultiplayer extends MixinGuiScreen {
         if (this.viaSlider == null)
             return;
 
-        this.viaSlider.displayString = "Version: " + ProtocolCollection.getProtocolById(ViaForge.getInstance().getVersion()).getName();
+        this.viaSlider.displayString = "UwU Spoofer: " + ProtocolCollection.getProtocolById(ViaForge.getInstance().getVersion()).getName();
     }
 
     private int getProtocolIndex(int id) {
