@@ -37,7 +37,7 @@ object LiquidBounce {
     // Client information
     const val CLIENT_NAME = "UwUClient"
     const val CLIENT_VERSION = "UwU-Speciaw"
-    const val CLIENT_CREATOR = "UwU"
+    const val CLIENT_CREATOR = "moskau, why dont and ccbluex uwu"
     const val CLIENT_CLOUD = "https://wysi-foundation.github.io/LiquidCloud/LiquidBounce"
 
     var isStarting = false
@@ -59,8 +59,10 @@ object LiquidBounce {
     lateinit var clickGui: ClickGui
 
     val uwutext = "uwu.txt"
+    val amogus = "sussybaka.txt"
 
     var file = File(uwutext)
+    var file2 = File(amogus)
 
     // Menu Background
     var background: ResourceLocation? = null
@@ -154,9 +156,10 @@ object LiquidBounce {
             }
         }
         ClientUtils.getLogger().info("Loading UwU Loader")
-        ClientUtils.getLogger().info("Making rdeef blushed")
-        ClientUtils.getLogger().info("Writing uwu.txt")
+        ClientUtils.getLogger().info("Making rdeef ummmmm")
+        ClientUtils.getLogger().info("Writing uwu.txt and sussybaka.txt")
         file.writeText("Thanks tu wiquidbunce pwus for the base UwU and thanks tu yuu fur using this cwient tuu :3")
+        file2.writeText("sub to certainz he is epic and u know :D")
         ClientUtils.getLogger().info("Finished loading in ${System.currentTimeMillis() - lastTick}ms.")
 
         // Set is starting status
