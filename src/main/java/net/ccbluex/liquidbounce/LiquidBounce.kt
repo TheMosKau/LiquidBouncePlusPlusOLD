@@ -34,9 +34,9 @@ import kotlin.concurrent.thread
 object LiquidBounce {
 
     // Client information
-    const val CLIENT_NAME = "LiquidBounce+"
-    const val CLIENT_VERSION = "030222"
-    const val CLIENT_CREATOR = "CCBlueX, WYSI-Foundation"
+    const val CLIENT_NAME = "UwU"
+    const val CLIENT_VERSION = "UwU"
+    const val CLIENT_CREATOR = "UwU"
     const val CLIENT_CLOUD = "https://wysi-foundation.github.io/LiquidCloud/LiquidBounce"
 
     var isStarting = false
@@ -71,7 +71,7 @@ object LiquidBounce {
     fun startClient() {
         isStarting = true
 
-        ClientUtils.getLogger().info("Starting $CLIENT_NAME build $CLIENT_VERSION")
+        ClientUtils.getLogger().info("Starting uwu client by uwudeef")
         lastTick = System.currentTimeMillis()
 
         // Create file manager
@@ -114,7 +114,7 @@ object LiquidBounce {
             scriptManager.loadScripts()
             scriptManager.enableScripts()
         } catch (throwable: Throwable) {
-            ClientUtils.getLogger().error("Failed to load scripts.", throwable)
+            ClientUtils.getLogger().error("Failed to load scwipts :(.", throwable)
         }
 
         // Register commands
@@ -144,12 +144,14 @@ object LiquidBounce {
                 try {
                     clientRichPresence.setup()
                 } catch (throwable: Throwable) {
-                    ClientUtils.getLogger().error("Failed to setup Discord RPC.", throwable)
+                    ClientUtils.getLogger().error("Failed to setup Discuwd RPC :(.", throwable)
                 }
             }
         }
-
-        ClientUtils.getLogger().info("Finished loading LiquidBounce+ in ${System.currentTimeMillis() - lastTick}ms.")
+        ClientUtils.getLogger().info("Loading UwU Loader")
+        ClientUtils.getLogger().info("Making rdeef blushed")
+        ClientUtils.getLogger().info("Running uwu.txt")
+        ClientUtils.getLogger().info("Finished loading in ${System.currentTimeMillis() - lastTick}ms.")
 
         // Set is starting status
         isStarting = false
