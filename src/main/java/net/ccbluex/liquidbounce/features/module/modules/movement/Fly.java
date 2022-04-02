@@ -732,9 +732,10 @@ public class Fly extends Module {
                     if (MovementUtils.isMoving()) {
                         mc.gameSettings.keyBindJump.pressed = false;
                         if (mc.thePlayer.onGround) {
-                            mc.thePlayer.jump();             
+                            mc.thePlayer.jump();
+                            mc.thePlayer.motionY = 0.42;            
                             MovementUtils.strafe(0.93F);
-                            event.setY(0.42);
+                            
                         }
                         MovementUtils.strafe();
                     }
