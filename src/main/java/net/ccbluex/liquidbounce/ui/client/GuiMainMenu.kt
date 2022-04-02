@@ -51,7 +51,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
             lastAnimTick = System.currentTimeMillis()
             alrUpdate = true
         }
-        val creditInfo = "UwU"
+        val creditInfo = "You just got UwUed"
         drawBackground(0)
         GL11.glPushMatrix()
         renderSwitchButton()
@@ -137,7 +137,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         }
 
         if (displayString != null)
-            Fonts.font35.drawCenteredString("UwU" + displayString!!, width / 2F, staticY + 30F, -1)
+            Fonts.font35.drawCenteredString(displayString!! + " UwU", width / 2F, staticY + 30F, -1)
         else 
             Fonts.font35.drawCenteredString("UwU", width / 2F, staticY + 30F, Color(255, 154, 31).rgb)
 
@@ -177,7 +177,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         Multi("Muwtipwayew", ResourceLocation("liquidbounce+/menu/multiplayer.png")),
         Alts("Awts", ResourceLocation("liquidbounce+/menu/alt.png")),
         Settings("Settings", ResourceLocation("liquidbounce+/menu/settings.png")),
-        Mods("Muds/Customize", ResourceLocation("liquidbounce+/menu/mods.png")),
+        Mods("Muds/Custumize", ResourceLocation("liquidbounce+/menu/mods.png")),
         Exit("Exit", ResourceLocation("liquidbounce+/menu/exit.png"))
     }
 
