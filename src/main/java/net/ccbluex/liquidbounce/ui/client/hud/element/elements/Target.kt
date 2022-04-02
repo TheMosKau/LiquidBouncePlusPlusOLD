@@ -170,12 +170,12 @@ class Target : Element() {
                     easingHealth += ((convertedTarget.health - easingHealth) / 2.0F.pow(10.0F - fadeSpeed.get())) * RenderUtils.deltaTime
 
                     Fonts.font40.drawString(convertedTarget.name, 36, 3, 0xffffff)
-                    Fonts.font35.drawString("Distance: ${decimalFormat.format(mc.thePlayer.getDistanceToEntityBox(convertedTarget))}", 36, 15, 0xffffff)
+                    Fonts.font35.drawString("UwU: ${decimalFormat.format(mc.thePlayer.getDistanceToEntityBox(convertedTarget))}", 36, 15, 0xffffff)
 
                     // Draw info
                     val playerInfo = mc.netHandler.getPlayerInfo(convertedTarget.uniqueID)
                     if (playerInfo != null) {
-                        Fonts.font35.drawString("Ping: ${playerInfo.responseTime.coerceAtLeast(0)}",
+                        Fonts.font35.drawString("UwU: ${playerInfo.responseTime.coerceAtLeast(0)}",
                                 36, 24, 0xffffff)
 
                         // Draw head
@@ -190,7 +190,7 @@ class Target : Element() {
                     //RenderUtils.drawBorder(1F, 1F, 26F, 26F, 1F, Color(115, 255, 115).rgb)
                     if (mc.netHandler.getPlayerInfo(convertedTarget.uniqueID) != null) drawHead(mc.netHandler.getPlayerInfo(convertedTarget.uniqueID).locationSkin, 1, 1, 26, 26)
                     Fonts.fontSFUI40.drawString(convertedTarget.name, 30F, 5F, 0xFFFFFF) // Draw convertedTarget name
-                    Fonts.fontSFUI35.drawString("Health: ${decimalFormat2.format(convertedTarget.health)}", 30F, 17.5F, 0xFFFFFF) // Draw convertedTarget health   
+                    Fonts.fontSFUI35.drawString("Heawth UwU: ${decimalFormat2.format(convertedTarget.health)}", 30F, 17.5F, 0xFFFFFF) // Draw convertedTarget health   
 
                     // bar icon
                     Fonts.fontSFUI35.drawString("❤", 2F, 29F, -1)
@@ -240,7 +240,7 @@ class Target : Element() {
                     
                     RenderUtils.drawRect(2F + 36F, 15F, 2F + 36F + barWidth, 25F, mainColor.rgb)
                     
-                    font.drawStringWithShadow("${decimalFormat2.format(percent)}%", 2F + 36F + (nameLength - 2F) / 2F - font.getStringWidth("${decimalFormat2.format(percent)}%").toFloat() / 2F, 16F, -1)
+                    font.drawStringWithShadow("UwU Percent: ${decimalFormat2.format(percent)}%", 2F + 36F + (nameLength - 2F) / 2F - font.getStringWidth("${decimalFormat2.format(percent)}%").toFloat() / 2F, 16F, -1)
                 }
 
                 "Slowly" -> {
@@ -250,7 +250,7 @@ class Target : Element() {
                     RenderUtils.drawRect(0F, 0F, 32F + length, 36F, bgColor.rgb)
                     if (mc.netHandler.getPlayerInfo(convertedTarget.uniqueID) != null) drawHead(mc.netHandler.getPlayerInfo(convertedTarget.uniqueID).locationSkin, 1, 1, 30, 30)
                     font.drawStringWithShadow(convertedTarget.name, 33F, 2F, -1)
-                    font.drawStringWithShadow("${decimalFormat2.format(convertedTarget.health)} ❤", length + 32F - 1F - font.getStringWidth("${decimalFormat2.format(convertedTarget.health)} ❤").toFloat(), 22F, barColor.rgb)
+                    font.drawStringWithShadow("${decimalFormat2.format(convertedTarget.health)} UwU", length + 32F - 1F - font.getStringWidth("${decimalFormat2.format(convertedTarget.health)} ❤").toFloat(), 22F, barColor.rgb)
 
                     easingHealth += ((convertedTarget.health - easingHealth) / 2.0F.pow(10.0F - fadeSpeed.get())) * RenderUtils.deltaTime
 
@@ -260,8 +260,8 @@ class Target : Element() {
                 // without the new rise update i would never think of recreating this Targethud lol
                 "Rise" -> {
                     val font = Fonts.fontSFUI40
-                    val name = "Name ${convertedTarget.name}"
-                    val info = "Distance ${decimalFormat2.format(mc.thePlayer.getDistanceToEntityBox(convertedTarget))} Hurt ${convertedTarget.hurtTime}"
+                    val name = "UwU: ${convertedTarget.name}"
+                    val info = "UwU Away: ${decimalFormat2.format(mc.thePlayer.getDistanceToEntityBox(convertedTarget))} Hurt ${convertedTarget.hurtTime}"
 
                     easingHealth += ((convertedTarget.health - easingHealth) / 2.0F.pow(10.0F - fadeSpeed.get())) * RenderUtils.deltaTime
 
@@ -394,7 +394,7 @@ class Target : Element() {
                     GL11.glPushMatrix()
                     GL11.glTranslatef(46F, 20F, 0F)
                     GL11.glScalef(0.5f, 0.5f, 0.5f)
-                    Fonts.minecraftFont.drawString("HP: ${convertedTarget.health.toInt()} | Dist: ${mc.thePlayer.getDistanceToEntityBox(convertedTarget).toInt()}", 0, 0, -1)
+                    Fonts.minecraftFont.drawString("UwU: ${convertedTarget.health.toInt()} | Dist: ${mc.thePlayer.getDistanceToEntityBox(convertedTarget).toInt()}", 0, 0, -1)
                     GL11.glPopMatrix()
 
                     GlStateManager.resetColor()
@@ -459,12 +459,12 @@ class Target : Element() {
                     easingHealth += ((convertedTarget.health - easingHealth) / 2.0F.pow(10.0F - fadeSpeed.get())) * RenderUtils.deltaTime
 
                     Fonts.font40.drawString(convertedTarget.name, 36, 3, 0xffffff)
-                    Fonts.font35.drawString("Distance: ${decimalFormat.format(mc.thePlayer.getDistanceToEntityBox(convertedTarget))}", 36, 15, 0xffffff)
+                    Fonts.font35.drawString("UwU: ${decimalFormat.format(mc.thePlayer.getDistanceToEntityBox(convertedTarget))}", 36, 15, 0xffffff)
 
                     // Draw info
                     val playerInfo = mc.netHandler.getPlayerInfo(convertedTarget.uniqueID)
                     if (playerInfo != null) {
-                        Fonts.font35.drawString("Ping: ${playerInfo.responseTime.coerceAtLeast(0)}",
+                        Fonts.font35.drawString("UwU: ${playerInfo.responseTime.coerceAtLeast(0)}",
                                 36, 24, 0xffffff)
 
                         // Draw head
