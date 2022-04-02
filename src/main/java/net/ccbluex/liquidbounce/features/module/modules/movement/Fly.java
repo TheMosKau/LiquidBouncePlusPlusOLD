@@ -719,7 +719,20 @@ public class Fly extends Module {
                     }
                 }
                 break;
-        }
+            case "verusjump":
+                if (!mc.thePlayer.isInWeb && !mc.thePlayer.isInLava() && !mc.thePlayer.isInWater() && !mc.thePlayer.isOnLadder() && !mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.ridingEntity == null) {
+                    if (MovementUtils.isMoving()) {
+                        mc.gameSettings.keyBindJump.pressed = false;
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.jump();
+                            mc.thePlayer.motionY = 0;
+                            MovementUtils.strafe(0.61F);
+                        }
+                        MovementUtils.strafe();
+                    }
+                }
+                break;
+         }
     }
 
     @EventTarget
