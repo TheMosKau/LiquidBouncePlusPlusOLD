@@ -64,7 +64,7 @@ public class Fly extends Module {
             "Verus",
             //"VerusFloat",
             "VerusLowHop",
-            "VerusJump",
+            "VerusLowHop2",
 
             // Spartan
             "Spartan",
@@ -221,6 +221,13 @@ public class Fly extends Module {
         moveSpeed = 0;
 
         switch (mode.toLowerCase()) {
+            case "veruslowhop2":
+                if(mc.thePlayer.onGround && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0, 4, 0).expand(0, 0, 0)).isEmpty()) {
+                    PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                    PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
+                    PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                }
+                break;
             case "ncp":
                 mc.thePlayer.motionY = -ncpMotionValue.get();
 
@@ -720,14 +727,13 @@ public class Fly extends Module {
                     }
                 }
                 break;
-            case "verusjump":
+            case "veruslowhop2":
                 if (!mc.thePlayer.isInWeb && !mc.thePlayer.isInLava() && !mc.thePlayer.isInWater() && !mc.thePlayer.isOnLadder() && !mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.ridingEntity == null) {
                     if (MovementUtils.isMoving()) {
                         mc.gameSettings.keyBindJump.pressed = false;
                         if (mc.thePlayer.onGround) {
-                            mc.thePlayer.jump();
-                            mc.thePlayer.motionY = 0;
-                            MovementUtils.strafe(0.69F);
+                            mc.thePlayer.jump();             
+                            MovementUtils.strafe(0.93F);
                             event.setY(0.42);
                         }
                         MovementUtils.strafe();
