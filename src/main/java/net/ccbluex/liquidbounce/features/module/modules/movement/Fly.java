@@ -64,6 +64,7 @@ public class Fly extends Module {
             "Verus",
             //"VerusFloat",
             "VerusLowHop",
+            "VerusJump",
 
             // Spartan
             "Spartan",
