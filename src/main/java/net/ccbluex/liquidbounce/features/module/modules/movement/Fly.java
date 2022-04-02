@@ -728,6 +728,7 @@ public class Fly extends Module {
                             mc.thePlayer.jump();
                             mc.thePlayer.motionY = 0;
                             MovementUtils.strafe(0.61F);
+                            event.setY(0.42)
                         }
                         MovementUtils.strafe();
                     }
