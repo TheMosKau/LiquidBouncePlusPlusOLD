@@ -1,6 +1,6 @@
 /*
- * LiquidBounce+ Hacked Client
- * A free open source mixin-based injection hacked client for Minecraft using Minecraft Forge.
+ * UwU
+ * A free open source UwU injection hacked client for Minecraft using Minecraft Forge.
  * https://github.com/WYSI-Foundation/LiquidBouncePlus/
  */
 package net.ccbluex.liquidbounce
@@ -27,15 +27,17 @@ import net.ccbluex.liquidbounce.utils.PacketUtils
 import net.ccbluex.liquidbounce.utils.RotationUtils
 import net.ccbluex.liquidbounce.utils.SessionUtils
 import net.ccbluex.liquidbounce.utils.misc.sound.TipSoundManager
+import net.ccbluex.liquidbounce.betterfps.BetterFPSCore
 import net.minecraft.util.ResourceLocation
 import kotlin.concurrent.thread
+import java.io.File
 
 object LiquidBounce {
 
     // Client information
-    const val CLIENT_NAME = "LiquidBounce+"
-    const val CLIENT_VERSION = "230322"
-    const val CLIENT_CREATOR = "CCBlueX, WYSI-Foundation"
+    const val CLIENT_NAME = "UwUClient"
+    const val CLIENT_VERSION = "UwU"
+    const val CLIENT_CREATOR = "moskau, why dont and ccbluex uwu"
     const val CLIENT_CLOUD = "https://wysi-foundation.github.io/LiquidCloud/LiquidBounce"
 
     var isStarting = false
@@ -48,12 +50,19 @@ object LiquidBounce {
     lateinit var fileManager: FileManager
     lateinit var scriptManager: ScriptManager
 
+    var betterFPSCore: BetterFPSCore = BetterFPSCore()
     lateinit var tipSoundManager: TipSoundManager
 
     // HUD & ClickGUI
     lateinit var hud: HUD
 
     lateinit var clickGui: ClickGui
+
+    val uwutext = "uwu.txt"
+    val amogus = "sussybaka.txt"
+
+    var file = File(uwutext)
+    var file2 = File(amogus)
 
     // Menu Background
     var background: ResourceLocation? = null
@@ -69,7 +78,7 @@ object LiquidBounce {
     fun startClient() {
         isStarting = true
 
-        ClientUtils.getLogger().info("Starting $CLIENT_NAME build $CLIENT_VERSION")
+        ClientUtils.getLogger().info("Starting uwu client by uwudeef")
         lastTick = System.currentTimeMillis()
 
         // Create file manager
@@ -112,7 +121,7 @@ object LiquidBounce {
             scriptManager.loadScripts()
             scriptManager.enableScripts()
         } catch (throwable: Throwable) {
-            ClientUtils.getLogger().error("Failed to load scripts.", throwable)
+            ClientUtils.getLogger().error("Failed to load scwipts :(.", throwable)
         }
 
         // Register commands
@@ -142,12 +151,16 @@ object LiquidBounce {
                 try {
                     clientRichPresence.setup()
                 } catch (throwable: Throwable) {
-                    ClientUtils.getLogger().error("Failed to setup Discord RPC.", throwable)
+                    ClientUtils.getLogger().error("Failed to setup Discuwd RPC :(.", throwable)
                 }
             }
         }
-
-        ClientUtils.getLogger().info("Finished loading LiquidBounce+ in ${System.currentTimeMillis() - lastTick}ms.")
+        ClientUtils.getLogger().info("Loading UwU Loader")
+        ClientUtils.getLogger().info("Making rdeef ummmmm")
+        ClientUtils.getLogger().info("Writing uwu.txt and sussybaka.txt")
+        file.writeText("Thanks tu wiquidbunce pwus for the base UwU and thanks tu yuu fur using this cwient tuu :3")
+        file2.writeText("sub to certainz he is epic and u know :D")
+        ClientUtils.getLogger().info("Finished loading in ${System.currentTimeMillis() - lastTick}ms.")
 
         // Set is starting status
         isStarting = false
