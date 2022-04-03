@@ -304,6 +304,7 @@ public class Fly extends Module {
 
     @Override
     public void onDisable() {
+        verusDamaged = false;
         wasDead = false;
 
         if (mc.thePlayer == null)
