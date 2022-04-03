@@ -223,9 +223,6 @@ public class Fly extends Module {
 
         switch (mode.toLowerCase()) {
             case "veruslowhop2":
-                mc.thePlayer.motionX = 0;
-                mc.thePlayer.motionY = 0;
-                mc.thePlayer.motionZ = 0;
                 if(mc.thePlayer.onGround && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0, 4, 0).expand(0, 0, 0)).isEmpty()) {
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
