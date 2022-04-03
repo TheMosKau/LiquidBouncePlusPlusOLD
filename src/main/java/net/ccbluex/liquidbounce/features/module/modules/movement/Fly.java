@@ -53,8 +53,6 @@ public class Fly extends Module {
             // NCP
             "NCP",
             "OldNCP",
-            "Watchdog",
-            "WatchdogTest",
 
             // FunCraft
             "FunCraft",
@@ -64,7 +62,9 @@ public class Fly extends Module {
 
             // Verus
             "Verus",
+            //"VerusFloat",
             "VerusLowHop",
+            "VerusLowHop2",
 
             // Spartan
             "Spartan",
@@ -74,6 +74,7 @@ public class Fly extends Module {
             // AAC
             "AAC5-Vanilla",
 
+            // Other
             "Jetpack",
             "KeepAlive",
             "Clip",
@@ -86,10 +87,7 @@ public class Fly extends Module {
         return (modeValue.get().equalsIgnoreCase("motion") || modeValue.get().equalsIgnoreCase("damage") || modeValue.get().equalsIgnoreCase("pearl") || modeValue.get().equalsIgnoreCase("aac5-vanilla") || modeValue.get().equalsIgnoreCase("bugspartan") || modeValue.get().equalsIgnoreCase("keepalive") || modeValue.get().equalsIgnoreCase("derp"));
     });
     private final FloatValue vanillaVSpeedValue = new FloatValue("V-Speed", 2F, 0F, 5F, () -> { return modeValue.get().equalsIgnoreCase("motion"); });
-    private final FloatValue vanillaMotionYValue = new FloatValue("Y-Motion", 0F, -1F, 1F, () -> { return modeValue.get().equalsIgnoreCase("motion"); });
     private final BoolValue vanillaKickBypassValue = new BoolValue("KickBypass", false, () -> { return modeValue.get().equalsIgnoreCase("motion") || modeValue.get().equalsIgnoreCase("creative"); });
-
-    private final BoolValue groundSpoofValue = new BoolValue("GroundSpoof", false, () -> { return modeValue.get().equalsIgnoreCase("motion") || modeValue.get().equalsIgnoreCase("creative"); });
 
     private final FloatValue ncpMotionValue = new FloatValue("NCPMotion", 0F, 0F, 1F, () -> { return modeValue.get().equalsIgnoreCase("ncp"); });
 
@@ -109,7 +107,7 @@ public class Fly extends Module {
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
     private final BoolValue aac5NofallValue = new BoolValue("AAC5-NoFall", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
     private final BoolValue aac5UseC04Packet = new BoolValue("AAC5-UseC04", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
-    private final ListValue aac5Packet = new ListValue("AAC5-Packet", new String[]{"Original", "Rise", "Other"}, "Original", () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); }); // Original is from UnlegitMC/FDPClient.
+    private final ListValue aac5Packet = new ListValue("AAC5-Packet", new String[]{"Original", "Rise"}, "Original", () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); }); // Original is from UnlegitMC/FDPClient.
     private final IntegerValue aac5PursePacketsValue = new IntegerValue("AAC5-Purse", 7, 3, 20, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
 
     // Hypixel glide
@@ -122,28 +120,20 @@ public class Fly extends Module {
     private final BoolValue clipCollisionCheck = new BoolValue("Clip-CollisionCheck", true, () -> { return modeValue.get().equalsIgnoreCase("clip"); });
     private final BoolValue clipNoMove = new BoolValue("Clip-NoMove", true, () -> { return modeValue.get().equalsIgnoreCase("clip"); });
 
-    private final BoolValue fakeSprintingValue = new BoolValue("FakeSprinting", true, () -> { return modeValue.get().toLowerCase().contains("watchdog"); });
-    private final BoolValue fakeNoMoveValue = new BoolValue("FakeNoMove", true, () -> { return modeValue.get().toLowerCase().contains("watchdog"); });
-    private final BoolValue pulsiveTroll = new BoolValue("PulsiveTroll", true, () -> { return modeValue.get().equalsIgnoreCase("watchdogtest"); });
-
     // Visuals
-    private final BoolValue fakeDmgValue = new BoolValue("FakeDamage", true);
-    private final BoolValue bobbingValue = new BoolValue("Bobbing", true);
-    private final FloatValue bobbingAmountValue = new FloatValue("BobbingAmount", 0.2F, 0F, 1F, () -> { return bobbingValue.get(); });
     private final BoolValue markValue = new BoolValue("Mark", true);
+    //private final BoolValue debugValue = new BoolValue("Debug", false, () -> { return modeValue.get().equalsIgnoreCase("verusfloat"); });
 
     private BlockPos lastPosition;
 
     private double startY;
 
     private final MSTimer groundTimer = new MSTimer();
-    private final MSTimer boostTimer = new MSTimer();
-    private final MSTimer wdTimer = new MSTimer();
     
     private final TickTimer spartanTimer = new TickTimer();
     private final TickTimer verusTimer = new TickTimer();
 
-    private boolean shouldFakeJump, shouldActive = false;
+    private boolean shouldFakeJump = false, shouldActive = false;
 
     private boolean noPacketModify;
 
@@ -154,7 +144,6 @@ public class Fly extends Module {
 
     private int boostTicks, dmgCooldown = 0;
     private int verusJumpTimes = 0;
-    private int wdState, wdTick = 0;
 
     private boolean verusDmged, shouldActiveDmg = false;
 
@@ -230,10 +219,15 @@ public class Fly extends Module {
         verusDmged = false;
 
         moveSpeed = 0;
-        wdState = 0;
-        wdTick = 0;
 
         switch (mode.toLowerCase()) {
+            case "veruslowhop2":
+                if(mc.thePlayer.onGround && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0, 4, 0).expand(0, 0, 0)).isEmpty()) {
+                    PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                    PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
+                    PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                }
+                break;
             case "ncp":
                 mc.thePlayer.motionY = -ncpMotionValue.get();
 
@@ -296,20 +290,10 @@ public class Fly extends Module {
                     mc.thePlayer.jump();
                 moveSpeed = 1;
                 break;
-            case "watchdogtest":
-                if (mc.thePlayer.onGround)
-                    mc.thePlayer.setPosition(x, y + 0.1, z);
-                break;
         }
 
         startY = mc.thePlayer.posY;
         noPacketModify = false;
-
-        if (!mode.equalsIgnoreCase("watchdog") && !mode.equalsIgnoreCase("watchdogtest") 
-            && !mode.equalsIgnoreCase("bugspartan") && !mode.equalsIgnoreCase("verus") && !mode.equalsIgnoreCase("damage") 
-            && fakeDmgValue.get()) {
-            mc.thePlayer.handleStatusUpdate((byte) 2);
-        }
         super.onEnable();
     }
 
@@ -324,7 +308,7 @@ public class Fly extends Module {
 
         final String mode = modeValue.get();
 
-        if ((!mode.equalsIgnoreCase("Collide") && !mode.equalsIgnoreCase("Verus") && !mode.equalsIgnoreCase("Jump") && !mode.equalsIgnoreCase("creative")) || (mode.equalsIgnoreCase("pearl") && pearlState != -1)) {
+        if ((!mode.equalsIgnoreCase("Collide") && !mode.equalsIgnoreCase("Verus") && !mode.equalsIgnoreCase("Jump")) || (mode.equalsIgnoreCase("pearl") && pearlState != -1)) {
             mc.thePlayer.motionX = 0;
             mc.thePlayer.motionY = 0;
             mc.thePlayer.motionZ = 0;
@@ -357,7 +341,7 @@ public class Fly extends Module {
         switch (modeValue.get().toLowerCase()) {
             case "motion":
                 mc.thePlayer.capabilities.isFlying = false;
-                mc.thePlayer.motionY = vanillaMotionYValue.get();
+                mc.thePlayer.motionY = 0;
                 mc.thePlayer.motionX = 0;
                 mc.thePlayer.motionZ = 0;
                 if (mc.gameSettings.keyBindJump.isKeyDown())
@@ -470,6 +454,24 @@ public class Fly extends Module {
                     mc.thePlayer.movementInput.moveStrafe = 0F;
                 }
                 break;
+            /*case "verusfloat": // flagging idk why
+                if (!mc.thePlayer.onGround || !MovementUtils.isMoving()) {
+                    shouldActive = false;
+                    verusTimer.reset();
+                    break; // ignore
+                }
+                
+                shouldActive = true;
+                if (verusTimer.hasTimePassed(4)) {
+                    shouldFakeJump = true;
+                    MovementUtils.strafe((float)MovementUtils.getBaseMoveSpeed());
+                    verusTimer.reset();
+                } else {
+                    shouldFakeJump = false;
+                    MovementUtils.strafe(MovementUtils.getSpeed() - MovementUtils.getSpeed() / 64.0F);
+                }
+                verusTimer.update();
+                break;*/
             case "creative":
                 mc.thePlayer.capabilities.isFlying = true;
 
@@ -551,90 +553,28 @@ public class Fly extends Module {
                 if (mc.thePlayer.onGround)
                     mc.thePlayer.jump();
                 break;
-            case "watchdog":
-                if (wdState == 0) {
-                    mc.thePlayer.motionY = 0.1D;
-                    wdState++;
-                }
-
-                if (wdState == 1 && wdTick == 3)
-                    wdState++;
-
-                if (wdState == 4) {
-                    if (!boostTimer.hasTimePassed(500L))
-                        mc.timer.timerSpeed = 1.6F;
-                    else if (!boostTimer.hasTimePassed(800L))
-                        mc.timer.timerSpeed = 1.4F;
-                    else if (!boostTimer.hasTimePassed(1000L))
-                        mc.timer.timerSpeed = 1.2F;
-                    else
-                        mc.timer.timerSpeed = 1F;
-
-                    mc.thePlayer.motionY = 0.0001D;
-                    MovementUtils.strafe((float) (MovementUtils.getBaseMoveSpeed() * (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 0.81D : 0.77D)));
-                }
-                break;
-            case "watchdogtest":
-                if (wdState == 3) {
-                    mc.timer.timerSpeed = 1F;
-                    mc.thePlayer.motionY = 0.0001D;
-                    MovementUtils.strafe((float) (MovementUtils.getBaseMoveSpeed() * (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 0.8D : 0.75D)));
-                }
-                else if (wdState == 2) {
-                    mc.timer.timerSpeed = 1.5F;
-                    mc.thePlayer.motionY = 0.0001D;
-                    MovementUtils.strafe((float) (MovementUtils.getBaseMoveSpeed() * (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 0.81D : 0.77D)));
-                } 
-                break;
         }
     }
 
     @EventTarget // drew
     public void onMotion(final MotionEvent event) {
-        if (mc.thePlayer == null) return;
-
-        if (bobbingValue.get()) {
-            mc.thePlayer.cameraYaw = bobbingAmountValue.get();
-            mc.thePlayer.prevCameraYaw = bobbingAmountValue.get();
+        if (!modeValue.get().equalsIgnoreCase("FunCraft") || mc.thePlayer == null) return;
+        
+        event.setOnGround(true);
+        if (!MovementUtils.isMoving())
+            moveSpeed = 0.25;
+        if (moveSpeed > 0.25) {
+            moveSpeed -= moveSpeed / 159.0;
         }
+        if (event.getEventState() == EventState.PRE) {
+            mc.thePlayer.capabilities.isFlying = false;
+            mc.thePlayer.motionY = 0;
+            mc.thePlayer.motionX = 0;
+            mc.thePlayer.motionZ = 0;
 
-        switch (modeValue.get().toLowerCase()) {
-            case "funcraft":
-                event.setOnGround(true);
-                if (!MovementUtils.isMoving())
-                    moveSpeed = 0.25;
-                if (moveSpeed > 0.25) {
-                    moveSpeed -= moveSpeed / 159.0;
-                }
-                if (event.getEventState() == EventState.PRE) {
-                    mc.thePlayer.capabilities.isFlying = false;
-                    mc.thePlayer.motionY = 0;
-                    mc.thePlayer.motionX = 0;
-                    mc.thePlayer.motionZ = 0;
-
-                    MovementUtils.strafe((float)moveSpeed);
-                    mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 8e-6, mc.thePlayer.posZ);
-                }
-                break;
-            case "watchdog":
-                if (event.getEventState() == EventState.PRE)
-                    wdTick++;
-                break;
-            case "watchdogtest":
-                if (event.getEventState() == EventState.POST && pulsiveTroll.get() && wdState >= 2 && mc.thePlayer.ticksExisted % 2 == 0) 
-                    mc.getNetHandler().addToSendQueue(new C0CPacketInput(coerceAtMost(mc.thePlayer.moveStrafing, 0.98F), coerceAtMost(mc.thePlayer.moveForward, 0.98F), mc.thePlayer.movementInput.jump, mc.thePlayer.movementInput.sneak));
-                break;
-        }  
-    }
-
-    public float coerceAtMost(double value, double max) {
-        return (float) Math.min(value, max);
-    }
-
-    @EventTarget
-    public void onAction(final ActionEvent event) {
-        if (modeValue.get().toLowerCase().contains("watchdog") && fakeSprintingValue.get())
-            event.setSprinting(false);
+            MovementUtils.strafe((float)moveSpeed);
+            mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 8e-6, mc.thePlayer.posZ);
+        }
     }
 
     @EventTarget
@@ -673,33 +613,7 @@ public class Fly extends Module {
         if(noPacketModify)
             return;
 
-        if (packet instanceof S08PacketPlayerPosLook && mode.equalsIgnoreCase("watchdog") && wdState == 3) {
-            wdState = 4;
-            if (boostTimer.hasTimePassed(8000L)) {
-                LiquidBounce.hud.addNotification(new Notification("Enabled boost.", Notification.Type.SUCCESS));
-                boostTimer.reset();
-            } else {
-                LiquidBounce.hud.addNotification(new Notification("Disabled boost to prevent flagging.", Notification.Type.WARNING));
-            }
-
-            if (fakeDmgValue.get() && mc.thePlayer != null)
-                mc.thePlayer.handleStatusUpdate((byte) 2);
-        }
-
-        if (mode.equalsIgnoreCase("WatchdogTest") && packet instanceof S08PacketPlayerPosLook) {
-            if (wdState == 1) {
-                wdState = 2;
-                LiquidBounce.hud.addNotification(new Notification("Activated.", Notification.Type.SUCCESS));
-
-                if (fakeDmgValue.get() && mc.thePlayer != null)
-                    mc.thePlayer.handleStatusUpdate((byte) 2);
-            } else if (wdState == 2) {
-                wdState = 3;
-                LiquidBounce.hud.addNotification(new Notification("Flagged.", Notification.Type.INFO));
-            }
-        }
-
-        if (packet instanceof C03PacketPlayer) {
+        if(packet instanceof C03PacketPlayer) {
             final C03PacketPlayer packetPlayer = (C03PacketPlayer) packet;
 
             boolean lastOnGround = packetPlayer.onGround;
@@ -720,36 +634,20 @@ public class Fly extends Module {
                     sendAAC5Packets();
             }
 
-            if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
-                packetPlayer.onGround = true;
+            /*if (mode.equalsIgnoreCase("VerusFloat") && packetPlayer.isMoving() && shouldActive) {
+                if (shouldFakeJump) {
+                    packetPlayer.onGround = false;
+                } else {
+                    packetPlayer.onGround = true;
+                }
+                if (debugValue.get()) ClientUtils.displayChatMessage("onGround: " + packetPlayer.onGround + ", last:" + lastOnGround);
+            }*/
 
-            if ((mode.equalsIgnoreCase("motion") || mode.equalsIgnoreCase("creative")) && groundSpoofValue.get())
+            if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
                 packetPlayer.onGround = false;
-            }
-
-            if (mode.equalsIgnoreCase("watchdog")) {
-                if (wdState == 2) {
-                    packetPlayer.y -= 0.187;
-                    wdState++;
-                }
-                if (wdState > 3) {
-                    if (fakeNoMoveValue.get())
-                        packetPlayer.setMoving(false);
-                }
-            }
-
-            if (mode.equalsIgnoreCase("watchdogtest")) {
-                if (wdState == 0 && packetPlayer.onGround) {
-                    packetPlayer.y -= 0.187;
-                    wdState = 1;
-                } else {
-                    packetPlayer.y = startY;
-                    if (fakeNoMoveValue.get())
-                        packetPlayer.setMoving(false);
-                }
             }
         }
     }
@@ -759,9 +657,9 @@ public class Fly extends Module {
     private void sendAAC5Packets(){
         float yaw = mc.thePlayer.rotationYaw;
         float pitch = mc.thePlayer.rotationPitch;
-        for (C03PacketPlayer packet : aac5C03List) {
+        for(C03PacketPlayer packet : aac5C03List){
             PacketUtils.sendPacketNoEvent(packet);
-            if (packet.isMoving()) {
+            if(packet.isMoving()){
                 if (packet.getRotating()) {
                     yaw = packet.yaw;
                     pitch = packet.pitch;
@@ -782,15 +680,6 @@ public class Fly extends Module {
                             PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(packet.x,packet.y,packet.z, true));
                         } else {
                             PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(packet.x, -1e+159, packet.z+10, yaw, pitch, true));
-                            PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(packet.x,packet.y,packet.z, yaw, pitch, true));
-                        }
-                        break;
-                    case "Other":
-                        if (aac5UseC04Packet.get()) {
-                            PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(packet.x, 1.7976931348623157E+308, packet.z, true));
-                            PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(packet.x,packet.y,packet.z, true));
-                        } else {
-                            PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(packet.x, 1.7976931348623157E+308, packet.z, yaw, pitch, true));
                             PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(packet.x,packet.y,packet.z, yaw, pitch, true));
                         }
                         break;
@@ -838,15 +727,21 @@ public class Fly extends Module {
                     }
                 }
                 break;
-            case "watchdog":
-                if (wdState < 4)
-                    event.zeroXZ();
+            case "veruslowhop2":
+                if (!mc.thePlayer.isInWeb && !mc.thePlayer.isInLava() && !mc.thePlayer.isInWater() && !mc.thePlayer.isOnLadder() && !mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.ridingEntity == null) {
+                    if (MovementUtils.isMoving()) {
+                        mc.gameSettings.keyBindJump.pressed = false;
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.jump();
+                            mc.thePlayer.motionY = 0.42;            
+                            MovementUtils.strafe(0.93F);
+                            event.setY(0.0);
+                        }
+                        MovementUtils.strafe();
+                    }
+                }
                 break;
-            case "watchdogtest":
-                if (wdState < 2)
-                    event.zeroXZ();
-                break;
-        }
+         }
     }
 
     @EventTarget
@@ -859,7 +754,7 @@ public class Fly extends Module {
             event.setBoundingBox(AxisAlignedBB.fromBounds(event.getX(), event.getY(), event.getZ(), event.getX() + 1, startY, event.getZ() + 1));
         }
 
-        if (event.getBlock() instanceof BlockAir && ((mode.equalsIgnoreCase("collide") && !mc.thePlayer.isSneaking()) || mode.equalsIgnoreCase("veruslowhop")))
+        if (event.getBlock() instanceof BlockAir && ((mode.equalsIgnoreCase("collide") && !mc.thePlayer.isSneaking()) || mode.equalsIgnoreCase("veruslowhop") || mode.equalsIgnoreCase("verusjump")))
             event.setBoundingBox(new AxisAlignedBB(-2, -1, -2, 2, 1, 2).offset(event.getX(), event.getY(), event.getZ()));
 
         if (event.getBlock() instanceof BlockAir && (mode.equalsIgnoreCase("Rewinside") || (mode.equalsIgnoreCase("Verus") && 
@@ -872,7 +767,7 @@ public class Fly extends Module {
     public void onJump(final JumpEvent e) {
         final String mode = modeValue.get();
 
-        if (mode.equalsIgnoreCase("Rewinside") || (mode.equalsIgnoreCase("FunCraft") && moveSpeed > 0) || (mode.equalsIgnoreCase("watchdog") && wdState >= 1) || mode.equalsIgnoreCase("watchdogtest"))
+        if (mode.equalsIgnoreCase("Rewinside") || (mode.equalsIgnoreCase("FunCraft") && moveSpeed > 0))
             e.cancelEvent();
     }
 
@@ -880,7 +775,7 @@ public class Fly extends Module {
     public void onStep(final StepEvent e) {
         final String mode = modeValue.get();
 
-        if (mode.equalsIgnoreCase("Rewinside") || mode.equalsIgnoreCase("FunCraft") || (mode.equalsIgnoreCase("watchdog") && wdState > 2) || mode.equalsIgnoreCase("watchdogtest"))
+        if (mode.equalsIgnoreCase("Rewinside") || mode.equalsIgnoreCase("FunCraft"))
             e.setStepHeight(0F);
     }
 
