@@ -89,7 +89,7 @@ class DamageParticle : Module() {
                 GlStateManager.scale(-size, -size, size)
                 GL11.glDepthMask(false)
                 mc.fontRendererObj.drawStringWithShadow(
-                    particle.str,
+                    "UwU",
                     (-(mc.fontRendererObj.getStringWidth(particle.str) / 2)).toFloat(),
                     (-(mc.fontRendererObj.FONT_HEIGHT - 1)).toFloat(),
                     if (customColor.get()) Color(red.get(), green.get(), blue.get()).rgb else 0
