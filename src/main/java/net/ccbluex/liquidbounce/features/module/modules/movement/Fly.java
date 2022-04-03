@@ -78,6 +78,7 @@ public class Fly extends Module {
             "Jetpack",
             "KeepAlive",
             "Clip",
+            "VulcanTP",
             "Jump",
             "Derp",
             "Collide"
@@ -103,10 +104,13 @@ public class Fly extends Module {
     private final IntegerValue verusDmgTickValue = new IntegerValue("Verus-Ticks", 20, 0, 300, () -> { return modeValue.get().equalsIgnoreCase("verus") && !verusDmgModeValue.get().equalsIgnoreCase("none"); });
     private final BoolValue verusSpoofGround = new BoolValue("Verus-SpoofGround", false, () -> { return modeValue.get().equalsIgnoreCase("verus"); });
 
+    // Vulcan't
+    private final BoolValue vulcanMove = new BoolValue("VulcanTP-NoMoving", false, () -> { return modeValue.get().equalsIgnoreCase("vulcantp"); });
+
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
     private final BoolValue aac5NofallValue = new BoolValue("AAC5-NoFall", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
-    private final BoolValue aac5UseC04Packet = new BoolValue("AAC5-UseC04", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
+    private final BoolValue aac5UseC04Packet = new BoolValue("AAC5-UseC04Position", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
     private final ListValue aac5Packet = new ListValue("AAC5-Packet", new String[]{"Original", "Rise"}, "Original", () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); }); // Original is from UnlegitMC/FDPClient.
     private final IntegerValue aac5PursePacketsValue = new IntegerValue("AAC5-Purse", 7, 3, 20, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
 
@@ -177,6 +181,17 @@ public class Fly extends Module {
         double expectedZ = mc.thePlayer.posZ + z;
 
         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, expectedY, expectedZ, mc.thePlayer.onGround));
+        mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
+    }
+
+    private void vulcanFunny(double x, double y, double z) {
+        if (mc.thePlayer == null) return;
+
+        double expectedX = mc.thePlayer.posX + x;
+        double expectedY = mc.thePlayer.posY + y;
+        double expectedZ = mc.thePlayer.posZ + z;
+
+        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, expectedY, expectedZ, true));
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
     }
 
@@ -379,6 +394,14 @@ public class Fly extends Module {
                     double[] expectMoves = getMoves((double)clipH.get(), (double)clipV.get());
                     if (!clipCollisionCheck.get() || mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(expectMoves[0], expectMoves[1], expectMoves[2]).expand(0, 0, 0)).isEmpty())
                         hClip(expectMoves[0], expectMoves[1], expectMoves[2]);
+                }
+                break;
+            case "vulcantp":
+                mc.thePlayer.motionY = 0;
+                if (mc.thePlayer.ticksExisted % 17 == 0) {
+                    double[] expectMoves = getMoves((double)9.25, (double)0.25);
+                    if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(expectMoves[0], expectMoves[1], expectMoves[2]).expand(0, 0, 0)).isEmpty())
+                        vulcanFunny(expectMoves[0], expectMoves[1], expectMoves[2]);
                 }
                 break;
             case "damage":
@@ -649,6 +672,9 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
+            if (mode.equalsIgnoreCase("vulcantp"))
+                packetPlayer.onGround = true;
+
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
                 packetPlayer.onGround = false;
             }
@@ -715,6 +741,9 @@ public class Fly extends Module {
                 break;
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
+                break;
+            case "vulcantp":
+                if (vulcanMove.get()) event.zeroXZ();
                 break;
             case "veruslowhop":
                 if (!mc.thePlayer.isInWeb && !mc.thePlayer.isInLava() && !mc.thePlayer.isInWater() && !mc.thePlayer.isOnLadder() && !mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.ridingEntity == null) {
