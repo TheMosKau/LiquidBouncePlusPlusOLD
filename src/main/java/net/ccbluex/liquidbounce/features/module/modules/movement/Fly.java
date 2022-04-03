@@ -743,7 +743,6 @@ public class Fly extends Module {
                         MovementUtils.strafe();
                     }
                 }
-             }
                 break;
          }
     }
