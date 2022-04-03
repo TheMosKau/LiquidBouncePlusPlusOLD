@@ -732,14 +732,12 @@ public class Fly extends Module {
                 break;
             case "veruslowhop2":
                 if (!mc.thePlayer.isInWeb && !mc.thePlayer.isInLava() && !mc.thePlayer.isInWater() && !mc.thePlayer.isOnLadder() && !mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.ridingEntity == null) {
-                    if(verusDamaged) {
-                       event.cancelEvent();
                      if (MovementUtils.isMoving()) {
                         mc.gameSettings.keyBindJump.pressed = false;
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
                             mc.thePlayer.motionY = 0;            
-                            MovementUtils.strafe(0.93F);
+                            MovementUtils.strafe(0.62F);
                             event.setY(0.42);
                         }
                         MovementUtils.strafe();
