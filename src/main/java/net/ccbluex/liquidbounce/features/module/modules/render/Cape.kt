@@ -30,7 +30,7 @@ class Cape : Module() {
         LIGHT(ResourceLocation("liquidbounce+/cape/light.png")),
         SPECIAL1(ResourceLocation("liquidbounce+/cape/special1.png")),
         SPECIAL2(ResourceLocation("liquidbounce+/cape/special2.png")),
-        SPECIAL3(ResourceLocation("liquidbounce+/cape/special3.png))
+        SPECIAL3(ResourceLocation("liquidbounce+/cape/special3.png"))
     }
 
     override val tag: String
