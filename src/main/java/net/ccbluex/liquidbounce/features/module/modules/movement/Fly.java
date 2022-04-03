@@ -146,6 +146,7 @@ public class Fly extends Module {
     private int verusJumpTimes = 0;
 
     private boolean verusDmged, shouldActiveDmg = false;
+    private boolean verusDamaged;
 
     private float lastYaw, lastPitch;
 
@@ -222,10 +223,14 @@ public class Fly extends Module {
 
         switch (mode.toLowerCase()) {
             case "veruslowhop2":
+                mc.thePlayer.motionX = 0;
+                mc.thePlayer.motionY = 0;
+                mc.thePlayer.motionZ = 0;
                 if(mc.thePlayer.onGround && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0, 4, 0).expand(0, 0, 0)).isEmpty()) {
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                    verusDamaged = true;
                 }
                 break;
             case "ncp":
@@ -729,17 +734,20 @@ public class Fly extends Module {
                 break;
             case "veruslowhop2":
                 if (!mc.thePlayer.isInWeb && !mc.thePlayer.isInLava() && !mc.thePlayer.isInWater() && !mc.thePlayer.isOnLadder() && !mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.ridingEntity == null) {
-                    if (MovementUtils.isMoving()) {
+                    if(verusDamaged) {
+                       event.cancelEvent();
+                     if (MovementUtils.isMoving()) {
                         mc.gameSettings.keyBindJump.pressed = false;
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
-                            mc.thePlayer.motionY = 0.42;            
+                            mc.thePlayer.motionY = 0;            
                             MovementUtils.strafe(0.93F);
-                            event.setY(0.0);
+                            event.setY(0.42);
                         }
                         MovementUtils.strafe();
                     }
                 }
+             }
                 break;
          }
     }
