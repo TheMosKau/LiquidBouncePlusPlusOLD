@@ -29,12 +29,12 @@ class GuiBackground(val prevGui: GuiScreen) : GuiScreen() {
     private lateinit var particlesButton: GuiButton
 
     override fun initGui() {
-        enabledButton = GuiButton(1, width / 2 - 100, height / 4 + 35, "Enabled (${if (enabled) "On" else "Off"})")
+        enabledButton = GuiButton(1, width / 2 - 100, height / 4 + 35, "Enabwed (${if (enabled) "Un" else "Uff"})")
         buttonList.add(enabledButton)
-        particlesButton = GuiButton(2, width / 2 - 100, height / 4 + 50 + 25, "Particles (${if (particles) "On" else "Off"})")
+        particlesButton = GuiButton(2, width / 2 - 100, height / 4 + 50 + 25, "Particwes (${if (particles) "Un" else "Uff"})")
         buttonList.add(particlesButton)
-        buttonList.add(GuiButton(3, width / 2 - 100, height / 4 + 50 + 25 * 2, 98, 20, "Change wallpaper"))
-        buttonList.add(GuiButton(4, width / 2 + 2, height / 4 + 50 + 25 * 2, 98, 20, "Reset wallpaper"))
+        buttonList.add(GuiButton(3, width / 2 - 100, height / 4 + 50 + 25 * 2, 98, 20, "Change waawpapew"))
+        buttonList.add(GuiButton(4, width / 2 + 2, height / 4 + 50 + 25 * 2, 98, 20, "Weset wawwpapew"))
 
         buttonList.add(GuiButton(0, width / 2 - 100, height / 4 + 55 + 25 * 4 + 5, "Back"))
     }
@@ -43,11 +43,11 @@ class GuiBackground(val prevGui: GuiScreen) : GuiScreen() {
         when (button.id) {
             1 -> {
                 enabled = !enabled
-                enabledButton.displayString = "Enabled (${if (enabled) "On" else "Off"})"
+                enabledButton.displayString = "Enabwed (${if (enabled) "Un" else "Uff"})"
             }
             2 -> {
                 particles = !particles
-                particlesButton.displayString = "Particles (${if (particles) "On" else "Off"})"
+                particlesButton.displayString = "Particwes (${if (particles) "Un" else "Uff"})"
             }
             3 -> {
                 val file = MiscUtils.openFileChooser() ?: return
@@ -61,7 +61,7 @@ class GuiBackground(val prevGui: GuiScreen) : GuiScreen() {
                     mc.textureManager.loadTexture(LiquidBounce.background, DynamicTexture(image))
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    MiscUtils.showErrorPopup("Error", "Exception class: " + e.javaClass.name + "\nMessage: " + e.message)
+                    MiscUtils.showErrorPopup("Ewwuw", "Exception class: " + e.javaClass.name + "\nMessage: " + e.message)
                     LiquidBounce.fileManager.backgroundFile.delete()
                 }
             }
@@ -75,7 +75,7 @@ class GuiBackground(val prevGui: GuiScreen) : GuiScreen() {
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         drawBackground(0)
-        //Fonts.fontBold180.drawCenteredString("Background", this.width / 2F, height / 8F + 5F,
+        //Fonts.fontBold180.drawCenteredString("Backgwuund", this.width / 2F, height / 8F + 5F,
         //        4673984, true)
 
         super.drawScreen(mouseX, mouseY, partialTicks)
