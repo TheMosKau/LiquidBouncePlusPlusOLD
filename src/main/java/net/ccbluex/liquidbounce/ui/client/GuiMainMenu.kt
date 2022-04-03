@@ -51,11 +51,11 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
             lastAnimTick = System.currentTimeMillis()
             alrUpdate = true
         }
-        val creditInfo = "made by epic group of paster."
+        val creditInfo = "You just got UwUed"
         drawBackground(0)
         GL11.glPushMatrix()
         renderSwitchButton()
-        Fonts.font40.drawStringWithShadow("${LiquidBounce.CLIENT_NAME} build ${LiquidBounce.CLIENT_VERSION}", 2F, height - 12F, -1)
+        Fonts.font40.drawStringWithShadow("UwU Client", 2F, height - 12F, -1)
         Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
         if (useParallax) moveMouseEffect(mouseX, mouseY, 10F)
         GlStateManager.disableAlpha()
@@ -112,7 +112,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         sliderX += if (useParallax) 2F else -2F
         if (sliderX > 12F) sliderX = 12F
         else if (sliderX < 0F) sliderX = 0F
-        Fonts.font40.drawStringWithShadow("Parallax", 28F, height - 25F, -1)
+        Fonts.font40.drawStringWithShadow("UwU Mode", 28F, height - 25F, -1)
         RenderUtils.drawRoundedRect(4F, height - 24F, 22F, height - 18F, 3F, if (useParallax) Color(0, 111, 255, 255).rgb else Color(140, 140, 140, 255).rgb)
         RenderUtils.drawRoundedRect(2F + sliderX, height - 26F, 12F + sliderX, height - 16F, 5F, Color.white.rgb)
     }
@@ -137,9 +137,9 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         }
 
         if (displayString != null)
-            Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, -1)
+            Fonts.font35.drawCenteredString(displayString!! + " UwU", width / 2F, staticY + 30F, -1)
         else 
-            Fonts.font35.drawCenteredString("nice try dude", width / 2F, staticY + 30F, Color(255, 154, 31).rgb)
+            Fonts.font35.drawCenteredString("UwU", width / 2F, staticY + 30F, Color(255, 154, 31).rgb)
 
         if (shouldAnimate) {
             if (fade == 0F)
@@ -173,11 +173,11 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
     fun isMouseHover(x: Float, y: Float, x2: Float, y2: Float, mouseX: Int, mouseY: Int): Boolean = mouseX >= x && mouseX < x2 && mouseY >= y && mouseY < y2
 
     enum class ImageButton(val buttonName: String, val texture: ResourceLocation) {
-        Single("Singleplayer", ResourceLocation("liquidbounce+/menu/singleplayer.png")),
-        Multi("Multiplayer", ResourceLocation("liquidbounce+/menu/multiplayer.png")),
-        Alts("Alts", ResourceLocation("liquidbounce+/menu/alt.png")),
+        Single("Singwepwayew", ResourceLocation("liquidbounce+/menu/singleplayer.png")),
+        Multi("Muwtipwayew", ResourceLocation("liquidbounce+/menu/multiplayer.png")),
+        Alts("Awts", ResourceLocation("liquidbounce+/menu/alt.png")),
         Settings("Settings", ResourceLocation("liquidbounce+/menu/settings.png")),
-        Mods("Mods/Customize", ResourceLocation("liquidbounce+/menu/mods.png")),
+        Mods("Muds/Custumize", ResourceLocation("liquidbounce+/menu/mods.png")),
         Exit("Exit", ResourceLocation("liquidbounce+/menu/exit.png"))
     }
 
