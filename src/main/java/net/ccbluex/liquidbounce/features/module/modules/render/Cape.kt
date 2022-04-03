@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation
 @ModuleInfo(name = "Cape", description = "LiquidBounce+ capes.", category = ModuleCategory.RENDER)
 class Cape : Module() {
 
-    val styleValue = ListValue("Style", arrayOf("Dark", "Light", "Special1", "Special2", "Special3), "Dark")
+    val styleValue = ListValue("Style", arrayOf("Dark", "Light", "Special1", "Special2", "Special3"), "Dark")
 
     fun getCapeLocation(value: String): ResourceLocation {
         return try {
