@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation
 @ModuleInfo(name = "Cape", description = "LiquidBounce+ capes.", category = ModuleCategory.RENDER)
 class Cape : Module() {
 
-    val styleValue = ListValue("Style", arrayOf("Dark", "Light", "Special1", "Special2"), "Dark")
+    val styleValue = ListValue("Style", arrayOf("Dark", "Light", "Special1", "Special2", "Special3), "Dark")
 
     fun getCapeLocation(value: String): ResourceLocation {
         return try {
@@ -29,7 +29,8 @@ class Cape : Module() {
         DARK(ResourceLocation("liquidbounce+/cape/dark.png")),
         LIGHT(ResourceLocation("liquidbounce+/cape/light.png")),
         SPECIAL1(ResourceLocation("liquidbounce+/cape/special1.png")),
-        SPECIAL2(ResourceLocation("liquidbounce+/cape/special2.png"))
+        SPECIAL2(ResourceLocation("liquidbounce+/cape/special2.png")),
+        SPECIAL3(ResourceLocation("liquidbounce+/cape/special3.png))
     }
 
     override val tag: String
