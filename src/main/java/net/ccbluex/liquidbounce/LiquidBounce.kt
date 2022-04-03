@@ -27,7 +27,6 @@ import net.ccbluex.liquidbounce.utils.PacketUtils
 import net.ccbluex.liquidbounce.utils.RotationUtils
 import net.ccbluex.liquidbounce.utils.SessionUtils
 import net.ccbluex.liquidbounce.utils.misc.sound.TipSoundManager
-import net.ccbluex.liquidbounce.betterfps.BetterFPSCore
 import net.minecraft.util.ResourceLocation
 import kotlin.concurrent.thread
 import java.io.File
@@ -49,8 +48,6 @@ object LiquidBounce {
     lateinit var eventManager: EventManager
     lateinit var fileManager: FileManager
     lateinit var scriptManager: ScriptManager
-
-    var betterFPSCore: BetterFPSCore = BetterFPSCore()
     lateinit var tipSoundManager: TipSoundManager
 
     // HUD & ClickGUI
