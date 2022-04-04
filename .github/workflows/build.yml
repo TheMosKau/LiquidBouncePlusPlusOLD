@@ -16,14 +16,19 @@ jobs:
           distribution: 'adopt'
           java-version: 8
           check-latest: true
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - uses: burrunan/gradle-cache-action@v1
         name: Build
         with:
           job-id: jdk8
           arguments: build --no-build-cache
           gradle-version: wrapper
+      - name: Rename build artifacts
+        run: mv build/libs/LiquidBounce-plus.jar build/libs/UwUBounce-${{ steps.vars.outputs.sha_short }}.jar
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: liquidbounceplus
-          path: build/libs/LiquidBounce-plus.jar
+          name: UwUBounce
+          path: build/libs/UwUBounce-${{ steps.vars.outputs.sha_short }}.jar
