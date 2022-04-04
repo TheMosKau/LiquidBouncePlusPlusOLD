@@ -128,6 +128,8 @@ public class Fly extends Module {
     private final BoolValue markValue = new BoolValue("Mark", true);
     //private final BoolValue debugValue = new BoolValue("Debug", false, () -> { return modeValue.get().equalsIgnoreCase("verusfloat"); });
 
+    public boolean flyup = false;
+
     private BlockPos lastPosition;
 
     private double startY;
@@ -407,7 +409,6 @@ public class Fly extends Module {
                 }
                 break;
             case "vulcantp":
-               boolean flyup;
                 mc.thePlayer.motionY = 0;
                 if (mc.thePlayer.ticksExisted % 17 == 0) {
                     double[] expectMoves = getMoves((double)9.25, (double)0.0);
