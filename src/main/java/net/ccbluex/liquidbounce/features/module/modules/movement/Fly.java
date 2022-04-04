@@ -411,12 +411,12 @@ public class Fly extends Module {
                 if (mc.thePlayer.ticksExisted % 17 == 0) {
                     double[] expectMoves = getMoves((double)9.25, (double)0.0);
                     if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(expectMoves[0], expectMoves[1], expectMoves[2]).expand(0, 0, 0)).isEmpty())
-                        vulcanFunny(expectMoves[0], expectMoves[1]);
+                        vulcanFunny(expectMoves[0], expectMoves[2]);
                 }
                     if (mc.gameSettings.keyBindJump.isKeyDown())
-                         vclip(1.5);
+                         vclip(0.5);
                     if (mc.gameSettings.keyBindSneak.isKeyDown())
-                         vclip(-1.5);
+                         vclip(-0.5);
                 break;
             case "damage":
                 mc.thePlayer.capabilities.isFlying = false;
