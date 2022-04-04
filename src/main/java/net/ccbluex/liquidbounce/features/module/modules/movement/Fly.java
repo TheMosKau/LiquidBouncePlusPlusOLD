@@ -424,8 +424,6 @@ public class Fly extends Module {
                 mc.thePlayer.capabilities.isFlying = true;
                 if (mc.thePlayer.ticksExisted % 20 == 0) {
                     double[] expectMoves = getMoves((double)8.2, (double)0.0);
-                    double yup = getVclip(3.5);
-                    double ydown = getVclip(-3.5);
                     if(!flyup) {
                       vulcanFunny(expectMoves[0], expectMoves[2]);
                       ClientUtils.displayChatMessage("Teleported");
@@ -437,13 +435,13 @@ public class Fly extends Module {
 
                     if (mc.gameSettings.keyBindJump.isKeyDown()) {
                          flyup = true;
-                         vclip(yup);
+                         vclip(3.5);
                         } else {
                          flyup = false;
                 }
                     if (mc.gameSettings.keyBindSneak.isKeyDown()) {
                          flyup = true;
-                         vclip(ydown);
+                         vclip(-3.5);
                          } else {
                          flyup = false;
                 }
