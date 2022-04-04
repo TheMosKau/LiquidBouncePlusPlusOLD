@@ -34,7 +34,7 @@ import java.io.File
 object LiquidBounce {
 
     // Client information
-    const val CLIENT_NAME = "UwUClient"
+    const val CLIENT_NAME = "UwUBounce"
     const val CLIENT_VERSION = "UwU"
     const val CLIENT_CREATOR = "moskau, why dont and ccbluex uwu"
     const val CLIENT_CLOUD = "https://wysi-foundation.github.io/LiquidCloud/LiquidBounce"
