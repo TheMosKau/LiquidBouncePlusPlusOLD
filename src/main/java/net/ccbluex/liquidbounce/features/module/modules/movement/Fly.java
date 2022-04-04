@@ -189,6 +189,7 @@ public class Fly extends Module {
     private void vulcanFunny(double x, double z) {
         if (mc.thePlayer == null) return;
 
+        final double yaw = Math.toRadians(mc.thePlayer.rotationYaw);
         double expectedX = mc.thePlayer.posX + x;
         double expectedZ = mc.thePlayer.posZ + z;
 
@@ -217,6 +218,16 @@ public class Fly extends Module {
         double expectedZ = (Math.cos(yaw) * h);
 
         return new double[] { expectedX, expectedY, expectedZ };
+    }
+
+    private double[] getVclip(double v) {
+        if (mc.thePlayer == null) return new double[]{ 0.0, 0.0, 0.0 };
+
+        final double yaw = Math.toRadians(mc.thePlayer.rotationYaw);
+
+        double expectedY = v;
+
+        return new double[] { expectedY };
     }
     
     @Override
@@ -410,20 +421,29 @@ public class Fly extends Module {
                 break;
             case "vulcantp":
                 mc.thePlayer.motionY = 0;
-                if (mc.thePlayer.ticksExisted % 17 == 0) {
-                    double[] expectMoves = getMoves((double)9.25, (double)0.0);
-                    if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(expectMoves[0], mc.thePlayer.posY, expectMoves[2]).expand(0, 0, 0)).isEmpty() && !flyup)
-                        vulcanFunny(expectMoves[0], expectMoves[2]);
+                mc.thePlayer.capabilities.isFlying = true;
+                if (mc.thePlayer.ticksExisted % 20 == 0) {
+                    double[] expectMoves = getMoves((double)8.2, (double)0.0);
+                    double y = getVclip((double)3.5);
+                    double ydown = getVclip((double)-3.5);
+                    if(!flyup) {
+                      vulcanFunny(expectMoves[0], expectMoves[2]);
+                      if (debugValue.get()) ClientUtils.displayChatMessage("Teleported");
+                    }
                 }
+                    if(mc.thePlayer.onGround) {
+                      mc.thePlayer.jump();
+                    }
+
                     if (mc.gameSettings.keyBindJump.isKeyDown()) {
                          flyup = true;
-                         vclip(0.2);
+                         vclip(y);
                         } else {
                          flyup = false;
                 }
                     if (mc.gameSettings.keyBindSneak.isKeyDown()) {
                          flyup = true;
-                         vclip(-0.2);
+                         vclip(ydown);
                          } else {
                          flyup = false;
                 }
