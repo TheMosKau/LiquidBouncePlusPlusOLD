@@ -407,16 +407,25 @@ public class Fly extends Module {
                 }
                 break;
             case "vulcantp":
+               boolean flyup;
                 mc.thePlayer.motionY = 0;
                 if (mc.thePlayer.ticksExisted % 17 == 0) {
                     double[] expectMoves = getMoves((double)9.25, (double)0.0);
-                    if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(expectMoves[0], expectMoves[1], expectMoves[2]).expand(0, 0, 0)).isEmpty())
+                    if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(expectMoves[0], mc.thePlayer.posY, expectMoves[2]).expand(0, 0, 0)).isEmpty() && !flyup)
                         vulcanFunny(expectMoves[0], expectMoves[2]);
                 }
-                    if (mc.gameSettings.keyBindJump.isKeyDown())
-                         vclip(0.5);
-                    if (mc.gameSettings.keyBindSneak.isKeyDown())
-                         vclip(-0.5);
+                    if (mc.gameSettings.keyBindJump.isKeyDown()) {
+                         flyup = true;
+                         vclip(0.2);
+                        } else {
+                         flyup = false;
+                }
+                    if (mc.gameSettings.keyBindSneak.isKeyDown()) {
+                         flyup = true;
+                         vclip(-0.2);
+                         } else {
+                         flyup = false;
+                }
                 break;
             case "damage":
                 mc.thePlayer.capabilities.isFlying = false;
