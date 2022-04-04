@@ -184,12 +184,22 @@ public class Fly extends Module {
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
     }
 
-    private void vulcanFunny(double x, double y, double z) {
+    private void vulcanFunny(double x, double z) {
         if (mc.thePlayer == null) return;
 
         double expectedX = mc.thePlayer.posX + x;
-        double expectedY = mc.thePlayer.posY + y;
         double expectedZ = mc.thePlayer.posZ + z;
+
+        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, mc.thePlayer.posY, expectedZ, mc.thePlayer.onGround));
+        mc.thePlayer.setPosition(expectedX, mc.thePlayer.posY, expectedZ);
+    }
+
+    private void vclip(double y) {
+        if (mc.thePlayer == null) return;
+
+        double expectedX = mc.thePlayer.posX;
+        double expectedY = mc.thePlayer.posY + y;
+        double expectedZ = mc.thePlayer.posZ;
 
         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, expectedY, expectedZ, true));
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
@@ -399,10 +409,14 @@ public class Fly extends Module {
             case "vulcantp":
                 mc.thePlayer.motionY = 0;
                 if (mc.thePlayer.ticksExisted % 17 == 0) {
-                    double[] expectMoves = getMoves((double)9.25, (double)0.25);
+                    double[] expectMoves = getMoves((double)9.25, (double)0.0);
                     if (mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(expectMoves[0], expectMoves[1], expectMoves[2]).expand(0, 0, 0)).isEmpty())
-                        vulcanFunny(expectMoves[0], expectMoves[1], expectMoves[2]);
+                        vulcanFunny(expectMoves[0], expectMoves[1]);
                 }
+                    if (mc.gameSettings.keyBindJump.isKeyDown())
+                         vclip(1.5);
+                    if (mc.gameSettings.keyBindSneak.isKeyDown())
+                         vclip(-1.5);
                 break;
             case "damage":
                 mc.thePlayer.capabilities.isFlying = false;
