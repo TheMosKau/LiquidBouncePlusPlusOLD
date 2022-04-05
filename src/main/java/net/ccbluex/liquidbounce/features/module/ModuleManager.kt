@@ -42,6 +42,7 @@ class ModuleManager : Listenable {
         ClientUtils.getLogger().info("[ModuleManager] Loading modules...")
 
         registerModules(
+                KillInsults::class.java,
                 Patcher::class.java,
                 Performance::class.java,
                 AutoWeapon::class.java,
