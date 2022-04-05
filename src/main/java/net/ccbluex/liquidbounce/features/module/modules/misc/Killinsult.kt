@@ -17,7 +17,7 @@ import net.ccbluex.liquidbounce.value.ListValue
 import net.minecraft.entity.player.EntityPlayer
 import java.io.File
 
-@ModuleInfo(name = "KillInsults", category = ModuleCategory.MISC)
+@ModuleInfo(name = "KillInsults", spacedName = "Kill Insults", description = "Automatically insult the player you killed", category = ModuleCategory.MISC)
 object KillInsults : Module() {
 
     val modeValue = ListValue(
@@ -87,7 +87,7 @@ object KillInsults : Module() {
             return
         }
 
-        when (modeValue.get().lowercase()) {
+        when (modeValue.get().toLowerCase()) {
             "uwu" -> {
                 sendInsultWords("UwU ${target.name}", target.name)
             }
