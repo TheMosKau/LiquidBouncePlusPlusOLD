@@ -193,7 +193,8 @@ public class Fly extends Module {
         double expectedX = mc.thePlayer.posX + x;
         double expectedZ = mc.thePlayer.posZ + z;
 
-        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, mc.thePlayer.posY, expectedZ, mc.thePlayer.onGround));
+        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(expectedX, mc.thePlayer.posY, expectedZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, mc.thePlayer.onGround));
+   //   PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, mc.thePlayer.posY, expectedZ, mc.thePlayer.onGround));
         mc.thePlayer.setPosition(expectedX, mc.thePlayer.posY, expectedZ);
     }
 
@@ -203,7 +204,7 @@ public class Fly extends Module {
         double expectedX = mc.thePlayer.posX;
         double expectedY = mc.thePlayer.posY + y;
         double expectedZ = mc.thePlayer.posZ;
-
+  
         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, expectedY, expectedZ, true));
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
     }
