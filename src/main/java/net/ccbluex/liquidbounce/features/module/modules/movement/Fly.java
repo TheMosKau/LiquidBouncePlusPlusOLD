@@ -704,7 +704,6 @@ public class Fly extends Module {
                 packetPlayer.onGround = true;
 
             if (mode.equalsIgnoreCase("dev"))
-                event.cancelEvent();
                 packetPlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
@@ -795,7 +794,7 @@ public class Fly extends Module {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
                             mc.thePlayer.motionY = 0;            
-                            MovementUtils.strafe(0.62F);
+                            MovementUtils.strafe(0.85F);
                             event.setY(0.42);
                         }
                         MovementUtils.strafe();
