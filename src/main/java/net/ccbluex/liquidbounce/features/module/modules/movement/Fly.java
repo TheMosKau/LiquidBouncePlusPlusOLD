@@ -434,7 +434,7 @@ public class Fly extends Module {
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.5);
+                      MovementUtils.strafe(0.5f);
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Sent C06 & Teleported");
                 }
                 break;
