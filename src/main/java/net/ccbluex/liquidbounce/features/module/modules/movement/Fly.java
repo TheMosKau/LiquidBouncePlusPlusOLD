@@ -106,6 +106,7 @@ public class Fly extends Module {
 
     // Vulcan't
     private final BoolValue vulcanMove = new BoolValue("VulcanTP-NoMoving", false, () -> { return modeValue.get().equalsIgnoreCase("vulcantp"); });
+    private final BoolValue vulcanDebug = new BoolValue("VulcanTP-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcantp"); });
 
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -205,7 +206,7 @@ public class Fly extends Module {
         double expectedY = mc.thePlayer.posY + y;
         double expectedZ = mc.thePlayer.posZ;
   
-        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(expectedX, expectedY, expectedZ, true));
+        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(expectedX, expectedY, expectedZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, mc.thePlayer.onGround));
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
     }
 
@@ -261,6 +262,13 @@ public class Fly extends Module {
         moveSpeed = 0;
 
         switch (mode.toLowerCase()) {
+            case "teleport":
+                if(mc.thePlayer.onGround) {
+                      mc.thePlayer.jump();
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Jumped");
+                vclip(-1.0);
+               }
+               break;
             case "veruslowhop2":
                 if(mc.thePlayer.onGround && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0, 4, 0).expand(0, 0, 0)).isEmpty()) {
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
@@ -420,31 +428,32 @@ public class Fly extends Module {
                         hClip(expectMoves[0], expectMoves[1], expectMoves[2]);
                 }
                 break;
-            case "vulcantp":
+            case "teleport":
                 mc.thePlayer.motionY = 0;
                 mc.thePlayer.capabilities.isFlying = true;
                 if (mc.thePlayer.ticksExisted % 20 == 0) {
                     double[] expectMoves = getMoves((double)8.2, (double)0.0);
                     if(!flyup) {
                       vulcanFunny(expectMoves[0], expectMoves[2]);
-                      ClientUtils.displayChatMessage("Teleported");
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Sent C06 & Teleported");
                     }
                 }
-                    if(mc.thePlayer.onGround) {
-                      mc.thePlayer.jump();
-                    }
 
                     if (mc.gameSettings.keyBindJump.isKeyDown()) {
                          flyup = true;
-                         vclip(3.5);
+                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = true");
+                         vclip(2.3);
                         } else {
                          flyup = false;
+                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = false");
                 }
                     if (mc.gameSettings.keyBindSneak.isKeyDown()) {
                          flyup = true;
-                         vclip(-3.5);
+                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = true");
+                         vclip(-2.3);
                          } else {
                          flyup = false;
+                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = false");
                 }
                 break;
             case "damage":
@@ -715,7 +724,7 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
-            if (mode.equalsIgnoreCase("vulcantp"))
+            if (mode.equalsIgnoreCase("teleport"))
                 packetPlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
