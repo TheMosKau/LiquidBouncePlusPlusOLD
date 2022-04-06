@@ -268,12 +268,12 @@ public class Fly extends Module {
         switch (mode.toLowerCase()) {
             case "vulcannew":
                 flyup = false;
-                if(vulcanNotif.get()) LiquidBounce.hud.addNotification(Notification("Fly only work ~12 block!.", Notification.Type.WARNING));
+                if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Fly only work ~12 block!.", Notification.Type.WARNING));
                 if(mc.thePlayer.onGround) {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ);
                       FlyActive = true;
-                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(Notification("Successfully make vulcan fly check cry.", Notification.Type.SUCCESS));
+                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully make vulcan fly check cry.", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
                }
                break;
