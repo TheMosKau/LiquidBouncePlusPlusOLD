@@ -354,6 +354,7 @@ public class Fly extends Module {
     @Override
     public void onDisable() {
         verusDamaged = false;
+        FlyActive = false;
         wasDead = false;
 
         if (mc.thePlayer == null)
@@ -435,11 +436,12 @@ public class Fly extends Module {
                 break;
             case "vulcannew":
                 mc.thePlayer.capabilities.isFlying = false;
-                    if(!flyup) {
+                    if(FlyActive) {
+                      mc.timer.timerSpeed = 0.3f;
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.29f);
+                      MovementUtils.strafe(0.38f);
                 }
                 break;
             case "damage":
