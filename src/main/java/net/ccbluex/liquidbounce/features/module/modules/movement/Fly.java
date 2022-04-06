@@ -432,11 +432,10 @@ public class Fly extends Module {
                     double[] expectMoves = getMoves((double)0.5, (double)0.0);
                     if(!flyup) {
                       vulcanFunny(expectMoves[0], expectMoves[2]);
-                      mc.thePlayer.motionY += 0.05;
+                      mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
                       MovementUtils.strafe(0.5f);
-                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Sent C06 & Teleported");
                 }
                 break;
             case "damage":
@@ -708,6 +707,7 @@ public class Fly extends Module {
                 packetPlayer.onGround = true;
 
             if (mode.equalsIgnoreCase("dev"))
+                event.cancelEvent();
                 packetPlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
