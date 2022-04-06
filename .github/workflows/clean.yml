@@ -15,7 +15,7 @@ jobs:
     - name: Clean the export zip
       uses: c-hive/gha-remove-artifacts@v1
       with:
-        age: '3600 seconds' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js
+        age: '1 days' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js
         # Optional inputs
         # skip-tags: false
         # skip-recent: 5
