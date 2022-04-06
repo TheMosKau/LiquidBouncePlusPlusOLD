@@ -439,7 +439,7 @@ public class Fly extends Module {
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.35f);
+                      MovementUtils.strafe(0.31999991f);
                 }
                 break;
             case "damage":
