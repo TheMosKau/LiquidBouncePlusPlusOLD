@@ -265,9 +265,8 @@ public class Fly extends Module {
             case "dev":
                 flyup = false;
                 if(mc.thePlayer.onGround) {
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 1.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
-                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 1.5, mc.thePlayer.posZ);
-                      mc.thePlayer.jump();
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
+                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ);
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
                }
                break;
@@ -429,13 +428,11 @@ public class Fly extends Module {
                 break;
             case "dev":
                 mc.thePlayer.capabilities.isFlying = false;
-                    double[] expectMoves = getMoves((double)0.5, (double)0.0);
                     if(!flyup) {
-                      vulcanFunny(expectMoves[0], expectMoves[2]);
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.5f);
+                      MovementUtils.strafe(0.3f);
                 }
                 break;
             case "damage":
