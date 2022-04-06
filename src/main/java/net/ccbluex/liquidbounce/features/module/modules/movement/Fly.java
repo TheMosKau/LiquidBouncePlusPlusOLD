@@ -70,7 +70,10 @@ public class Fly extends Module {
             "Spartan",
             "Spartan2",
             "BugSpartan",
-            
+           
+            // vulcan
+            "VulcanNew",
+
             // AAC
             "AAC5-Vanilla",
 
@@ -78,7 +81,6 @@ public class Fly extends Module {
             "Jetpack",
             "KeepAlive",
             "Clip",
-            "Dev",
             "Jump",
             "Derp",
             "Collide"
@@ -105,8 +107,7 @@ public class Fly extends Module {
     private final BoolValue verusSpoofGround = new BoolValue("Verus-SpoofGround", false, () -> { return modeValue.get().equalsIgnoreCase("verus"); });
 
     // Vulcan't
-    private final BoolValue vulcanMove = new BoolValue("VulcanTP-NoMoving", false, () -> { return modeValue.get().equalsIgnoreCase("vulcantp"); });
-    private final BoolValue vulcanDebug = new BoolValue("VulcanTP-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcantp"); });
+    private final BoolValue vulcanDebug = new BoolValue("VulcanNew-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
 
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -426,7 +427,7 @@ public class Fly extends Module {
                         hClip(expectMoves[0], expectMoves[1], expectMoves[2]);
                 }
                 break;
-            case "dev":
+            case "vulcannew":
                 mc.thePlayer.capabilities.isFlying = false;
                     if(!flyup) {
                       mc.thePlayer.motionY = 0;
@@ -703,8 +704,9 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
-            if (mode.equalsIgnoreCase("dev"))
+            if (mode.equalsIgnoreCase("vulcannew"))
                 packetPlayer.onGround = true;
+                mc.thePlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
                 packetPlayer.onGround = false;
