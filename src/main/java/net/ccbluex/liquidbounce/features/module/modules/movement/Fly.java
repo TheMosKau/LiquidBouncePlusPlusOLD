@@ -78,7 +78,7 @@ public class Fly extends Module {
             "Jetpack",
             "KeepAlive",
             "Clip",
-            "VulcanTP",
+            "Teleport",
             "Jump",
             "Derp",
             "Collide"
@@ -129,7 +129,7 @@ public class Fly extends Module {
     private final BoolValue markValue = new BoolValue("Mark", true);
     //private final BoolValue debugValue = new BoolValue("Debug", false, () -> { return modeValue.get().equalsIgnoreCase("verusfloat"); });
 
-    public boolean flyup = false;
+    public boolean flyup;
 
     private BlockPos lastPosition;
 
@@ -263,6 +263,7 @@ public class Fly extends Module {
 
         switch (mode.toLowerCase()) {
             case "teleport":
+                flyup = false;
                 if(mc.thePlayer.onGround) {
                       mc.thePlayer.jump();
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Jumped");
