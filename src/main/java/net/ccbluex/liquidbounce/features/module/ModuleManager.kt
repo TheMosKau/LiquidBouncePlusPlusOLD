@@ -187,6 +187,7 @@ class ModuleManager : Listenable {
 
         registerModule(Fucker)
         registerModule(ChestAura)
+        registerModule(KillInsults)
 
         ClientUtils.getLogger().info("[ModuleManager] Successfully loaded ${modules.size} modules.")
     }
