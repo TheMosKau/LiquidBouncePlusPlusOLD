@@ -266,8 +266,8 @@ public class Fly extends Module {
                 flyup = false;
                 if(mc.thePlayer.onGround) {
                       mc.thePlayer.jump();
-                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Jumped");
-                vclip(-1.0);
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
+                vclip(-1.5);
                }
                break;
             case "veruslowhop2":
@@ -446,7 +446,6 @@ public class Fly extends Module {
                          vclip(2.3);
                         } else {
                          flyup = false;
-                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = false");
                 }
                     if (mc.gameSettings.keyBindSneak.isKeyDown()) {
                          flyup = true;
@@ -454,7 +453,6 @@ public class Fly extends Module {
                          vclip(-2.3);
                          } else {
                          flyup = false;
-                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = false");
                 }
                 break;
             case "damage":
@@ -795,7 +793,7 @@ public class Fly extends Module {
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
                 break;
-            case "vulcantp":
+            case "teleport":
                 if (vulcanMove.get()) event.zeroXZ();
                 break;
             case "veruslowhop":
