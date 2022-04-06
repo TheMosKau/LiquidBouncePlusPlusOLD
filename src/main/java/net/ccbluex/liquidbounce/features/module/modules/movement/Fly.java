@@ -270,8 +270,8 @@ public class Fly extends Module {
                 flyup = false;
                 if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Fly only work ~12 block!.", Notification.Type.WARNING));
                 if(mc.thePlayer.onGround) {
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
-                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ);
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
+                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ);
                       FlyActive = true;
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully make vulcan fly check cry.", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
@@ -439,7 +439,7 @@ public class Fly extends Module {
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.31999991f);
+                      MovementUtils.strafe(0.29f);
                 }
                 break;
             case "damage":
