@@ -78,7 +78,7 @@ public class Fly extends Module {
             "Jetpack",
             "KeepAlive",
             "Clip",
-            "Teleport",
+            "Dev",
             "Jump",
             "Derp",
             "Collide"
@@ -262,21 +262,18 @@ public class Fly extends Module {
         moveSpeed = 0;
 
         switch (mode.toLowerCase()) {
-            case "teleport":
+            case "dev":
                 flyup = false;
                 if(mc.thePlayer.onGround) {
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
                       mc.thePlayer.jump();
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
-                vclip(-1.5);
                }
                break;
             case "veruslowhop2":
-                if(mc.thePlayer.onGround && mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0, 4, 0).expand(0, 0, 0)).isEmpty()) {
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                     PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
-                    verusDamaged = true;
-                }
                 break;
             case "ncp":
                 mc.thePlayer.motionY = -ncpMotionValue.get();
@@ -429,30 +426,16 @@ public class Fly extends Module {
                         hClip(expectMoves[0], expectMoves[1], expectMoves[2]);
                 }
                 break;
-            case "teleport":
-                mc.thePlayer.motionY = 0;
-                mc.thePlayer.capabilities.isFlying = true;
-                if (mc.thePlayer.ticksExisted % 20 == 0) {
-                    double[] expectMoves = getMoves((double)8.2, (double)0.0);
+            case "dev":
+                mc.thePlayer.capabilities.isFlying = false;
+                    double[] expectMoves = getMoves((double)0.0, (double)0.0);
                     if(!flyup) {
                       vulcanFunny(expectMoves[0], expectMoves[2]);
+                      mc.thePlayer.motionY = 0;
+                      mc.thePlayer.motionX = 0;
+                      mc.thePlayer.motionZ = 0;
+                      MovementUtils.strafe(0.5);
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Sent C06 & Teleported");
-                    }
-                }
-
-                    if (mc.gameSettings.keyBindJump.isKeyDown()) {
-                         flyup = true;
-                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = true");
-                         vclip(2.3);
-                        } else {
-                         flyup = false;
-                }
-                    if (mc.gameSettings.keyBindSneak.isKeyDown()) {
-                         flyup = true;
-                         if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] flyup = true");
-                         vclip(-2.3);
-                         } else {
-                         flyup = false;
                 }
                 break;
             case "damage":
@@ -723,7 +706,7 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
-            if (mode.equalsIgnoreCase("teleport"))
+            if (mode.equalsIgnoreCase("dev"))
                 packetPlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
@@ -793,9 +776,6 @@ public class Fly extends Module {
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
                 break;
-            case "teleport":
-                if (vulcanMove.get()) event.zeroXZ();
-                break;
             case "veruslowhop":
                 if (!mc.thePlayer.isInWeb && !mc.thePlayer.isInLava() && !mc.thePlayer.isInWater() && !mc.thePlayer.isOnLadder() && !mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.ridingEntity == null) {
                     if (MovementUtils.isMoving()) {
@@ -837,7 +817,7 @@ public class Fly extends Module {
             event.setBoundingBox(AxisAlignedBB.fromBounds(event.getX(), event.getY(), event.getZ(), event.getX() + 1, startY, event.getZ() + 1));
         }
 
-        if (event.getBlock() instanceof BlockAir && ((mode.equalsIgnoreCase("collide") && !mc.thePlayer.isSneaking()) || mode.equalsIgnoreCase("veruslowhop") || mode.equalsIgnoreCase("verusjump")))
+        if (event.getBlock() instanceof BlockAir && ((mode.equalsIgnoreCase("collide") && !mc.thePlayer.isSneaking()) || mode.equalsIgnoreCase("veruslowhop") || mode.equalsIgnoreCase("veruslowhop2")))
             event.setBoundingBox(new AxisAlignedBB(-2, -1, -2, 2, 1, 2).offset(event.getX(), event.getY(), event.getZ()));
 
         if (event.getBlock() instanceof BlockAir && (mode.equalsIgnoreCase("Rewinside") || (mode.equalsIgnoreCase("Verus") && 
