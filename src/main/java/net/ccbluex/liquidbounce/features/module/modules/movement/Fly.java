@@ -108,6 +108,7 @@ public class Fly extends Module {
 
     // Vulcan't
     private final BoolValue vulcanDebug = new BoolValue("VulcanNew-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
+    private final BoolValue vulcanNotif = new BoolValue("VulcanNew-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
 
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -146,7 +147,9 @@ public class Fly extends Module {
     private boolean noPacketModify;
 
     private boolean noFlag;
-    private int pearlState = 0;
+    private int pearlState = 0; 
+
+    private boolean FlyActive;
 
     private boolean wasDead;
 
@@ -263,11 +266,14 @@ public class Fly extends Module {
         moveSpeed = 0;
 
         switch (mode.toLowerCase()) {
-            case "dev":
+            case "vulcannew":
                 flyup = false;
+                if(vulcanNotif.get()) LiquidBounce.hud.addNotification(Notification("Fly only work ~12 block!.", Notification.Type.WARNING));
                 if(mc.thePlayer.onGround) {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ);
+                      FlyActive = true;
+                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(Notification("Successfully make vulcan fly check cry.", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
                }
                break;
@@ -433,7 +439,7 @@ public class Fly extends Module {
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.3f);
+                      MovementUtils.strafe(0.35f);
                 }
                 break;
             case "damage":
