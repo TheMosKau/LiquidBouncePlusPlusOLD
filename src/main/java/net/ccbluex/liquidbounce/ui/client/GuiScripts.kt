@@ -35,12 +35,12 @@ class GuiScripts(private val prevGui: GuiScreen) : GuiScreen() {
 
         val j = 22
         this.buttonList.add(GuiButton(0, width - 80, height - 65, 70, 20, "Back"))
-        this.buttonList.add(GuiButton(1, width - 80, j + 24, 70, 20, "Impuwt"))
-        this.buttonList.add(GuiButton(2, width - 80, j + 24 * 2, 70, 20, "Delwete"))
-        this.buttonList.add(GuiButton(3, width - 80, j + 24 * 3, 70, 20, "Rewuad"))
-        this.buttonList.add(GuiButton(4, width - 80, j + 24 * 4, 70, 20, "Fuwder"))
-        this.buttonList.add(GuiButton(5, width - 80, j + 24 * 5, 70, 20, "Ducs"))
-        this.buttonList.add(GuiButton(6, width - 80, j + 24 * 6, 70, 20, "Find Scwipts"))
+        this.buttonList.add(GuiButton(1, width - 80, j + 24, 70, 20, "Import"))
+        this.buttonList.add(GuiButton(2, width - 80, j + 24 * 2, 70, 20, "Delete"))
+        this.buttonList.add(GuiButton(3, width - 80, j + 24 * 3, 70, 20, "Reload"))
+        this.buttonList.add(GuiButton(4, width - 80, j + 24 * 4, 70, 20, "Folder"))
+        this.buttonList.add(GuiButton(5, width - 80, j + 24 * 5, 70, 20, "Docs"))
+        this.buttonList.add(GuiButton(6, width - 80, j + 24 * 6, 70, 20, "Find Scripts"))
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -48,7 +48,7 @@ class GuiScripts(private val prevGui: GuiScreen) : GuiScreen() {
 
         list.drawScreen(mouseX, mouseY, partialTicks)
 
-        drawCenteredString(Fonts.font40, "§9§lScwipts", width / 2, 28, 0xffffff)
+        drawCenteredString(Fonts.font40, "§9§lScripts", width / 2, 28, 0xffffff)
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
 
@@ -99,9 +99,9 @@ class GuiScripts(private val prevGui: GuiScreen) : GuiScreen() {
                     return
                 }
 
-                MiscUtils.showErrorPopup("Wrung fiwe extensiun.", "The fiwe extensiun has tu be .js ur .zip")
+                MiscUtils.showErrorPopup("Wrong file extension.", "The file extension has to be .js or .zip")
             } catch (t: Throwable) {
-                ClientUtils.getLogger().error("Sumething went wwung whiwe impurting a scwipt.", t)
+                ClientUtils.getLogger().error("Something went wrong while importing a script.", t)
                 MiscUtils.showErrorPopup(t.javaClass.name, t.message)
             }
 
@@ -116,7 +116,7 @@ class GuiScripts(private val prevGui: GuiScreen) : GuiScreen() {
                     LiquidBounce.fileManager.loadConfig(LiquidBounce.fileManager.hudConfig)
                 }
             } catch (t: Throwable) {
-                ClientUtils.getLogger().error("Sumething went wwung whiwe deweting a scwipt.", t)
+                ClientUtils.getLogger().error("Something went wrong while deleting a script.", t)
                 MiscUtils.showErrorPopup(t.javaClass.name, t.message)
             }
             3 -> try {
@@ -186,7 +186,7 @@ class GuiScripts(private val prevGui: GuiScreen) : GuiScreen() {
         override fun drawSlot(id: Int, x: Int, y: Int, var4: Int, var5: Int, var6: Int) {
             val script = LiquidBounce.scriptManager.scripts[id]
             drawCenteredString(Fonts.fontSFUI40, "§9" + script.scriptName + " §7v" + script.scriptVersion, width / 2, y + 3, Color.LIGHT_GRAY.rgb)
-            drawCenteredString(Fonts.fontSFUI40, "by §c" + script.scriptAuthors.joinToString(", ") + " UwU", width / 2, y + 16, Color.LIGHT_GRAY.rgb)
+            drawCenteredString(Fonts.fontSFUI40, "by §c" + script.scriptAuthors.joinToString(", "), width / 2, y + 16, Color.LIGHT_GRAY.rgb)
         }
 
         override fun drawBackground() { }
