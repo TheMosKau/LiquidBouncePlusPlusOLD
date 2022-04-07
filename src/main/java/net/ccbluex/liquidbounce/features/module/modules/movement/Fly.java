@@ -72,7 +72,7 @@ public class Fly extends Module {
             "BugSpartan",
            
             // vulcan
-            "VulcanNew",
+            "Hycraft",
 
             // AAC
             "AAC5-Vanilla",
@@ -107,8 +107,8 @@ public class Fly extends Module {
     private final BoolValue verusSpoofGround = new BoolValue("Verus-SpoofGround", false, () -> { return modeValue.get().equalsIgnoreCase("verus"); });
 
     // Vulcan't
-    private final BoolValue vulcanDebug = new BoolValue("VulcanNew-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
-    private final BoolValue vulcanNotif = new BoolValue("VulcanNew-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
+    private final BoolValue vulcanDebug = new BoolValue("Hycraft-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
+    private final BoolValue vulcanNotif = new BoolValue("Hycraft-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
 
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -151,6 +151,8 @@ public class Fly extends Module {
 
     private boolean FlyActive;
 
+    private boolean hycraftDamaged;
+    
     private boolean wasDead;
 
     private int boostTicks, dmgCooldown = 0;
@@ -266,20 +268,19 @@ public class Fly extends Module {
         moveSpeed = 0;
 
         switch (mode.toLowerCase()) {
-            case "vulcannew":
+            case "hycraft":
                 flyup = false;
-                if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Fly only work ~12 block!.", Notification.Type.WARNING));
                 if(mc.thePlayer.onGround) {
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
-                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ);
-                      FlyActive = true;
-                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully make vulcan fly check cry.", Notification.Type.SUCCESS));
-                      if(FlyActive) {
-                         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
-                         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
-                         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                      hycraftDamaged = true;
+                      if(hycraftDamaged) {
+                         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ);
                       }
-                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
+                      FlyActive = true;
+                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully make hycraft turn into verus", Notification.Type.SUCCESS));
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged");
                }
                break;
             case "veruslowhop2":
@@ -441,12 +442,12 @@ public class Fly extends Module {
                 break;
             case "vulcannew":
                 mc.thePlayer.capabilities.isFlying = false;
-                    if(FlyActive) {
+                    if(FlyActive && hycraftDamaged) {
                       mc.timer.timerSpeed = 0.5f;
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.39999995f);
+                      MovementUtils.strafe(0.499999995f);
                 }
                 break;
             case "damage":
@@ -717,9 +718,8 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
-            if (mode.equalsIgnoreCase("vulcannew"))
+            if (mode.equalsIgnoreCase("hycraft"))
                 packetPlayer.onGround = true;
-                mc.thePlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
                 packetPlayer.onGround = false;
