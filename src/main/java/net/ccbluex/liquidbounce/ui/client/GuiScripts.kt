@@ -116,7 +116,7 @@ class GuiScripts(private val prevGui: GuiScreen) : GuiScreen() {
                     LiquidBounce.fileManager.loadConfig(LiquidBounce.fileManager.hudConfig)
                 }
             } catch (t: Throwable) {
-                ClientUtils.getLogger().error("Something went wrong while deleting a script.", t)
+                ClientUtils.getLogger().error("Something went wrong while deleting a script", t)
                 MiscUtils.showErrorPopup(t.javaClass.name, t.message)
             }
             3 -> try {
