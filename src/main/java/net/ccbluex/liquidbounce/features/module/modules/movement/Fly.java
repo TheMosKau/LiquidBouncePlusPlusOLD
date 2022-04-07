@@ -276,7 +276,7 @@ public class Fly extends Module {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
                       hycraftDamaged = true;
                       if(hycraftDamaged) {
-                         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.5, mc.thePlayer.posZ);
+                         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                       }
                       FlyActive = true;
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully make hycraft turn into verus", Notification.Type.SUCCESS));
@@ -362,6 +362,7 @@ public class Fly extends Module {
         verusDamaged = false;
         FlyActive = false;
         wasDead = false;
+        hycraftDamaged = false;
 
         if (mc.thePlayer == null)
             return;
@@ -447,12 +448,12 @@ public class Fly extends Module {
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.6894568f);
+                      MovementUtils.strafe(0.99999995f);
 
                      if (mc.gameSettings.keyBindJump.isKeyDown())
-                        mc.thePlayer.motionY += 0.34;
+                        mc.thePlayer.motionY += 0.5;
                     if (mc.gameSettings.keyBindSneak.isKeyDown())
-                        mc.thePlayer.motionY -= 0.34;
+                        mc.thePlayer.motionY -= 0.5;
 
                 }
                 break;
