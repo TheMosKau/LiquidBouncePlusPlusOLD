@@ -26,9 +26,9 @@ jobs:
           arguments: build --no-build-cache
           gradle-version: wrapper
       - name: Rename build artifacts
-        run: mv build/libs/LiquidBounce-plus.jar build/libs/UwUBounce-${{ steps.vars.outputs.sha_short }}.jar
+        run: mv build/libs/LiquidBounce-plus.jar build/libs/LiquidBouncePlusPlus-${{ steps.vars.outputs.sha_short }}.jar
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: UwUBounce
-          path: build/libs/UwUBounce-${{ steps.vars.outputs.sha_short }}.jar
+          name: UwUBounce-${{ steps.vars.outputs.sha_short }}
+          path: build/libs/LiquidBouncePlusPlus-${{ steps.vars.outputs.sha_short }}.jar
