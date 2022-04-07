@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
 @SideOnly(Side.CLIENT)
 public class FileManager extends MinecraftInstance {
 
-    public final File dir = new File(mc.mcDataDir, "UwUClient-1.8");
+    public final File dir = new File(mc.mcDataDir, "LiquidBounce++-1.8");
     public final File fontsDir = new File(dir, "fonts");
     public final File settingsDir = new File(dir, "settings");
     public final File soundsDir = new File(dir, "sounds");
