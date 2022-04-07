@@ -440,7 +440,7 @@ public class Fly extends Module {
                         hClip(expectMoves[0], expectMoves[1], expectMoves[2]);
                 }
                 break;
-            case "vulcannew":
+            case "hycraft":
                 mc.thePlayer.capabilities.isFlying = false;
                     if(FlyActive && hycraftDamaged) {
                       mc.timer.timerSpeed = 0.5f;
