@@ -43,11 +43,11 @@ class GuiBackground(val prevGui: GuiScreen) : GuiScreen() {
         when (button.id) {
             1 -> {
                 enabled = !enabled
-                enabledButton.displayString = "Enabwed (${if (enabled) "Un" else "Uff"})"
+                enabledButton.displayString = "Shader Background (${if (enabled) "ON" else "OFF"})"
             }
             2 -> {
                 particles = !particles
-                particlesButton.displayString = "Particwes (${if (particles) "Un" else "Uff"})"
+                particlesButton.displayString = "Particles (${if (particles) "ON" else "OFF"})"
             }
             3 -> {
                 val file = MiscUtils.openFileChooser() ?: return
@@ -61,7 +61,7 @@ class GuiBackground(val prevGui: GuiScreen) : GuiScreen() {
                     mc.textureManager.loadTexture(LiquidBounce.background, DynamicTexture(image))
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    MiscUtils.showErrorPopup("Ewwuw", "Exception class: " + e.javaClass.name + "\nMessage: " + e.message)
+                    MiscUtils.showErrorPopup("Error catched", "Exception class: " + e.javaClass.name + "\nMessage: " + e.message)
                     LiquidBounce.fileManager.backgroundFile.delete()
                 }
             }
