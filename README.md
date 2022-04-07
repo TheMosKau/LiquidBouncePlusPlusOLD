@@ -1,6 +1,4 @@
-Due to hand injury and coming back to school, I won't be able to update the build for the following months (at least till summer). Thank you for understanding.
-
-# LiquidBounce+
+# LiquidBounce++
 A free mixin-based injection hacked-client for Minecraft using Minecraft Forge.
 
 ## LiquidBounce contact infos.
@@ -10,9 +8,10 @@ YouTube: https://youtube.com/CCBlueX \
 Twitter: https://twitter.com/CCBlueX \
 Guilded: https://guilded.gg/CCBlueX
 
-Discord: https://discord.io/LiquidBouncePlus
+LiquidBounce+ discord: https://discord.io/LiquidBouncePlus
 
 ## Big thanks to these repositories for their mods/plugins:
+- [WYSI-Foundation/LiquidBouncePlus](https://github.com/WYSI-Foundation/LiquidBouncePlus)
 - [FlorianMichael/ViaForge](https://github.com/FlorianMichael/ViaForge/)
 - [Sk1erLLC/Patcher](https://github.com/Sk1erLLC/Patcher/)
 
@@ -37,8 +36,8 @@ this project entirely or partially for free and even commercially. However, plea
 Do the above and share your source code with everyone; just like we do.
 
 ## Setting up a Workspace
-LiquidBounce+ is using Gradle, so make sure that it is installed properly. Instructions can be found on [Gradle's website](https://gradle.org/install/).
-1. Clone the repository using `git clone https://github.com/WYSI-Foundation/LiquidBouncePlus`. 
+LiquidBounce++ is using Gradle, so make sure that it is installed properly. Instructions can be found on [Gradle's website](https://gradle.org/install/).
+1. Clone the repository using `git clone https://github.com/TheMosKau/LiquidBouncePlusPlus`. 
 2. CD into the local repository folder.
 3. Depending on which IDE you are using execute either of the following commands:
     - For IntelliJ: `gradlew --debug setupDevWorkspace idea genIntellijRuns build`
@@ -54,8 +53,8 @@ Mixins can be used to modify classes at runtime before they are loaded. LiquidBo
 
 ## Contributing
 
-We appreciate contributions. So if you want to support us, feel free to make changes to LiquidBounce+'s source code and submit a pull request. Currently, our main goals are the following:
-1. Improve LiquidBounce+'s performance.
+We appreciate contributions. So if you want to support us, feel free to make changes to LiquidBounce++'s source code and submit a pull request. Currently, our main goals are the following:
+1. Improve LiquidBounce++'s performance.
 2. Re-work most of the render code.
 
 If you have experience in one or more of these fields, we would highly appreciate your support.
