@@ -444,16 +444,21 @@ public class Fly extends Module {
             case "hycraft":
                 mc.thePlayer.capabilities.isFlying = false;
                     if(FlyActive && hycraftDamaged) {
-                      mc.timer.timerSpeed = 0.5f;
+                      mc.timer.timerSpeed = 0.85f;
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.99999995f);
+                      if (!MovementUtils.isMoving())
+                      moveSpeed = 0.25;
+                      if (moveSpeed > 0.25) {
+                          moveSpeed -= moveSpeed / 159.0;
+                      }
+                      MovementUtils.strafe((float)moveSpeed);
 
                      if (mc.gameSettings.keyBindJump.isKeyDown())
-                        mc.thePlayer.motionY += 0.5;
+                        mc.thePlayer.motionY += 1;
                     if (mc.gameSettings.keyBindSneak.isKeyDown())
-                        mc.thePlayer.motionY -= 0.5;
+                        mc.thePlayer.motionY -= 1;
 
                 }
                 break;
