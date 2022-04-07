@@ -280,7 +280,7 @@ public class Fly extends Module {
                          mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                       }
                       FlyActive = true;
-                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully make hycraft turn into verus", Notification.Type.SUCCESS));
+                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to verus anticheat", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged");
                }
                break;
