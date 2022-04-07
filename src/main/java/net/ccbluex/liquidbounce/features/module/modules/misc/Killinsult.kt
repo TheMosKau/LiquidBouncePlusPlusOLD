@@ -85,7 +85,7 @@ object KillInsults : Module() {
 
         if (target !is EntityPlayer) {
             return
-        return target.isDead();
+        return target.isDead
         }
 
         when (modeValue.get().toLowerCase()) {
