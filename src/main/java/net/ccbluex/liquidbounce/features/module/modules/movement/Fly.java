@@ -270,7 +270,7 @@ public class Fly extends Module {
         switch (mode.toLowerCase()) {
             case "hycraft":
                 flyup = false;
-                moveSpeed = 1;
+                moveSpeed = 0.75;
                 if(mc.thePlayer.onGround) {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
@@ -457,9 +457,9 @@ public class Fly extends Module {
                       MovementUtils.strafe((float)moveSpeed);
 
                      if (mc.gameSettings.keyBindJump.isKeyDown())
-                        mc.thePlayer.motionY += 1;
+                        mc.thePlayer.motionY += 0.5;
                     if (mc.gameSettings.keyBindSneak.isKeyDown())
-                        mc.thePlayer.motionY -= 1;
+                        mc.thePlayer.motionY -= 0.5;
 
                 }
                 break;
