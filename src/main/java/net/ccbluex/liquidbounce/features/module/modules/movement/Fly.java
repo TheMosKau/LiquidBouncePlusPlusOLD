@@ -274,6 +274,11 @@ public class Fly extends Module {
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ);
                       FlyActive = true;
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully make vulcan fly check cry.", Notification.Type.SUCCESS));
+                      if(FlyActive) {
+                         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
+                         PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                      }
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
                }
                break;
@@ -437,11 +442,11 @@ public class Fly extends Module {
             case "vulcannew":
                 mc.thePlayer.capabilities.isFlying = false;
                     if(FlyActive) {
-                      mc.timer.timerSpeed = 0.3f;
+                      mc.timer.timerSpeed = 0.5f;
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
-                      MovementUtils.strafe(0.38f);
+                      MovementUtils.strafe(0.39999995f);
                 }
                 break;
             case "damage":
