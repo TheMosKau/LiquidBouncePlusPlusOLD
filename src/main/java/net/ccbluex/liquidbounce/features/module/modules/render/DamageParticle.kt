@@ -25,7 +25,7 @@ import java.math.BigDecimal
 import java.util.*
 import kotlin.math.abs
 
-@ModuleInfo(name = "UwUParticle", spacedName = "UwU Particle", description = "Make the target uwu!", category = ModuleCategory.RENDER)
+@ModuleInfo(name = "DamageParticle", spacedName = "Damage Particle", description = "Show the target damage.", category = ModuleCategory.RENDER)
 class DamageParticle : Module() {
     private val healthData=HashMap<Int,Float>()
     private val particles=ArrayList<SingleParticle>()
@@ -89,9 +89,11 @@ class DamageParticle : Module() {
                 GlStateManager.scale(-size, -size, size)
                 GL11.glDepthMask(false)
                 mc.fontRendererObj.drawStringWithShadow(
-                    "§cUwU",
+                    particle.str,
                     (-(mc.fontRendererObj.getStringWidth(particle.str) / 2)).toFloat(),
-                    (-(mc.fontRendererObj.FONT_HEIGHT - 1)).toFloat(), 0)
+                    (-(mc.fontRendererObj.FONT_HEIGHT - 1)).toFloat(),
+                    if (customColor.get()) Color(red.get(), green.get(), blue.get()).rgb else 0
+                )
                 GL11.glColor4f(187.0f, 255.0f, 255.0f, 1.0f)
                 GL11.glDepthMask(true)
                 GlStateManager.doPolygonOffset(1.0f, 1500000.0f)
