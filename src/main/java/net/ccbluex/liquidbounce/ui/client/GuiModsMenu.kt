@@ -17,10 +17,10 @@ import kotlin.concurrent.thread
 class GuiModsMenu(private val prevGui: GuiScreen) : GuiScreen() {
 
     override fun initGui() {
-        buttonList.add(GuiButton(0, width / 2 - 100, height / 4 + 48, "Fuwge Muds"))
-        buttonList.add(GuiButton(1, width / 2 - 100, height / 4 + 48 + 25, "Scwipts"))
-        buttonList.add(GuiButton(2, width / 2 - 100, height / 4 + 48 + 50, "Discuwd WPC: ${if (LiquidBounce.clientRichPresence.showRichPresenceValue) "§aUN" else "§cUFF"}"))
-        buttonList.add(GuiButton(3, width / 2 - 100, height / 4 + 48 + 75, "Backgwuund Settings"))
+        buttonList.add(GuiButton(0, width / 2 - 100, height / 4 + 48, "Forge Mods"))
+        buttonList.add(GuiButton(1, width / 2 - 100, height / 4 + 48 + 25, "Script Manager"))
+        buttonList.add(GuiButton(2, width / 2 - 100, height / 4 + 48 + 50, "Discord RPC: ${if (LiquidBounce.clientRichPresence.showRichPresenceValue) "§aON" else "§cOFF"}"))
+        buttonList.add(GuiButton(3, width / 2 - 100, height / 4 + 48 + 75, "Background Manager"))
         buttonList.add(GuiButton(4, width / 2 - 100, height / 4 + 48 + 100, "Back"))
     }
 
@@ -60,7 +60,7 @@ class GuiModsMenu(private val prevGui: GuiScreen) : GuiScreen() {
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         drawBackground(0)
 
-        //Fonts.fontBold180.drawCenteredString("Muds/MainMenu Settings", this.width / 2F, height / 8F + 5F, 4673984, true)
+        //Fonts.fontBold180.drawCenteredString("Mods/Customize", this.width / 2F, height / 8F + 5F, 4673984, true)
 
         super.drawScreen(mouseX, mouseY, partialTicks)
     }
@@ -78,8 +78,8 @@ class GuiModsMenu(private val prevGui: GuiScreen) : GuiScreen() {
         val button = buttonList[buttonId]
         val displayName = button.displayString
         button.displayString = when (state) {
-            false -> displayName.replace("§aUN", "§cUFF")
-            true -> displayName.replace("§cUFF", "§aUN")
+            false -> displayName.replace("§aON", "§cOFF")
+            true -> displayName.replace("§cOFF", "§aON")
         }
     }
 }
