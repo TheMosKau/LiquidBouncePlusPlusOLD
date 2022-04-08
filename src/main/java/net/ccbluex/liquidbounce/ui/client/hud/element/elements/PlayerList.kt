@@ -123,12 +123,6 @@ class PlayerList : Element() {
             }
         }
 
-        RenderUtils.drawRect(0F, 0F, nameLength + hpLength + distLength + 50F, 4F + font.FONT_HEIGHT.toFloat(), bgColor.rgb)
-        
-        font.drawString("Name (${playerList.size})", 5F, 3F, -1, shadowValue.get())
-        font.drawString("Distance", 5F + nameLength + 10F, 3F, -1, shadowValue.get())
-        font.drawString("Health", 5F + nameLength + distLength + 20F, 3F, -1, shadowValue.get())
-
         if (blurValue.get()) {
             val floatX = renderX.toFloat()
             val floatY = renderY.toFloat()
@@ -139,6 +133,12 @@ class PlayerList : Element() {
             glPopMatrix()
             glTranslated(renderX, renderY, 0.0)
         }
+
+        RenderUtils.drawRect(0F, 0F, nameLength + hpLength + distLength + 50F, 4F + font.FONT_HEIGHT.toFloat(), bgColor.rgb)
+        
+        font.drawString("Name (${playerList.size})", 5F, 3F, -1, shadowValue.get())
+        font.drawString("Distance", 5F + nameLength + 10F, 3F, -1, shadowValue.get())
+        font.drawString("Health", 5F + nameLength + distLength + 20F, 3F, -1, shadowValue.get())
 
         playerList.forEachIndexed { index, player ->
             RenderUtils.drawRect(0F, height, nameLength + hpLength + distLength + 50F, height + 2F + font.FONT_HEIGHT.toFloat(), bgColor.rgb)
