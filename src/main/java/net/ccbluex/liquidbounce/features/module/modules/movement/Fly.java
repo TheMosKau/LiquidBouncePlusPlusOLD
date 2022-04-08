@@ -483,7 +483,7 @@ public class Fly extends Module {
                       if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
                          MovementUtils.strafe(0.3992f);
                       } else {
-                         MovementUtils.strafe(0.25);
+                         MovementUtils.strafe(0.25f);
                       }
                 }
                 break;
