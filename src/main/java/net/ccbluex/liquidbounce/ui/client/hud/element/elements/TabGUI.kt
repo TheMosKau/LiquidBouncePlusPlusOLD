@@ -59,6 +59,8 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
     private val fontValue = FontValue("Font", Fonts.font35)
     private val textShadow = BoolValue("TextShadow", false)
     private val textFade = BoolValue("TextFade", true)
+    private val blurValue = BoolValue("Blur", true)
+    private val blurStrength = FloatValue("Blur-Strength", 1F, 0F, 30F)
     private val textPositionY = FloatValue("TextPosition-Y", 2F, 0F, 5F)
     private val width = FloatValue("Width", 60F, 55F, 100F)
     private val tabHeight = FloatValue("TabHeight", 12F, 10F, 15F)
@@ -184,6 +186,17 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
                 )
             }
             y += tabHeight.get()
+        }
+
+        val floatX = renderX.toFloat()
+        val floatY = renderY.toFloat()
+
+        if (blurValue.get()) {
+            GL11.glTranslated(-renderX, -renderY, 0.0)
+            GL11.glPushMatrix()
+            BlurUtils.blurArea(floatX, floatY, floatX + tabX, floatY + y, blurStrength.get())
+            GL11.glPopMatrix()
+            GL11.glTranslated(renderX, renderY, 0.0)
         }
 
         AWTFontRenderer.assumeNonVolatile = false
