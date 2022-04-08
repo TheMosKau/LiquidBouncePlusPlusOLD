@@ -9,6 +9,7 @@ Twitter: https://twitter.com/CCBlueX \
 Guilded: https://guilded.gg/CCBlueX
 
 LiquidBounce+ discord: https://discord.io/LiquidBouncePlus
+LiquidBounce++ discord: https://discord.gg/EyqcPDEBd8
 
 ## Big thanks to these repositories for their mods/plugins:
 - [WYSI-Foundation/LiquidBouncePlus](https://github.com/WYSI-Foundation/LiquidBouncePlus)
@@ -16,7 +17,7 @@ LiquidBounce+ discord: https://discord.io/LiquidBouncePlus
 - [Sk1erLLC/Patcher](https://github.com/Sk1erLLC/Patcher/)
 
 ## Issues
-If you notice any bugs or missing features, you can let us know by opening an issue [here](https://github.com/WYSI-Foundation/LiquidBouncePlus/issues).
+If you notice any bugs or missing features, you can let us know by opening an issue [here](https://github.com/TheMosKau/LiquidBouncePlusPlus/issues).
 
 ## License
 This project is subject to the [GNU General Public License v3.0](LICENSE). This does only apply for source code located directly in this clean repository. During the development and compilation process, additional source code may be used to which we have obtained no rights. Such code is not covered by the GPL license.
@@ -49,7 +50,7 @@ LiquidBounce++ is using Gradle, so make sure that it is installed properly. Inst
 
 ## Additional libraries
 ### Mixins
-Mixins can be used to modify classes at runtime before they are loaded. LiquidBounce+ is using it to inject its code into the Minecraft client. This way, we do not have to ship Mojang's copyrighted code. If you want to learn more about it, check out its [Documentation](https://docs.spongepowered.org/5.1.0/en/plugin/internals/mixins.html).
+Mixins can be used to modify classes at runtime before they are loaded. LiquidBounce++ is using it to inject its code into the Minecraft client. This way, we do not have to ship Mojang's copyrighted code. If you want to learn more about it, check out its [Documentation](https://docs.spongepowered.org/5.1.0/en/plugin/internals/mixins.html).
 
 ## Contributing
 
