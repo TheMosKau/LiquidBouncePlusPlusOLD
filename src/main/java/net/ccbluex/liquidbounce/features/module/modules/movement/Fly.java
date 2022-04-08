@@ -73,6 +73,7 @@ public class Fly extends Module {
            
             // vulcan
             "Hycraft",
+            "HycraftOld",
 
             // AAC
             "AAC5-Vanilla",
@@ -281,7 +282,17 @@ public class Fly extends Module {
                       }
                       FlyActive = true;
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to verus anticheat", Notification.Type.SUCCESS));
-                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged");
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged);
+               }
+               break;
+            case "hycraftold":
+                flyup = false;
+                if(mc.thePlayer.onGround) {
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, mc.thePlayer.onGround));
+                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ);
+                      FlyActive = true;
+                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to watchdog", Notification.Type.SUCCESS));
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
                }
                break;
             case "veruslowhop2":
@@ -461,6 +472,19 @@ public class Fly extends Module {
                     if (mc.gameSettings.keyBindSneak.isKeyDown())
                         mc.thePlayer.motionY -= 0.5;
 
+                }
+                break;
+            case "hycraftold":
+                mc.thePlayer.capabilities.isFlying = false;
+                    if(FlyActive) {
+                      mc.thePlayer.motionY = 0;
+                      mc.thePlayer.motionX = 0;
+                      mc.thePlayer.motionZ = 0;
+                      if(mc.player.isPotionActive(Potion.moveSpeed)) {
+                         MovementUtils.strafe(0.3992f);
+                      } else {
+                         MovementUtils.strafe(0.25);
+                      }
                 }
                 break;
             case "damage":
@@ -732,6 +756,9 @@ public class Fly extends Module {
                 packetPlayer.onGround = true;
 
             if (mode.equalsIgnoreCase("hycraft"))
+                packetPlayer.onGround = true;
+            
+            if (mode.equalsIgnoreCase("hycraftold"))
                 packetPlayer.onGround = true;
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
