@@ -150,6 +150,11 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
                 tab.tabName.toLowerCase()
             else
                 tab.tabName
+ 
+            val tabX = if (side.horizontal == Side.Horizontal.RIGHT)
+                    1F - tab.menuWidth
+                else
+                    width.get() + 5
 
             val textX = if (side.horizontal == Side.Horizontal.RIGHT)
                 width.get() - fontRenderer.getStringWidth(tabName) - tab.textFade - 3
@@ -169,13 +174,17 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
                     fontRenderer.drawString(if (!categoryMenu && selectedCategory == index) "-" else "+",
                             width.get() - 8F, y + 2F, 0xffffff, textShadow.get())
             }
+            val floatX = renderX.toFloat()
+            val floatY = renderY.toFloat()
 
+            if (blurValue.get()) {
+               glTranslated(-renderX, -renderY, 0.0)
+               glPushMatrix()
+               BlurUtils.blurArea(floatX, floatY, floatX + tabX, floatY + y, blurStrength.get())
+               glPopMatrix()
+               glTranslated(renderX, renderY, 0.0)
+        }
             if (index == selectedCategory && !categoryMenu) {
-                val tabX = if (side.horizontal == Side.Horizontal.RIGHT)
-                    1F - tab.menuWidth
-                else
-                    width.get() + 5
-
                 tab.drawTab(
                         tabX,
                         y,
@@ -190,17 +199,6 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
                 )
             }
             y += tabHeight.get()
-        }
-
-        val floatX = renderX.toFloat()
-        val floatY = renderY.toFloat()
-
-        if (blurValue.get()) {
-            GL11.glTranslated(-renderX, -renderY, 0.0)
-            GL11.glPushMatrix()
-            BlurUtils.blurArea(floatX, floatY, floatX + tabX, floatY + y, blurStrength.get())
-            GL11.glPopMatrix()
-            GL11.glTranslated(renderX, renderY, 0.0)
         }
 
         AWTFontRenderer.assumeNonVolatile = false
