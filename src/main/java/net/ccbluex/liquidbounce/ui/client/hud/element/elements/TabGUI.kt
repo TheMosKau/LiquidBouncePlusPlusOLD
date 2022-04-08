@@ -14,6 +14,7 @@ import net.ccbluex.liquidbounce.ui.client.hud.element.ElementInfo
 import net.ccbluex.liquidbounce.ui.client.hud.element.Side
 import net.ccbluex.liquidbounce.ui.font.AWTFontRenderer
 import net.ccbluex.liquidbounce.ui.font.Fonts
+import net.ccbluex.liquidbounce.utils.render.BlurUtils
 import net.ccbluex.liquidbounce.utils.render.RenderUtils
 import net.ccbluex.liquidbounce.utils.render.ColorUtils
 import net.ccbluex.liquidbounce.utils.render.shader.shaders.RainbowShader
@@ -26,6 +27,9 @@ import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.GlStateManager
 import org.lwjgl.input.Keyboard
 import java.awt.Color
+import org.lwjgl.opengl.GL11.*
+import org.lwjgl.util.vector.Vector2f
+import kotlin.math.*
 
 @ElementInfo(name = "TabGUI")
 class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
