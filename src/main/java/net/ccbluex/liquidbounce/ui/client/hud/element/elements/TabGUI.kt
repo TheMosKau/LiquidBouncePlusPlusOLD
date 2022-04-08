@@ -103,6 +103,11 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
         val backgroundColor = Color(backgroundRedValue.get(), backgroundGreenValue.get(), backgroundBlueValue.get(),
                 backgroundAlphaValue.get())
 
+        val tabX = if (side.horizontal == Side.Horizontal.RIGHT)
+                    1F - tab.menuWidth
+                else
+                    width.get() + 5
+
         val borderColor = if (!borderRainbow.get().equals("Normal", ignoreCase = true))
             Color(borderRedValue.get(), borderGreenValue.get(), borderBlueValue.get(), borderAlphaValue.get())
         else
@@ -114,6 +119,19 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
         RenderUtils.drawRect(1F, 0F, width.get(), guiHeight, backgroundColor.rgb)
 
         val rainbow = borderRainbow.get().equals("normal", ignoreCase = true)
+
+        var y = 1F
+
+        val floatX = renderX.toFloat()
+        val floatY = renderY.toFloat()
+
+        if (blurValue.get()) {
+            glTranslated(-renderX, -renderY, 0.0)
+            glPushMatrix()
+            BlurUtils.blurArea(floatX, floatY, floatX + tabX, floatY + tabY, blurStrength.get())
+            glPopMatrix()
+            glTranslated(renderX, renderY, 0.0)
+        }
 
         if (borderValue.get()) {
             RainbowShader.begin(rainbow, if (rainbowX.get() == 0.0F) 0.0F else 1.0F / rainbowX.get(), if (rainbowY.get() == 0.0F) 0.0F else 1.0F / rainbowY.get(), System.currentTimeMillis() % 10000 / 10000F).use {
@@ -144,17 +162,11 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
 
         GlStateManager.resetColor()
 
-        var y = 1F
         tabs.forEachIndexed { index, tab ->
             val tabName = if (lowerCaseValue.get())
                 tab.tabName.toLowerCase()
             else
                 tab.tabName
- 
-            val tabX = if (side.horizontal == Side.Horizontal.RIGHT)
-                    1F - tab.menuWidth
-                else
-                    width.get() + 5
 
             val textX = if (side.horizontal == Side.Horizontal.RIGHT)
                 width.get() - fontRenderer.getStringWidth(tabName) - tab.textFade - 3
@@ -174,16 +186,6 @@ class TabGUI(x: Double = 5.0, y: Double = 25.0) : Element(x = x, y = y) {
                     fontRenderer.drawString(if (!categoryMenu && selectedCategory == index) "-" else "+",
                             width.get() - 8F, y + 2F, 0xffffff, textShadow.get())
             }
-            val floatX = renderX.toFloat()
-            val floatY = renderY.toFloat()
-
-            if (blurValue.get()) {
-               glTranslated(-renderX, -renderY, 0.0)
-               glPushMatrix()
-               BlurUtils.blurArea(floatX, floatY, floatX + tabX, floatY + y, blurStrength.get())
-               glPopMatrix()
-               glTranslated(renderX, renderY, 0.0)
-        }
             if (index == selectedCategory && !categoryMenu) {
                 tab.drawTab(
                         tabX,
