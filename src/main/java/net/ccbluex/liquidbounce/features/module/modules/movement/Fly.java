@@ -282,7 +282,7 @@ public class Fly extends Module {
                       }
                       FlyActive = true;
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to verus anticheat", Notification.Type.SUCCESS));
-                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged);
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged");
                }
                break;
             case "hycraftold":
