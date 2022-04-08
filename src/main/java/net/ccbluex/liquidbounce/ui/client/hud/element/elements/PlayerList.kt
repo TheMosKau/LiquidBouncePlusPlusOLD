@@ -20,11 +20,14 @@ import net.ccbluex.liquidbounce.value.*
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
-import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.GL11.*
+import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
+import kotlin.math.*
+import net.ccbluex.liquidbounce.utils.render.BlurUtils
 
 /**
  * A target hud
@@ -33,6 +36,8 @@ import java.util.Locale
 class PlayerList : Element() {
 
     private val decimalFormat3 = DecimalFormat("0.#", DecimalFormatSymbols(Locale.ENGLISH))
+    private val blurValue = BoolValue("Blur", false)
+    private val blurStrength = FloatValue("Blur-Strength", 0F, 0F, 30F)
     private val sortValue = ListValue("Sort", arrayOf("Alphabet", "Distance", "Health"), "Alphabet")
     private val fontOffsetValue = FloatValue("Font-Offset", 0F, 3F, -3F)
     private val reverseValue = BoolValue("Reverse", false)
@@ -123,6 +128,17 @@ class PlayerList : Element() {
         font.drawString("Name (${playerList.size})", 5F, 3F, -1, shadowValue.get())
         font.drawString("Distance", 5F + nameLength + 10F, 3F, -1, shadowValue.get())
         font.drawString("Health", 5F + nameLength + distLength + 20F, 3F, -1, shadowValue.get())
+
+        if (blurValue.get()) {
+            val floatX = renderX.toFloat()
+            val floatY = renderY.toFloat()
+
+            glTranslated(-renderX, -renderY, 0.0)
+            glPushMatrix()
+            BlurUtils.blurArea(floatX, floatY, floatX + nameLength + hpLength + distLength + 50F, floatY + height + 2F + font.FONT_HEIGHT.toFloat(), blurStrength.get())
+            glPopMatrix()
+            glTranslated(renderX, renderY, 0.0)
+        }
 
         playerList.forEachIndexed { index, player ->
             RenderUtils.drawRect(0F, height, nameLength + hpLength + distLength + 50F, height + 2F + font.FONT_HEIGHT.toFloat(), bgColor.rgb)
