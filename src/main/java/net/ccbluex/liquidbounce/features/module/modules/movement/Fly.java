@@ -461,11 +461,11 @@ public class Fly extends Module {
                       stage++;
                       if(stage == 0) {
                          mc.timer.timerSpeed = 0.3f;
-                         speed = 1.5f;
+                         speed = 0.65f;
 //                         motion2 = -0.1;
                       } else if(stage == 1) {
                          mc.timer.timerSpeed = 1f;
-                         speed = 0.50f;
+                         speed = 0.45f;
 //                       motion2 = -0.1;
                       } else if(stage == 2) {
                          mc.timer.timerSpeed = 0.8f;
@@ -473,18 +473,16 @@ public class Fly extends Module {
 //                       motion2 = -0.1;
                       } else if(stage == 3) {
                          mc.timer.timerSpeed = 1f;
-                         speed = 0.50f;
+                         speed = 0.45f;
 //                       motion2 = 0.05;
                       } else if(stage >= 4) {
 //                       motion2 = 0.05;
-                         speed = 1.5f;
+                         speed = 0.65f;
                          mc.timer.timerSpeed = 0.3f;
                          stage = 0;
                       }
                       MovementUtils.strafe(speed);
-                      if (motion2 != 0) {
-			  mc.thePlayer.motionY = motion2;
-		      }
+		      mc.thePlayer.motionY = 0;
                 }
                 break;
             case "hycraftold":
