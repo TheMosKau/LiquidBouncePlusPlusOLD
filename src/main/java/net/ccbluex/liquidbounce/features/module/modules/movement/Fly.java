@@ -278,7 +278,7 @@ public class Fly extends Module {
                 moveSpeed = 0.50;
                 if(mc.thePlayer.onGround) {
                       // mc.thePlayer.jump();
-                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 3.5, mc.thePlayer.posZ);
+                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                       hycraftDamaged = true;
                       FlyActive = true;
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully semi-disabled hycraft fly check.", Notification.Type.SUCCESS));
@@ -462,7 +462,7 @@ public class Fly extends Module {
                       if(stage == 0) {
                          mc.timer.timerSpeed = 0.3f;
                          speed = 1.5f;
-                         motion2 = -0.1;
+//                         motion2 = -0.1;
                       } else if(stage == 1) {
                          mc.timer.timerSpeed = 1f;
                          speed = 0.50f;
@@ -476,7 +476,7 @@ public class Fly extends Module {
                          speed = 0.50f;
 //                       motion2 = 0.05;
                       } else if(stage >= 4) {
-                         motion2 = 0.05;
+//                       motion2 = 0.05;
                          speed = 1.5f;
                          mc.timer.timerSpeed = 0.3f;
                          stage = 0;
