@@ -156,6 +156,8 @@ public class Fly extends Module {
     
     private boolean wasDead;
 
+    int stage;
+
     private int boostTicks, dmgCooldown = 0;
     private int verusJumpTimes = 0;
 
@@ -244,6 +246,8 @@ public class Fly extends Module {
         if(mc.thePlayer == null)
             return;
 
+        stage = 0;
+
         noPacketModify = true;
 
         verusTimer.reset();
@@ -271,18 +275,14 @@ public class Fly extends Module {
         switch (mode.toLowerCase()) {
             case "hycraft":
                 flyup = false;
-                moveSpeed = 0.75;
+                moveSpeed = 0.50;
                 if(mc.thePlayer.onGround) {
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                      // mc.thePlayer.jump();
+                      mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 3.5, mc.thePlayer.posZ);
                       hycraftDamaged = true;
-                      if(hycraftDamaged) {
-                         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
-                      }
                       FlyActive = true;
-                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to verus anticheat", Notification.Type.SUCCESS));
-                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged");
+                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully semi-disabled hycraft fly check.", Notification.Type.SUCCESS));
+                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Fly");
                }
                break;
             case "hycraftold":
@@ -455,23 +455,36 @@ public class Fly extends Module {
                 break;
             case "hycraft":
                 mc.thePlayer.capabilities.isFlying = false;
+                    double motion = 0;
+                    float speed = 0f;
                     if(FlyActive && hycraftDamaged) {
-                      mc.timer.timerSpeed = 0.85f;
-                      mc.thePlayer.motionY = 0;
-                      mc.thePlayer.motionX = 0;
-                      mc.thePlayer.motionZ = 0;
-                      if (!MovementUtils.isMoving())
-                      moveSpeed = 0.25;
-                      if (moveSpeed > 0.25) {
-                          moveSpeed -= moveSpeed / 159.0;
+                      stage++;
+                      if(stage == 0) {
+                         mc.timer.timerSpeed = 0.3f;
+                         speed = 1.5f;
+                         motion = -0.1;
+                      } else if(stage == 1) {
+                         mc.timer.timerSpeed = 1f;
+                         speed = 0.50f;
+//                       motion = -0.1;
+                      } else if(stage == 2) {
+                         mc.timer.timerSpeed = 0.8f;
+                         speed = 0.65f;
+//                       motion = -0.1;
+                      } else if(stage == 3) {
+                         mc.timer.timerSpeed = 1f;
+                         speed = 0.50f;
+//                       motion = 0.05;
+                      } else if(stage >= 4) {
+                         motion = 0.05;
+                         speed = 1.5f;
+                         mc.timer.timerSpeed = 0.3f;
+                         stage = 0;
                       }
-                      MovementUtils.strafe((float)moveSpeed);
-
-                     if (mc.gameSettings.keyBindJump.isKeyDown())
-                        mc.thePlayer.motionY += 0.5;
-                    if (mc.gameSettings.keyBindSneak.isKeyDown())
-                        mc.thePlayer.motionY -= 0.5;
-
+                      MovementUtils.strafe(speed);
+                      if (motion != 0) {
+			  mc.thePlayer.motionY = motion;
+		      }
                 }
                 break;
             case "hycraftold":
