@@ -455,35 +455,35 @@ public class Fly extends Module {
                 break;
             case "hycraft":
                 mc.thePlayer.capabilities.isFlying = false;
-                    double motion = 0;
+                    double motion2 = 0;
                     float speed = 0f;
                     if(FlyActive && hycraftDamaged) {
                       stage++;
                       if(stage == 0) {
                          mc.timer.timerSpeed = 0.3f;
                          speed = 1.5f;
-                         motion = -0.1;
+                         motion2 = -0.1;
                       } else if(stage == 1) {
                          mc.timer.timerSpeed = 1f;
                          speed = 0.50f;
-//                       motion = -0.1;
+//                       motion2 = -0.1;
                       } else if(stage == 2) {
                          mc.timer.timerSpeed = 0.8f;
                          speed = 0.65f;
-//                       motion = -0.1;
+//                       motion2 = -0.1;
                       } else if(stage == 3) {
                          mc.timer.timerSpeed = 1f;
                          speed = 0.50f;
-//                       motion = 0.05;
+//                       motion2 = 0.05;
                       } else if(stage >= 4) {
-                         motion = 0.05;
+                         motion2 = 0.05;
                          speed = 1.5f;
                          mc.timer.timerSpeed = 0.3f;
                          stage = 0;
                       }
                       MovementUtils.strafe(speed);
-                      if (motion != 0) {
-			  mc.thePlayer.motionY = motion;
+                      if (motion2 != 0) {
+			  mc.thePlayer.motionY = motion2;
 		      }
                 }
                 break;
