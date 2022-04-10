@@ -463,8 +463,8 @@ public class Fly extends Module {
                     if(FlyActive && hycraftDamaged) {
                       stage++;
                       if(stage == 0) {
-                         mc.timer.timerSpeed = 0.3f;
-                         speed = 0.80f;
+                         mc.timer.timerSpeed = 0.4f;
+                         speed = 2f;
 //                         motion2 = -0.1;
                       } else if(stage == 1) {
                          mc.timer.timerSpeed = 1f;
@@ -480,8 +480,8 @@ public class Fly extends Module {
 //                       motion2 = 0.05;
                       } else if(stage >= 4) {
 //                       motion2 = 0.05;
-                         speed = 0.80f;
-                         mc.timer.timerSpeed = 0.3f;
+                         speed = 2f;
+                         mc.timer.timerSpeed = 0.4f;
                          stage = 0;
                       }
                       MovementUtils.strafe(speed);
