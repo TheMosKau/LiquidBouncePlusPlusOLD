@@ -91,8 +91,8 @@ class ClientRichPresence : MinecraftInstance() {
         builder.setStartTimestamp(timestamp)
 
         // Check assets contains logo and set logo
-        if (assets.containsKey("new"))
-            builder.setLargeImage(assets["new"], "build ${LiquidBounce.CLIENT_VERSION}")
+        if (assets.containsKey("client"))
+            builder.setLargeImage(assets["client"], "build ${LiquidBounce.CLIENT_VERSION}")
 
         val serverData = mc.currentServerData
 
@@ -101,9 +101,9 @@ class ClientRichPresence : MinecraftInstance() {
         builder.setState("IGN: ${mc.session.username}")
 
         if (mc.isIntegratedServerRunning || serverData != null) 
-            builder.setSmallImage(assets["astolfo"], "in ${if (mc.isIntegratedServerRunning || serverData == null) "Singleplayer" else serverData.serverIP} - ${LiquidBounce.moduleManager.modules.count { it.state }}/${LiquidBounce.moduleManager.modules.size} enabled.")
+            builder.setSmallImage(assets["e"], "in ${if (mc.isIntegratedServerRunning || serverData == null) "Singleplayer" else serverData.serverIP} - ${LiquidBounce.moduleManager.modules.count { it.state }}/${LiquidBounce.moduleManager.modules.size} enabled.")
         else
-            builder.setSmallImage(assets["astolfo"], "${LiquidBounce.moduleManager.modules.count { it.state }}/${LiquidBounce.moduleManager.modules.size} enabled.")
+            builder.setSmallImage(assets["e"], "${LiquidBounce.moduleManager.modules.count { it.state }}/${LiquidBounce.moduleManager.modules.size} enabled.")
 
         // Check ipc client is connected and send rpc
         if (ipcClient?.status == PipeStatus.CONNECTED)
@@ -140,17 +140,17 @@ class ClientRichPresence : MinecraftInstance() {
 
         // Check has app id
         if (json.has("appID"))
-            appID = json.get("appID").asLong
+            appID = 885901461282766908L
 
         // Import all asset names
         for ((key, value) in json.get("assets").asJsonObject.entrySet())
             assets[key] = value.asString
         */
 
-        appID = 874149528486445106L
-        assets["new"] = "new"
+        appID = 885901461282766908L
+        assets["client"] = "client"
         //assets["active"] = "active"
         //assets["inactive"] = "inactive"
-        assets["astolfo"] = "astolfo"
+        assets["e"] = "e"
     }
 }
