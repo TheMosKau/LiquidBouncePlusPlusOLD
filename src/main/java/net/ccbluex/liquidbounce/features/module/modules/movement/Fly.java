@@ -278,6 +278,9 @@ public class Fly extends Module {
                 moveSpeed = 0.50;
                 if(mc.thePlayer.onGround) {
                       // mc.thePlayer.jump();
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                       hycraftDamaged = true;
                       FlyActive = true;
@@ -461,23 +464,23 @@ public class Fly extends Module {
                       stage++;
                       if(stage == 0) {
                          mc.timer.timerSpeed = 0.3f;
-                         speed = 0.65f;
+                         speed = 0.80f;
 //                         motion2 = -0.1;
                       } else if(stage == 1) {
                          mc.timer.timerSpeed = 1f;
-                         speed = 0.45f;
+                         speed = 0.25f;
 //                       motion2 = -0.1;
                       } else if(stage == 2) {
                          mc.timer.timerSpeed = 0.8f;
-                         speed = 0.65f;
+                         speed = 0.35f;
 //                       motion2 = -0.1;
                       } else if(stage == 3) {
                          mc.timer.timerSpeed = 1f;
-                         speed = 0.45f;
+                         speed = 0.25f;
 //                       motion2 = 0.05;
                       } else if(stage >= 4) {
 //                       motion2 = 0.05;
-                         speed = 0.65f;
+                         speed = 0.80f;
                          mc.timer.timerSpeed = 0.3f;
                          stage = 0;
                       }
