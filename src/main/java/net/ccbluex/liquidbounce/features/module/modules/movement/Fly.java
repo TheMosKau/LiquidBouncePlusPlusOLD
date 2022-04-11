@@ -278,7 +278,7 @@ public class Fly extends Module {
                 moveSpeed = 0.50;
                 if(mc.thePlayer.onGround) {
                       // mc.thePlayer.jump();
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4.5, mc.thePlayer.posZ, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
@@ -463,16 +463,16 @@ public class Fly extends Module {
                     if(FlyActive && hycraftDamaged) {
                       stage++;
                       if(stage == 0) {
-                         mc.timer.timerSpeed = 0.4f;
-                         speed = 2f;
+                         mc.timer.timerSpeed = 0.85f;
+                         speed = 0.40f;
 //                         motion2 = -0.1;
                       } else if(stage == 1) {
                          mc.timer.timerSpeed = 1f;
                          speed = 0.25f;
 //                       motion2 = -0.1;
                       } else if(stage == 2) {
-                         mc.timer.timerSpeed = 0.8f;
-                         speed = 0.35f;
+                         mc.timer.timerSpeed = 0.85f;
+                         speed = 0.40f;
 //                       motion2 = -0.1;
                       } else if(stage == 3) {
                          mc.timer.timerSpeed = 1f;
@@ -480,8 +480,8 @@ public class Fly extends Module {
 //                       motion2 = 0.05;
                       } else if(stage >= 4) {
 //                       motion2 = 0.05;
-                         speed = 2f;
-                         mc.timer.timerSpeed = 0.4f;
+                         speed = 0.40f;
+                         mc.timer.timerSpeed = 0.85f;
                          stage = 0;
                       }
                       MovementUtils.strafe(speed);
@@ -883,7 +883,7 @@ public class Fly extends Module {
             event.setBoundingBox(AxisAlignedBB.fromBounds(event.getX(), event.getY(), event.getZ(), event.getX() + 1, startY, event.getZ() + 1));
         }
 
-        if (event.getBlock() instanceof BlockAir && ((mode.equalsIgnoreCase("collide") && !mc.thePlayer.isSneaking()) || mode.equalsIgnoreCase("veruslowhop") || mode.equalsIgnoreCase("veruslowhop2")))
+        if (event.getBlock() instanceof BlockAir && ((mode.equalsIgnoreCase("collide") && !mc.thePlayer.isSneaking()) || mode.equalsIgnoreCase("veruslowhop") || mode.equalsIgnoreCase("veruslowhop2") || mode.equalsIgnoreCase("hycraft")))
             event.setBoundingBox(new AxisAlignedBB(-2, -1, -2, 2, 1, 2).offset(event.getX(), event.getY(), event.getZ()));
 
         if (event.getBlock() instanceof BlockAir && (mode.equalsIgnoreCase("Rewinside") || (mode.equalsIgnoreCase("Verus") && 
