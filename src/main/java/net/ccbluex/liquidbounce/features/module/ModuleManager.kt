@@ -42,7 +42,6 @@ class ModuleManager : Listenable {
         ClientUtils.getLogger().info("[ModuleManager] Loading modules...")
 
         registerModules(
-                KillInsults::class.java,
                 Patcher::class.java,
                 Performance::class.java,
                 AutoWeapon::class.java,
@@ -187,7 +186,6 @@ class ModuleManager : Listenable {
 
         registerModule(Fucker)
         registerModule(ChestAura)
-        registerModule(KillInsults)
 
         ClientUtils.getLogger().info("[ModuleManager] Successfully loaded ${modules.size} modules.")
     }
