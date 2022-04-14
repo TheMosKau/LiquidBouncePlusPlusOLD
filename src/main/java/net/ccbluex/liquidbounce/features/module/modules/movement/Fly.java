@@ -464,7 +464,7 @@ public class Fly extends Module {
                    if (moveSpeed > 0.25) {
                         moveSpeed -= moveSpeed / 159.0;
                    }
-                MovementUtils.strafe(moveSpeed);
+                MovementUtils.strafe((float)moveSpeed);
 		mc.thePlayer.motionY = 0;
                 }
                 break;
