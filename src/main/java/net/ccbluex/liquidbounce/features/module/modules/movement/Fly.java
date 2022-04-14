@@ -825,9 +825,6 @@ public class Fly extends Module {
                     else
                         event.cancelEvent();
                 break;
-            case "hycraft":
-                if(!hycraftDamaged && hycraftDev)
-                  event.zeroXZ();
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
                 break;
