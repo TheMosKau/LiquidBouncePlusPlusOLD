@@ -219,12 +219,6 @@ public class Fly extends Module {
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
     }
 
-    public void damageTest() {
-        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPoslook(mc.thePlayer.posX, mc.thePlayer.posY + 3.0 mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false));
-        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPoslook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false));
-        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPoslook(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
-    }
-
     public boolean isOnHycraft() {
         return !mc.isIntegratedServerRunning() && mc.getCurrentServerData().serverIP.contains("mc.hycraft.us");
     }
