@@ -288,7 +288,9 @@ public class Fly extends Module {
                 moveSpeed = 0.55;
                 if(mc.thePlayer.onGround) {
                       // mc.thePlayer.jump();
-                      damageTest();
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 3.0 mc.thePlayer.posZ, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ, true));
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                       hycraftDamaged = true;
                       FlyActive = true;
