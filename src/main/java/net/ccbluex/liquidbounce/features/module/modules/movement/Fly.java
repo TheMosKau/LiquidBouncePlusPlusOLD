@@ -277,10 +277,10 @@ public class Fly extends Module {
         switch (mode.toLowerCase()) {
             case "hycraft":
                 flyup = false;
-                moveSpeed = 0.75;
+                moveSpeed = 0.65;
                 if(mc.thePlayer.onGround) {
                       // mc.thePlayer.jump();
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY + 3.0, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false));
+                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY + 4, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));                        
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
@@ -477,9 +477,9 @@ public class Fly extends Module {
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
                       if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-                         MovementUtils.strafe(0.95f);
-                      } else {
                          MovementUtils.strafe(0.65f);
+                      } else {
+                         MovementUtils.strafe(0.25099f);
                       }
                 }
                 break;
