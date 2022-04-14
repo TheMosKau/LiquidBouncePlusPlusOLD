@@ -219,10 +219,6 @@ public class Fly extends Module {
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
     }
 
-    public boolean isOnHycraft() {
-        return !mc.isIntegratedServerRunning() && mc.getCurrentServerData().serverIP.contains("mc.hycraft.us");
-    }
-
     private double[] getMoves(double h, double v) {
         if (mc.thePlayer == null) return new double[]{ 0.0, 0.0, 0.0 };
 
@@ -288,7 +284,7 @@ public class Fly extends Module {
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                       hycraftDamaged = true;
                       FlyActive = true;
-                      if(vulcanNotif.get() && isOnHycraft) LiquidBounce.hud.addNotification(new Notification("Damaged", Notification.Type.SUCCESS));
+                      if(!mc.isIntegratedServerRunning() && mc.getCurrentServerData().serverIP.contains("mc.hycraft.us") && vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Hycraft owner cried", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Fly");
                }
                break;
@@ -298,7 +294,7 @@ public class Fly extends Module {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, mc.thePlayer.onGround));
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ);
                       FlyActive = true;
-                      if(vulcanNotif.get() && isOnHycraft) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to watchdog", Notification.Type.SUCCESS));
+                      if(!mc.isIntegratedServerRunning() && mc.getCurrentServerData().serverIP.contains("mc.hycraft.us") && vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to watchdog", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
                }
                break;
