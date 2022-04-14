@@ -219,6 +219,16 @@ public class Fly extends Module {
         mc.thePlayer.setPosition(expectedX, expectedY, expectedZ);
     }
 
+    public void damageTest() {
+        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPoslook(mc.thePlayer.posX, mc.thePlayer.posY + 3.0 mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false));
+        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPoslook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, false));
+        PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPoslook(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, true));
+    }
+
+    public boolean isOnHycraft() {
+        return !mc.isIntegratedServerRunning() && mc.getCurrentServerData().serverIP.contains("mc.hycraft.us");
+    }
+
     private double[] getMoves(double h, double v) {
         if (mc.thePlayer == null) return new double[]{ 0.0, 0.0, 0.0 };
 
@@ -275,16 +285,14 @@ public class Fly extends Module {
         switch (mode.toLowerCase()) {
             case "hycraft":
                 flyup = false;
-                moveSpeed = 0.50;
+                moveSpeed = 0.55;
                 if(mc.thePlayer.onGround) {
                       // mc.thePlayer.jump();
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4.5, mc.thePlayer.posZ, false));
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                      damageTest();
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                       hycraftDamaged = true;
                       FlyActive = true;
-                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully semi-disabled hycraft fly check.", Notification.Type.SUCCESS));
+                      if(vulcanNotif.get() && isOnHycraft) LiquidBounce.hud.addNotification(new Notification("Damaged", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] Fly");
                }
                break;
@@ -294,7 +302,7 @@ public class Fly extends Module {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, mc.thePlayer.onGround));
                       mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.5, mc.thePlayer.posZ);
                       FlyActive = true;
-                      if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to watchdog", Notification.Type.SUCCESS));
+                      if(vulcanNotif.get() && isOnHycraft) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to watchdog", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped");
                }
                break;
@@ -457,35 +465,15 @@ public class Fly extends Module {
                 }
                 break;
             case "hycraft":
-                mc.thePlayer.capabilities.isFlying = false;
-                    double motion2 = 0;
-                    float speed = 0f;
-                    if(FlyActive && hycraftDamaged) {
-                      stage++;
-                      if(stage == 0) {
-                         mc.timer.timerSpeed = 0.85f;
-                         speed = 0.40f;
-//                         motion2 = -0.1;
-                      } else if(stage == 1) {
-                         mc.timer.timerSpeed = 1f;
-                         speed = 0.25f;
-//                       motion2 = -0.1;
-                      } else if(stage == 2) {
-                         mc.timer.timerSpeed = 0.85f;
-                         speed = 0.40f;
-//                       motion2 = -0.1;
-                      } else if(stage == 3) {
-                         mc.timer.timerSpeed = 1f;
-                         speed = 0.25f;
-//                       motion2 = 0.05;
-                      } else if(stage >= 4) {
-//                       motion2 = 0.05;
-                         speed = 0.40f;
-                         mc.timer.timerSpeed = 0.85f;
-                         stage = 0;
-                      }
-                      MovementUtils.strafe(speed);
-		      mc.thePlayer.motionY = 0;
+                mc.thePlayer.capabilities.isFlying = false;    
+                if(FlyActive && hycraftDamaged)
+                   if (!MovementUtils.isMoving())
+                        moveSpeed = 0.25;
+                   if (moveSpeed > 0.25) {
+                        moveSpeed -= moveSpeed / 159.0;
+                   }
+                MovementUtils.strafe(moveSpeed);
+		mc.thePlayer.motionY = 0;
                 }
                 break;
             case "hycraftold":
@@ -770,7 +758,11 @@ public class Fly extends Module {
                 packetPlayer.onGround = true;
 
             if (mode.equalsIgnoreCase("hycraft"))
-                packetPlayer.onGround = true;
+                if(FlyActive) {
+                  packetPlayer.onGround = true;
+                } else {
+                  packetPlayer.onGround = false;
+                }
             
             if (mode.equalsIgnoreCase("hycraftold"))
                 packetPlayer.onGround = true;
@@ -839,6 +831,9 @@ public class Fly extends Module {
                     else
                         event.cancelEvent();
                 break;
+            case "hycraft":
+                if(!hycraftDamaged)
+                  event.zeroXZ();
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
                 break;
