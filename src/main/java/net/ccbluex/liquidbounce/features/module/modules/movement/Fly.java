@@ -108,8 +108,10 @@ public class Fly extends Module {
     private final BoolValue verusSpoofGround = new BoolValue("Verus-SpoofGround", false, () -> { return modeValue.get().equalsIgnoreCase("verus"); });
 
     // Vulcan't
-    private final BoolValue vulcanDebug = new BoolValue("Hycraft-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
-    private final BoolValue vulcanNotif = new BoolValue("Hycraft-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
+    private final BoolValue vulcanDebug = new BoolValue("HycraftAll-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") && modeValue.get().equalsIgnoreCase("hycraft") || modeValue.get().equalsIgnoreCase("hycraftold"); });
+    private final BoolValue vulcanNotif = new BoolValue("HycraftAll-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") || modeValue.get().equalsIgnoreCase("hycraftold"); });
+
+    private final BoolValue hycraftDev = new BoolValue("Hycraft-DEV", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft"); });
 
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -750,10 +752,10 @@ public class Fly extends Module {
                 packetPlayer.onGround = true;
 
             if (mode.equalsIgnoreCase("hycraft"))
-                if(FlyActive) {
-                  packetPlayer.onGround = true;
-                } else {
+                if(FlyActive && hycraftDamaged) {
                   packetPlayer.onGround = false;
+                } else {
+                  packetPlayer.onGround = true;
                 }
             
             if (mode.equalsIgnoreCase("hycraftold"))
@@ -824,7 +826,7 @@ public class Fly extends Module {
                         event.cancelEvent();
                 break;
             case "hycraft":
-                if(!hycraftDamaged)
+                if(!hycraftDamaged && hycraftDev)
                   event.zeroXZ();
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
