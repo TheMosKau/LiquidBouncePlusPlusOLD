@@ -462,7 +462,7 @@ public class Fly extends Module {
                 break;
             case "hycraft":
                 mc.thePlayer.capabilities.isFlying = false;    
-                if(FlyActive && hycraftDamaged)
+                if(FlyActive && hycraftDamaged) {
                    if (!MovementUtils.isMoving())
                         moveSpeed = 0.25;
                    if (moveSpeed > 0.25) {
