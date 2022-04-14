@@ -12,7 +12,7 @@ import net.ccbluex.liquidbounce.value.ListValue
 
 import net.minecraft.util.ResourceLocation
 
-@ModuleInfo(name = "Cape", description = "LiquidBounce+ capes.", category = ModuleCategory.RENDER)
+@ModuleInfo(name = "Cape", description = "LiquidBounce++ and community capes.", category = ModuleCategory.RENDER)
 class Cape : Module() {
 
     val styleValue = ListValue("Style", arrayOf("Dark", "Light", "Special1", "Special2", "Special3", "Flushed", "GatoLover"), "Dark")
@@ -32,7 +32,7 @@ class Cape : Module() {
         SPECIAL2(ResourceLocation("liquidbounce+/cape/special2.png")),
         SPECIAL3(ResourceLocation("liquidbounce+/cape/special3.png")),
         FLUSHED(ResourceLocation("liquidbounce+/cape/flushed.png")),
-        GATOLOVER(ResourceLocation("liquidbounce+/cape/gatolover.png))
+        GATOLOVER(ResourceLocation("liquidbounce+/cape/gatolover.png"))
     }
 
     override val tag: String
