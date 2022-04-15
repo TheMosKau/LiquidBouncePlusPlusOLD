@@ -108,8 +108,9 @@ public class Fly extends Module {
     private final BoolValue verusSpoofGround = new BoolValue("Verus-SpoofGround", false, () -> { return modeValue.get().equalsIgnoreCase("verus"); });
 
     // Vulcan't
-    private final BoolValue vulcanDebug = new BoolValue("Hycraft-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
-    private final BoolValue vulcanNotif = new BoolValue("Hycraft-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
+    private final BoolValue vulcanDebug = new BoolValue("HycraftAll-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") || modeValue.equalsIgnoreCase("hycraftold"); });
+    private final BoolValue vulcanNotif = new BoolValue("HycraftAll-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") || modeValue.equalsIgnoreCase("hycraftold"); });
+    private final BoolValue hycraftJump = new BoolValue("Hycraft-JumpBeforeDamage", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft"); });
 
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -158,6 +159,7 @@ public class Fly extends Module {
 
     private int boostTicks, dmgCooldown = 0;
     private int verusJumpTimes = 0;
+    private int damageJumpTimes = 0;
 
     private boolean verusDmged, shouldActiveDmg = false;
     private boolean verusDamaged;
@@ -273,14 +275,23 @@ public class Fly extends Module {
                 flyup = false;
                 moveSpeed = 0.75;
                 if(mc.thePlayer.onGround) {
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
-                      PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
-                      hycraftDamaged = true;
-                      if(hycraftDamaged) {
-                         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
+                      if (hycraftJump.get() && damageJumpTimes < 3) {
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.jump();
+                            damageJumpTimes += 1;
+                    }
+                    return;
+                }
+                      if(hycraftJump.get() && damageJumpTimes > 2) {
+                          PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                          PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
+                          PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
                       }
-                      FlyActive = true;
+                      if (!hycraftDamaged && mc.thePlayer.hurtTime > 0) {
+                          hycraftDamaged = true;
+                          mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
+                          FlyActive = true;
+                      }
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to verus anticheat", Notification.Type.SUCCESS));
                       if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged");
                }
@@ -817,6 +828,11 @@ public class Fly extends Module {
                 if (pearlState != 2 && pearlState != -1) {
                     event.cancelEvent();
                 }
+                break;
+            case "hycraft"
+                if (!hycraftDamaged)
+                    if (hycraftJump.get())
+                        event.zeroXZ();
                 break;
             case "verus": 
                 if (!verusDmged)
