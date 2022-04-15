@@ -837,7 +837,7 @@ public class Fly extends Module {
                     event.cancelEvent();
                 }
                 break;
-            case "hycraft"
+            case "hycraft":
                 if (!hycraftDamaged)
                     if (hycraftJump.get())
                         event.zeroXZ();
