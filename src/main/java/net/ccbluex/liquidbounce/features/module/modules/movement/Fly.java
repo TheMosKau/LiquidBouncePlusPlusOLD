@@ -282,7 +282,11 @@ public class Fly extends Module {
                     }
                     return;
                 }
-                      if(hycraftJump.get() && damageJumpTimes > 2) {
+                      if(hycraftJump.get() && damageJumpTimes > 2 && mc.thePlayer.onGround) {
+                          PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
+                          PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
+                          PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                      } else if(mc.thePlayer.onGround) {
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
@@ -769,8 +773,12 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("hycraft"))
                 packetPlayer.onGround = true;
             
-            if (mode.equalsIgnoreCase("hycraftold"))
+            if (mode.equalsIgnoreCase("hycraftold") && damageJumpTimes > 2)
                 packetPlayer.onGround = true;
+
+            if (modeValue.equalsIgnoreCase("hycraft") && damageJumpTimes < 3 && hycraftJump.get()) {
+                packetPlayer.onGround = false;
+            }
 
             if (verusDmgModeValue.get().equalsIgnoreCase("Jump") && verusJumpTimes < 5 && mode.equalsIgnoreCase("Verus")) {
                 packetPlayer.onGround = false;
