@@ -108,8 +108,8 @@ public class Fly extends Module {
     private final BoolValue verusSpoofGround = new BoolValue("Verus-SpoofGround", false, () -> { return modeValue.get().equalsIgnoreCase("verus"); });
 
     // Vulcan't
-    private final BoolValue vulcanDebug = new BoolValue("HycraftAll-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") || modeValue.equalsIgnoreCase("hycraftold"); });
-    private final BoolValue vulcanNotif = new BoolValue("HycraftAll-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") || modeValue.equalsIgnoreCase("hycraftold"); });
+    private final BoolValue vulcanDebug = new BoolValue("HycraftAll-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") || modeValue.get().equalsIgnoreCase("hycraftold"); });
+    private final BoolValue vulcanNotif = new BoolValue("HycraftAll-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft") || modeValue.get().equalsIgnoreCase("hycraftold"); });
     private final BoolValue hycraftJump = new BoolValue("Hycraft-JumpBeforeDamage", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft"); });
 
     // AAC
@@ -776,7 +776,7 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("hycraftold") && damageJumpTimes > 2)
                 packetPlayer.onGround = true;
 
-            if (modeValue.equalsIgnoreCase("hycraft") && damageJumpTimes < 3 && hycraftJump.get()) {
+            if (mode.equalsIgnoreCase("hycraft") && damageJumpTimes < 3 && hycraftJump.get()) {
                 packetPlayer.onGround = false;
             }
 
