@@ -275,14 +275,13 @@ public class Fly extends Module {
                 flyup = false;
                 moveSpeed = 1;
                 if(mc.thePlayer.onGround) {
-                      if (hycraftJump.get() && damageJumpTimes < 3) {
+                      if (!flyup && hycraftJump.get()) {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
-                            damageJumpTimes += 1;
+                            flyup = true;
                     }
-                    return;
                 }
-                      if(hycraftJump.get() && damageJumpTimes > 3 && mc.thePlayer.onGround) {
+                      if(hycraftJump.get() && flyup && mc.thePlayer.onGround) {
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
@@ -470,7 +469,19 @@ public class Fly extends Module {
                 break;
             case "hycraft":
                 mc.thePlayer.capabilities.isFlying = false;
-                    if(FlyActive && hycraftDamaged || FlyActive && hycraftDamaged && hycraftJump.get() && damageJumpTimes > 2) {
+                    if(FlyActive && hycraftDamaged && hycraftJump.get() && flyup) {
+                      mc.timer.timerSpeed = 0.75f;
+                      mc.thePlayer.motionY = 0;
+                      mc.thePlayer.motionX = 0;
+                      mc.thePlayer.motionZ = 0;
+                      if (!MovementUtils.isMoving())
+                      moveSpeed = 0.25;
+                      if (moveSpeed > 0.25) {
+                          moveSpeed -= moveSpeed / 159.0;
+                      }
+                      MovementUtils.strafe((float)moveSpeed);
+
+                } else if(FlyActive && hycraftDamaged) {
                       mc.timer.timerSpeed = 0.75f;
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
@@ -484,9 +495,8 @@ public class Fly extends Module {
 
                      if (mc.gameSettings.keyBindJump.isKeyDown())
                         mc.thePlayer.motionY += 0.5;
-                    if (mc.gameSettings.keyBindSneak.isKeyDown())
+                     if (mc.gameSettings.keyBindSneak.isKeyDown())
                         mc.thePlayer.motionY -= 0.5;
-
                 }
                 break;
             case "hycraftold":
@@ -770,13 +780,13 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
-            if (mode.equalsIgnoreCase("hycraft") || mode.equalsIgnoreCase("hycraft") && hycraftJump.get() && damageJumpTimes > 3)
+            if (mode.equalsIgnoreCase("hycraft") || mode.equalsIgnoreCase("hycraft") && hycraftJump.get() && flyup)
                 packetPlayer.onGround = true;
             
             if (mode.equalsIgnoreCase("hycraftold"))
                 packetPlayer.onGround = true;
 
-            if (mode.equalsIgnoreCase("hycraft") && damageJumpTimes < 3 && hycraftJump.get()) {
+            if (!flyup && mode.equalsIgnoreCase("hycraft") && hycraftJump.get()) {
                 packetPlayer.onGround = false;
             }
 
@@ -836,11 +846,6 @@ public class Fly extends Module {
                 if (pearlState != 2 && pearlState != -1) {
                     event.cancelEvent();
                 }
-                break;
-            case "hycraft":
-                if (!hycraftDamaged)
-                    if (hycraftJump.get() && damageJumpTimes < 3)
-                        event.zeroXZ();
                 break;
             case "verus": 
                 if (!verusDmged)
