@@ -273,7 +273,7 @@ public class Fly extends Module {
         switch (mode.toLowerCase()) {
             case "hycraft":
                 flyup = false;
-                moveSpeed = 0.75;
+                moveSpeed = 1;
                 if(mc.thePlayer.onGround) {
                       if (hycraftJump.get() && damageJumpTimes < 3) {
                         if (mc.thePlayer.onGround) {
@@ -282,7 +282,7 @@ public class Fly extends Module {
                     }
                     return;
                 }
-                      if(hycraftJump.get() && damageJumpTimes > 2 && mc.thePlayer.onGround) {
+                      if(hycraftJump.get() && damageJumpTimes > 3 && mc.thePlayer.onGround) {
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                           PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
@@ -295,9 +295,9 @@ public class Fly extends Module {
                           hycraftDamaged = true;
                           mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ);
                           FlyActive = true;
+                          if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] HurtTime is more than 1, flying");
                       }
                       if(vulcanNotif.get()) LiquidBounce.hud.addNotification(new Notification("Successfully turned hycraft to verus anticheat", Notification.Type.SUCCESS));
-                      if(vulcanDebug.get()) ClientUtils.displayChatMessage("[DEBUG] VCliped & Damaged");
                }
                break;
             case "hycraftold":
@@ -470,8 +470,8 @@ public class Fly extends Module {
                 break;
             case "hycraft":
                 mc.thePlayer.capabilities.isFlying = false;
-                    if(FlyActive && hycraftDamaged) {
-                      mc.timer.timerSpeed = 0.85f;
+                    if(FlyActive && hycraftDamaged || FlyActive && hycraftDamaged && hycraftJump.get() && damageJumpTimes > 2) {
+                      mc.timer.timerSpeed = 0.75f;
                       mc.thePlayer.motionY = 0;
                       mc.thePlayer.motionX = 0;
                       mc.thePlayer.motionZ = 0;
@@ -770,10 +770,10 @@ public class Fly extends Module {
             if (mode.equalsIgnoreCase("clip") && clipGroundSpoof.get())
                 packetPlayer.onGround = true;
 
-            if (mode.equalsIgnoreCase("hycraft"))
+            if (mode.equalsIgnoreCase("hycraft") || mode.equalsIgnoreCase("hycraft") && hycraftJump.get() && damageJumpTimes > 3)
                 packetPlayer.onGround = true;
             
-            if (mode.equalsIgnoreCase("hycraftold") && damageJumpTimes > 2)
+            if (mode.equalsIgnoreCase("hycraftold"))
                 packetPlayer.onGround = true;
 
             if (mode.equalsIgnoreCase("hycraft") && damageJumpTimes < 3 && hycraftJump.get()) {
@@ -839,7 +839,7 @@ public class Fly extends Module {
                 break;
             case "hycraft":
                 if (!hycraftDamaged)
-                    if (hycraftJump.get())
+                    if (hycraftJump.get() && damageJumpTimes < 3)
                         event.zeroXZ();
                 break;
             case "verus": 
