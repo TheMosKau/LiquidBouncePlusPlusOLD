@@ -48,11 +48,6 @@ public class VulcanHop extends SpeedMode {
     }
 
     @Override
-    public void onEnable() {
-        super.onEnable();
-    }
-
-    @Override
     public void onDisable() {
         mc.timer.timerSpeed = 1F;
         super.onDisable();
