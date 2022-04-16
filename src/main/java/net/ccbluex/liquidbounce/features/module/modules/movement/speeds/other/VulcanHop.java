@@ -38,13 +38,17 @@ public class VulcanHop extends SpeedMode {
                     if (0.42 != 0) {
                         mc.thePlayer.motionY = 0.42;
                     }
-                }
                 groundTick++;
             } else {
                 groundTick = 0;
-                mc.thePlayer.motionY += 0.0f * 0.03;
+                mc.thePlayer.motionY += 0.0 * 0.03;
             }
         } 
+    }
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
     }
 
     @Override
