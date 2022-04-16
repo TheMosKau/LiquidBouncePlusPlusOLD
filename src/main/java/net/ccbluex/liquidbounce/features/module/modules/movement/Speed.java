@@ -84,6 +84,7 @@ public class Speed extends Module {
             new OnGround(),
             new YPort(),
             new YPort2(),
+            new VulcanHop(),
         
             // Verus
             new VerusHop(),
