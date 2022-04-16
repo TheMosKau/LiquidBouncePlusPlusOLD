@@ -35,8 +35,8 @@ public class VulcanHop extends SpeedMode {
                 if (groundTick >= 0) {
                         MovementUtils.strafe(0.483f);
                     }
-                    if (0.42f != 0) {
-                        mc.thePlayer.motionY = 0.42f;
+                    if (0.42 != 0) {
+                        mc.thePlayer.motionY = 0.42;
                     }
                 }
                 groundTick++;
@@ -49,11 +49,6 @@ public class VulcanHop extends SpeedMode {
 
     @Override
     public void onEnable() {
-        final Speed speed = (Speed) LiquidBounce.moduleManager.getModule(Speed.class);
-
-        if(speed == null)
-            return;
-
         super.onEnable();
     }
 
