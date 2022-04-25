@@ -138,7 +138,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         }
 
         if (displayString != null)
-            Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, RenderUtils.getRainbowOpaque(2, 2, 1f, 0)
+            Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, RenderUtils.getRainbowOpaque(2, 2, 1, 0))
         else 
             Fonts.font35.drawCenteredString("In account: " + mc.session.username, width / 2F, staticY + 30F, Color(255, 154, 31).rgb)
 
