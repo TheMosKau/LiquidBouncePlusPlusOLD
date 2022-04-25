@@ -273,11 +273,15 @@ public class Fly extends Module {
         moveSpeed = 0;
 
         switch (mode.toLowerCase()) {
-            case "supercraftdamage"
+            case "supercraftdamage":
+                moveSpeed = 1.3;
                 if(mc.thePlayer.onGround) {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
+                }
+                if(mc.thePlayer.hurtTime > 0 && !hycraftDamaged) {
+                      hycraftDamaged = true;
                 }
                 break;
             case "hycraft":
