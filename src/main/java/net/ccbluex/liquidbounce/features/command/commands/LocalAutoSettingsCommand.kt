@@ -14,7 +14,7 @@ import net.ccbluex.liquidbounce.utils.misc.StringUtils
 import java.io.File
 import java.io.IOException
 
-class LocalAutoSettingsCommand : Command("localautosettings", arrayOf("localsetting", "localsettings", "localconfig")) {
+class LocalAutoSettingsCommand : Command("config", arrayOf("localsetting", "localsettings", "localconfig", "localautoconfig")) {
     /**
      * Execute commands with provided [args]
      */
@@ -45,7 +45,7 @@ class LocalAutoSettingsCommand : Command("localautosettings", arrayOf("localsett
                         return
                     }
 
-                    chatSyntax("localautosettings load <name>")
+                    chatSyntax("config load <name>")
                     return
                 }
 
@@ -58,7 +58,7 @@ class LocalAutoSettingsCommand : Command("localautosettings", arrayOf("localsett
                                 scriptFile.delete()
                             scriptFile.createNewFile()
 
-                            val option = if (args.size > 3) StringUtils.toCompleteString(args, 3).toLowerCase() else "values"
+                            val option = if (args.size > 3) StringUtils.toCompleteString(args, 3).toLowerCase() else "values states"
                             val values = option.contains("all") || option.contains("values")
                             val binds = option.contains("all") || option.contains("binds")
                             val states = option.contains("all") || option.contains("states")
@@ -79,7 +79,7 @@ class LocalAutoSettingsCommand : Command("localautosettings", arrayOf("localsett
                         return
                     }
 
-                    chatSyntax("localsettings save <name> [all/values/binds/states]...")
+                    chatSyntax("config save <name> [all/values/binds/states]...")
                     return
                 }
 
@@ -97,7 +97,7 @@ class LocalAutoSettingsCommand : Command("localautosettings", arrayOf("localsett
                         return
                     }
 
-                    chatSyntax("localsettings delete <name>")
+                    chatSyntax("config delete <name>")
                     return
                 }
 
@@ -112,7 +112,7 @@ class LocalAutoSettingsCommand : Command("localautosettings", arrayOf("localsett
                 }
             }
         }
-        chatSyntax("localsettings <load/save/list/delete>")
+        chatSyntax("config <load/save/list/delete>")
     }
 
     override fun tabComplete(args: Array<String>): List<String> {
