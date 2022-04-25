@@ -76,7 +76,7 @@ public class Fly extends Module {
             "HycraftOld",
 
             // Supercraft
-            "SupecraftTimer",
+            "SupercraftTimer",
             "SupercraftDamage",
 
             // AAC
@@ -113,7 +113,10 @@ public class Fly extends Module {
 
     // Vulcan't
     private final BoolValue vulcanDebug = new BoolValue("Hycraft-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
-    private final BoolValue vulcanNotif = new BoolValue("Hycraft-Notification", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
+    private final BoolValue vulcanNotif = new BoolValue("Hycraft-SendNotification", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft"); });
+
+    // Supercraft
+    private final BoolValue supercraftDEV = new BoolValue("Supercraft-DEV", false, () -> { return modeValue.get().equalsIgnoreCase("supercrafttimer"); });
 
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -274,14 +277,11 @@ public class Fly extends Module {
 
         switch (mode.toLowerCase()) {
             case "supercraftdamage":
-                moveSpeed = 1.3;
+                moveSpeed = 1.5;
                 if(mc.thePlayer.onGround) {
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y + 4, mc.thePlayer.posZ, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, false));
                       PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, y, mc.thePlayer.posZ, true));
-                }
-                if(mc.thePlayer.hurtTime > 0 && !hycraftDamaged) {
-                      hycraftDamaged = true;
                 }
                 break;
             case "hycraft":
@@ -462,24 +462,21 @@ public class Fly extends Module {
                 break;
             case "supercraftdamage":
                 mc.thePlayer.capabilities.isFlying = false;
-                    if(hycraftDamaged) {
-                      mc.timer.timerSpeed = 0.85f;
-                      mc.thePlayer.motionY = 0;
-                      mc.thePlayer.motionX = 0;
-                      mc.thePlayer.motionZ = 0;
-                      if (!MovementUtils.isMoving())
-                      moveSpeed = 0.25;
-                      if (moveSpeed > 0.25) {
+                mc.timer.timerSpeed = 0.85f;
+                mc.thePlayer.motionY = 0;
+                mc.thePlayer.motionX = 0;
+                mc.thePlayer.motionZ = 0;
+                   if (!MovementUtils.isMoving())
+                         moveSpeed = 0.25;
+                   if (moveSpeed > 0.25) {
                           moveSpeed -= moveSpeed / 159.0;
                       }
-                      MovementUtils.strafe((float)moveSpeed);
+                MovementUtils.strafe((float)moveSpeed);
 
                      if (mc.gameSettings.keyBindJump.isKeyDown())
                         mc.thePlayer.motionY += 0.42;
                      if (mc.gameSettings.keyBindSneak.isKeyDown())
                         mc.thePlayer.motionY -= 0.42;
-
-                }
                 break;
             case "oldncp":
                 if(startY > mc.thePlayer.posY)
@@ -872,6 +869,11 @@ public class Fly extends Module {
                         event.zeroXZ();
                     else
                         event.cancelEvent();
+                break;
+            case "supercrafttimer":
+                 if (MovementUtils.isMoving() && supercraftDEV.get()) {
+                     mc.thePlayer.motionY += 0.07;
+                 }
                 break;
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
