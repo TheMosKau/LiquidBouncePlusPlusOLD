@@ -727,7 +727,7 @@ public class Fly extends Module {
                     pearlState = 1;    
                 }
 
-                if (pearlState == 1 && mc.thePlayer.hurtTime) 
+                if (pearlState == 1 && mc.thePlayer.hurtTime > 0) 
                     pearlState = 2;
 
                 if (pearlState == 2) {
