@@ -442,16 +442,51 @@ public class Fly extends Module {
                 handleVanillaKickBypass();
                 break;
             case "supercrafttimer":
-                mc.timer.timerSpeed = 0.25f;
-                mc.thePlayer.capabilities.isFlying = false;
-                mc.thePlayer.motionY = 0;
-                mc.thePlayer.motionX = 0;
-                mc.thePlayer.motionZ = 0;
+                if(supercraftDEV.get()) {
+                   mc.timer.timerSpeed = 0.25f;
+                   mc.thePlayer.capabilities.isFlying = false;
+                   mc.thePlayer.motionY = 0;
+                   mc.thePlayer.motionX = 0;
+                   mc.thePlayer.motionZ = 0;
                 if (mc.gameSettings.keyBindJump.isKeyDown())
                     mc.thePlayer.motionY += 0.42;
                 if (mc.gameSettings.keyBindSneak.isKeyDown())
                     mc.thePlayer.motionY -= 0.42;
-                MovementUtils.strafe(5.5f);
+                } else {
+                int enderPearlSlot = getPearlSlot();
+                if (pearlState == 0) {
+                    if (enderPearlSlot == -1) {
+                        LiquidBounce.hud.addNotification(new Notification("You don't have any ender pearl!", Notification.Type.ERROR));
+                        pearlState = -1;
+                        this.setState(false);
+                        return;
+                    }
+
+                    if (mc.thePlayer.inventory.currentItem != enderPearlSlot) {
+                        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(enderPearlSlot));
+                    }
+
+                    mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, 90, mc.thePlayer.onGround));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventoryContainer.getSlot(enderPearlSlot + 36).getStack(), 0, 0, 0));
+                    if (enderPearlSlot != mc.thePlayer.inventory.currentItem) {
+                        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                    }
+                    pearlState = 2;    
+                }
+
+                if (pearlState == 2) {
+                   mc.timer.timerSpeed = 0.37f;
+                   mc.thePlayer.capabilities.isFlying = false;
+                   mc.thePlayer.motionY = 0;
+                   mc.thePlayer.motionX = 0;
+                   mc.thePlayer.motionZ = 0;
+                if (mc.gameSettings.keyBindJump.isKeyDown())
+                    mc.thePlayer.motionY += 1;
+                if (mc.gameSettings.keyBindSneak.isKeyDown())
+                    mc.thePlayer.motionY -= 1;
+                MovementUtils.strafe(5.5f); 
+                }
+            }
                 break;
             case "ncp":
                 mc.thePlayer.motionY = -ncpMotionValue.get();
@@ -692,7 +727,7 @@ public class Fly extends Module {
                     pearlState = 1;    
                 }
 
-                if (pearlState == 1 && mc.thePlayer.hurtTime > 0) 
+                if (pearlState == 1 && mc.thePlayer.hurtTime) 
                     pearlState = 2;
 
                 if (pearlState == 2) {
@@ -872,7 +907,7 @@ public class Fly extends Module {
                 break;
             case "supercrafttimer":
                  if (MovementUtils.isMoving() && supercraftDEV.get()) {
-                     mc.thePlayer.motionY += 0.07;
+                     
                  }
                 break;
             case "clip":
