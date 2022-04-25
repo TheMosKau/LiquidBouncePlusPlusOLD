@@ -52,11 +52,11 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
             lastAnimTick = System.currentTimeMillis()
             alrUpdate = true
         }
-        val creditInfo = "We do a little trolling."
+        val creditInfo = "Supercraft plugins leaked xD"
         drawBackground(0)
         GL11.glPushMatrix()
         renderSwitchButton()
-        Fonts.font40.drawStringWithShadow("LiquidBounce++ (test version)", 2F, height - 12F, -1)
+        Fonts.font40.drawStringWithShadow("LiquidBounce++", 2F, height - 12F, -1)
         Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
         if (useParallax) moveMouseEffect(mouseX, mouseY, 10F)
         GlStateManager.disableAlpha()
@@ -138,9 +138,9 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         }
 
         if (displayString != null)
-            Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, -1)
+            Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, RenderUtils.getRainbowOpaque(2, 2, 1f, 0)
         else 
-            Fonts.font35.drawCenteredString("Welcome back, " + mc.session.username, width / 2F, staticY + 30F, Color(255, 154, 31).rgb)
+            Fonts.font35.drawCenteredString("In account: " + mc.session.username, width / 2F, staticY + 30F, Color(255, 154, 31).rgb)
 
         if (shouldAnimate) {
             if (fade == 0F)
