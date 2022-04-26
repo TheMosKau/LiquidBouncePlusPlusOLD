@@ -432,9 +432,9 @@ public class Fly extends Module {
                 handleVanillaKickBypass();
                 break;
             case "supercraft":
-                int enderPearlSlot = getPearlSlot();
+                int PearlSlot = getPearlSlot();
                 if (pearlState == 0) {
-                    if (enderPearlSlot == -1) {
+                    if (PearlSlot == -1) {
                         LiquidBounce.hud.addNotification(new Notification("Switching to non-pearl fly", Notification.Type.WARNING));
                         LiquidBounce.hud.addNotification(new Notification("This is more risk to get you banned!.", Notification.Type.INFO));
                         pearlState = -1;
@@ -446,12 +446,12 @@ public class Fly extends Module {
                         MovementUtils.strafe(5.5f);
                     }
 
-                    if (mc.thePlayer.inventory.currentItem != enderPearlSlot) {
-                        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(enderPearlSlot));
+                    if (mc.thePlayer.inventory.currentItem != PearlSlot) {
+                        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(PearlSlot));
                     }
 
                     mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, 90, mc.thePlayer.onGround));
-                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventoryContainer.getSlot(enderPearlSlot + 36).getStack(), 0, 0, 0));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventoryContainer.getSlot(PearlSlot + 36).getStack(), 0, 0, 0));
                     if (enderPearlSlot != mc.thePlayer.inventory.currentItem) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                     }
