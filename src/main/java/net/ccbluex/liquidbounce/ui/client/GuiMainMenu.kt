@@ -53,11 +53,15 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
             alrUpdate = true
         }
         val creditInfo = "Supercraft plugins leaked xD"
+        val update = "Client update found!, Please download new update."
         drawBackground(0)
         GL11.glPushMatrix()
         renderSwitchButton()
         Fonts.font40.drawStringWithShadow("LiquidBounce++", 2F, height - 12F, -1)
-        Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
+        if (LiquidBounce.latestver > LiquidBounce.CLIENT_VERSION)
+            Fonts.font40.drawStringWithShadow(update, width - 3F - Fonts.font40.getStringWidth(update), height - 12F, -1)
+        else
+            Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
         if (useParallax) moveMouseEffect(mouseX, mouseY, 10F)
         GlStateManager.disableAlpha()
         RenderUtils.drawImage2(bigLogo, width / 2F - 50F, height / 2F - 90F, 100, 100)
