@@ -114,9 +114,6 @@ public class Fly extends Module {
     private final BoolValue vulcanDebug = new BoolValue("Hycraft-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
     private final BoolValue vulcanNotif = new BoolValue("Hycraft-SendNotification", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft"); });
 
-    // Supercraft
-    private final BoolValue supercraftDEV = new BoolValue("Supercraft-UsePearl", true, () -> { return modeValue.get().equalsIgnoreCase("supercraft"); });
-
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
     private final BoolValue aac5NofallValue = new BoolValue("AAC5-NoFall", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -435,14 +432,18 @@ public class Fly extends Module {
                 handleVanillaKickBypass();
                 break;
             case "supercraft":
-                if(supercraftDEV.get()) {
-                   int enderPearlSlot = getPearlSlot();
+                int enderPearlSlot = getPearlSlot();
                 if (pearlState == 0) {
                     if (enderPearlSlot == -1) {
-                        LiquidBounce.hud.addNotification(new Notification("You need ender pearl to fly!.", Notification.Type.ERROR));
+                        LiquidBounce.hud.addNotification(new Notification("Switching to non-pearl fly", Notification.Type.WARNING));
+                        LiquidBounce.hud.addNotification(new Notification("This is more risk to get you banned!.", Notification.Type.INFO));
                         pearlState = -1;
-                        this.setState(false);
-                        return;
+                        mc.timer.timerSpeed = 0.3f;
+                        mc.thePlayer.capabilities.isFlying = false;
+                        mc.thePlayer.motionY = 0;
+                        mc.thePlayer.motionX = 0;
+                        mc.thePlayer.motionZ = 0;
+                        MovementUtils.strafe(5.5f);
                     }
 
                     if (mc.thePlayer.inventory.currentItem != enderPearlSlot) {
@@ -458,7 +459,7 @@ public class Fly extends Module {
                 }
 
                 if (pearlState == 2) {
-                   mc.timer.timerSpeed = 0.37f;
+                   mc.timer.timerSpeed = 0.4f;
                    mc.thePlayer.capabilities.isFlying = false;
                    mc.thePlayer.motionY = 0;
                    mc.thePlayer.motionX = 0;
@@ -467,16 +468,8 @@ public class Fly extends Module {
                     mc.thePlayer.motionY += 1;
                 if (mc.gameSettings.keyBindSneak.isKeyDown())
                     mc.thePlayer.motionY -= 1;
-                MovementUtils.strafe(5.5f); 
-              } 
-                } else {
-                   mc.timer.timerSpeed = 0.37f;
-                   mc.thePlayer.capabilities.isFlying = false;
-                   mc.thePlayer.motionY = 0;
-                   mc.thePlayer.motionX = 0;
-                   mc.thePlayer.motionZ = 0;
-                   MovementUtils.strafe(5.5f);
-            }
+                MovementUtils.strafe(5.2f); 
+              }
                 break;
             case "ncp":
                 mc.thePlayer.motionY = -ncpMotionValue.get();
