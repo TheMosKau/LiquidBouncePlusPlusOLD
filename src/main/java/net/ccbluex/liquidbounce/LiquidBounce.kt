@@ -146,6 +146,8 @@ object LiquidBounce {
         // Load generators
         GuiAltManager.loadGenerators()
 
+        ClientUtils.getLogger().info("Checking new update...")
+
         try {
             // Read versions json from cloud
             val jsonObj = JsonParser()
@@ -155,6 +157,7 @@ object LiquidBounce {
             if (jsonObj is JsonObject && jsonObj.has(JSONSHT)) {
                 // Get offical latest client version
                 latestver = jsonObj[JSONSHT].toString()
+                ClientUtils.getLogger().info("Version from cloud: " + jsonObj[JSONSHT].toString())
             }
         } catch (exception: Throwable) { // Print throwable to console
             ClientUtils.getLogger().error("Failed to check for new updates.", exception)
