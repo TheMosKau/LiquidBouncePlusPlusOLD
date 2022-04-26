@@ -39,8 +39,9 @@ object LiquidBounce {
     // Client information
     const val CLIENT_NAME = "LiquidBounce++"
     const val CLIENT_VERSION = "0.2"
+    const val MC_VERSION = "1.8.9"
     const val CLIENT_CREATOR = "CCBlueX, WYSI-Foundation and TheMosKau"
-    const val CLIENT_CLOUD = "https://wysi-foundation.github.io/LiquidCloud/LiquidBounce"
+    const val CLIENT_CLOUD = "https://themoskau.github.io/LiquidCloud/LiquidBounce"
 
     var isStarting = false
     var mainMenuPrep = false
@@ -60,6 +61,9 @@ object LiquidBounce {
 
     // Menu Background
     var background: ResourceLocation? = null
+
+    // Update information
+    var latestVersion = 0
 
     // Discord RPC
     lateinit var clientRichPresence: ClientRichPresence
@@ -138,6 +142,20 @@ object LiquidBounce {
 
         // Load generators
         GuiAltManager.loadGenerators()
+
+        try {
+            // Read versions json from cloud
+            val jsonObj = JsonParser()
+                    .parse(HttpUtils.get("$CLIENT_CLOUD/version.json"))
+
+            // Check json is valid object and has current minecraft version
+            if (jsonObj is JsonObject && jsonObj.has(MC_VERSION)) {
+                // Get offical latest client version
+                latestVersion = jsonObj[MC_VERSION].asInt
+            }
+        } catch (exception: Throwable) { // Print throwable to console
+            ClientUtils.getLogger().error("Failed to check for new updates.", exception)
+        }
 
         // Setup Discord RPC
         if (clientRichPresence.showRichPresenceValue) {
