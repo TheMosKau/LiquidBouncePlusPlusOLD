@@ -58,7 +58,7 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         GL11.glPushMatrix()
         renderSwitchButton()
         Fonts.font40.drawStringWithShadow("LiquidBounce++", 2F, height - 12F, -1)
-        if (LiquidBounce.latestver > LiquidBounce.CLIENT_VERSION)
+        if (LiquidBounce.latestver != LiquidBounce.CLIENT_VERSION && LiquidBounce.latestver.isNotEmpty())
             Fonts.font40.drawStringWithShadow(update, width - 3F - Fonts.font40.getStringWidth(update), height - 12F, -1)
         else
             Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
