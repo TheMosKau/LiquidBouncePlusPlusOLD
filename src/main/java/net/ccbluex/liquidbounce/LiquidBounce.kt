@@ -34,6 +34,7 @@ import net.ccbluex.liquidbounce.utils.SessionUtils
 import net.ccbluex.liquidbounce.utils.misc.sound.TipSoundManager
 import net.minecraft.util.ResourceLocation
 import kotlin.concurrent.thread
+import net.ccbluex.liquidbounce.utils.misc.HttpUtils
 import java.io.File
 
 object LiquidBounce {
@@ -65,7 +66,7 @@ object LiquidBounce {
     var background: ResourceLocation? = null
 
     // Update information
-    var latestVersion = 0
+    var latestver = 0
 
     // Discord RPC
     lateinit var clientRichPresence: ClientRichPresence
