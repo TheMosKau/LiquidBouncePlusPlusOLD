@@ -42,7 +42,7 @@ object LiquidBounce {
     // Client information
     const val CLIENT_NAME = "LiquidBounce++"
     const val CLIENT_VERSION = "0.2"
-    const val MC_VERSION = "1.8.9"
+    const val JSONSHT = "public"
     const val CLIENT_CREATOR = "CCBlueX, WYSI-Foundation and TheMosKau"
     const val CLIENT_CLOUD = "https://themoskau.github.io/LiquidCloud/LiquidBounce"
 
@@ -152,9 +152,9 @@ object LiquidBounce {
                     .parse(HttpUtils.get("$CLIENT_CLOUD/version.json"))
 
             // Check json is valid object and has current minecraft version
-            if (jsonObj is JsonObject && jsonObj.has(MC_VERSION)) {
+            if (jsonObj is JsonObject && jsonObj.has(JSONSHT)) {
                 // Get offical latest client version
-                latestver = jsonObj[MC_VERSION].asInt
+                latestver = jsonObj[JSONSHT]
             }
         } catch (exception: Throwable) { // Print throwable to console
             ClientUtils.getLogger().error("Failed to check for new updates.", exception)
