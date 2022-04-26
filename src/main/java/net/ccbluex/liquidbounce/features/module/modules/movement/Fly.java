@@ -444,6 +444,7 @@ public class Fly extends Module {
                         mc.thePlayer.motionX = 0;
                         mc.thePlayer.motionZ = 0;
                         MovementUtils.strafe(5.5f);
+                        return;
                     }
 
                     if (mc.thePlayer.inventory.currentItem != PearlSlot) {
