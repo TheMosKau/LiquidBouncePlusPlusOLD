@@ -154,7 +154,7 @@ object LiquidBounce {
             // Check json is valid object and has current minecraft version
             if (jsonObj is JsonObject && jsonObj.has(JSONSHT)) {
                 // Get offical latest client version
-                latestver = jsonObj.getString(JSONSHT)
+                latestver = jsonObj[JSONSHT].toString()
             }
         } catch (exception: Throwable) { // Print throwable to console
             ClientUtils.getLogger().error("Failed to check for new updates.", exception)
