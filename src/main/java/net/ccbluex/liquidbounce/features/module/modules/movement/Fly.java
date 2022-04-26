@@ -452,7 +452,7 @@ public class Fly extends Module {
 
                     mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, 90, mc.thePlayer.onGround));
                     mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventoryContainer.getSlot(PearlSlot + 36).getStack(), 0, 0, 0));
-                    if (enderPearlSlot != mc.thePlayer.inventory.currentItem) {
+                    if (PearlSlot != mc.thePlayer.inventory.currentItem) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                     }
                     pearlState = 2;    
@@ -869,11 +869,6 @@ public class Fly extends Module {
                         event.zeroXZ();
                     else
                         event.cancelEvent();
-                break;
-            case "supercrafttimer":
-                 if (MovementUtils.isMoving() && supercraftDEV.get()) {
-                     
-                 }
                 break;
             case "clip":
                 if (clipNoMove.get()) event.zeroXZ();
