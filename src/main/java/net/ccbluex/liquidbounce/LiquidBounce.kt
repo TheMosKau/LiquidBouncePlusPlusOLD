@@ -66,7 +66,7 @@ object LiquidBounce {
     var background: ResourceLocation? = null
 
     // Update information
-    var latestver = 0
+    var latestver = ""
 
     // Discord RPC
     lateinit var clientRichPresence: ClientRichPresence
