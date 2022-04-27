@@ -447,6 +447,7 @@ public class Fly extends Module {
                         MovementUtils.strafe(5.5f);
                     } else {
                        pearlState = 1;
+                    }
 
                     if (pearlState == 1 && mc.thePlayer.inventory.currentItem != PearlSlot) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(PearlSlot));
