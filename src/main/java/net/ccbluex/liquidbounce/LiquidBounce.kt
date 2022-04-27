@@ -158,6 +158,7 @@ object LiquidBounce {
                 // Get offical latest client version
                 latestver = jsonObj[JSONSHT].toString()
                 ClientUtils.getLogger().info("Build from cloud: " + jsonObj[JSONSHT].toString())
+                ClientUtils.getLogger().info("latestver = " + latestver)
             }
         } catch (exception: Throwable) { // Print throwable to console
             ClientUtils.getLogger().error("Failed to check for new updates.", exception)
