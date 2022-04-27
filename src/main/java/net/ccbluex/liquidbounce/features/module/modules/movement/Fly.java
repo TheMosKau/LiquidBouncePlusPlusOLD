@@ -114,6 +114,8 @@ public class Fly extends Module {
     private final BoolValue vulcanDebug = new BoolValue("Hycraft-Debug", true, () -> { return modeValue.get().equalsIgnoreCase("vulcannew"); });
     private final BoolValue vulcanNotif = new BoolValue("Hycraft-SendNotification", true, () -> { return modeValue.get().equalsIgnoreCase("hycraft"); });
 
+    private final BoolValue supercraftDEV = new BoolValue("Supercraft-Test", false, () -> { return modeValue.get().equalsIgnoreCase("supercraft"); });
+
     // AAC
     private final BoolValue aac5NoClipValue = new BoolValue("AAC5-NoClip", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
     private final BoolValue aac5NofallValue = new BoolValue("AAC5-NoFall", true, () -> { return modeValue.get().equalsIgnoreCase("aac5-vanilla"); });
@@ -435,31 +437,32 @@ public class Fly extends Module {
                 int PearlSlot = getPearlSlot();
                 if (pearlState == 0) {
                     if (PearlSlot == -1) {
-                        LiquidBounce.hud.addNotification(new Notification("Switching to non-pearl fly", Notification.Type.WARNING));
-                        LiquidBounce.hud.addNotification(new Notification("This is more risk to get you banned!.", Notification.Type.INFO));
-                        pearlState = -1;
+                        LiquidBounce.hud.addNotification(new Notification("Switching to non-pearl fly", Notification.Type.INFO));
+                        LiquidBounce.hud.addNotification(new Notification("This is more risk to get you banned!.", Notification.Type.WARNING));
                         mc.timer.timerSpeed = 0.3f;
                         mc.thePlayer.capabilities.isFlying = false;
                         mc.thePlayer.motionY = 0;
                         mc.thePlayer.motionX = 0;
                         mc.thePlayer.motionZ = 0;
                         MovementUtils.strafe(5.5f);
-                        return;
-                    }
+                    } else {
+                       pearlState = 1;
 
-                    if (mc.thePlayer.inventory.currentItem != PearlSlot) {
+                    if (pearlState == 1 && mc.thePlayer.inventory.currentItem != PearlSlot) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(PearlSlot));
+                        pearlState = 2;
+                    }
+                    
+                    if (pearlState == 2) {
+                        mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, 90, mc.thePlayer.onGround));
+                        mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventoryContainer.getSlot(PearlSlot + 36).getStack(), 0, 0, 0));
+                        if (PearlSlot != mc.thePlayer.inventory.currentItem) {
+                            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                        }
+                        pearlState = 3;    
                     }
 
-                    mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, 90, mc.thePlayer.onGround));
-                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventoryContainer.getSlot(PearlSlot + 36).getStack(), 0, 0, 0));
-                    if (PearlSlot != mc.thePlayer.inventory.currentItem) {
-                        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
-                    }
-                    pearlState = 2;    
-                }
-
-                if (pearlState == 2) {
+                if (pearlState == 3) {
                    mc.timer.timerSpeed = 0.4f;
                    mc.thePlayer.capabilities.isFlying = false;
                    mc.thePlayer.motionY = 0;
@@ -862,6 +865,11 @@ public class Fly extends Module {
             case "pearl":
                 if (pearlState != 2 && pearlState != -1) {
                     event.cancelEvent();
+                }
+                break;
+            case "supercraft":
+                if (pearlState != 0 && pearlState != 3 && supercraftDEV.get()) {
+                    event.zeroXZ();
                 }
                 break;
             case "verus": 
