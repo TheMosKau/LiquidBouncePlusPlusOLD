@@ -57,11 +57,8 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         drawBackground(0)
         GL11.glPushMatrix()
         renderSwitchButton()
-        Fonts.font40.drawStringWithShadow("LiquidBounce++", 2F, height - 12F, -1)
-        if (LiquidBounce.latestver == LiquidBounce.CLIENT_VERSION)
-            Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(update), height - 12F, -1)
-        else
-            Fonts.font40.drawStringWithShadow(update, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
+        Fonts.font40.drawStringWithShadow(LiquidBounce.CLIENT_NAME, 2F, height - 12F, -1)
+        Fonts.font40.drawStringWithShadow(creditInfo, width - 3F - Fonts.font40.getStringWidth(creditInfo), height - 12F, -1)
         if (useParallax) moveMouseEffect(mouseX, mouseY, 10F)
         GlStateManager.disableAlpha()
         RenderUtils.drawImage2(bigLogo, width / 2F - 50F, height / 2F - 90F, 100, 100)
@@ -142,9 +139,9 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
         }
 
         if (displayString != null)
-            Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, RenderUtils.getRainbowOpaque(2, 0.9f, 1.0f, 0))
+            Fonts.font35.drawCenteredString(displayString!!, width / 2F, staticY + 30F, Color(255, 255, 255).rgb)
         else 
-            Fonts.font35.drawCenteredString("In account: " + mc.session.username, width / 2F, staticY + 30F, Color(255, 154, 31).rgb)
+            Fonts.font35.drawCenteredString("Logged on account: " + mc.session.username, width / 2F, staticY + 30F, RenderUtils.getRainbowOpaque(2, 0.9f, 1.0f, 0))
 
         if (shouldAnimate) {
             if (fade == 0F)
@@ -178,9 +175,9 @@ class GuiMainMenu : GuiScreen(), GuiYesNoCallback {
     fun isMouseHover(x: Float, y: Float, x2: Float, y2: Float, mouseX: Int, mouseY: Int): Boolean = mouseX >= x && mouseX < x2 && mouseY >= y && mouseY < y2
 
     enum class ImageButton(val buttonName: String, val texture: ResourceLocation) {
-        Single("Singleplayer", ResourceLocation("liquidbounce+/menu/singleplayer.png")),
-        Multi("Multiplayer", ResourceLocation("liquidbounce+/menu/multiplayer.png")),
-        Alts("AltsManager", ResourceLocation("liquidbounce+/menu/alt.png")),
+        Single("Single player", ResourceLocation("liquidbounce+/menu/singleplayer.png")),
+        Multi("Multi player", ResourceLocation("liquidbounce+/menu/multiplayer.png")),
+        Alts("Alts Manager", ResourceLocation("liquidbounce+/menu/alt.png")),
         Settings("Settings", ResourceLocation("liquidbounce+/menu/settings.png")),
         Mods("Mods/Customize", ResourceLocation("liquidbounce+/menu/mods.png")),
         Exit("Exit", ResourceLocation("liquidbounce+/menu/exit.png"))
