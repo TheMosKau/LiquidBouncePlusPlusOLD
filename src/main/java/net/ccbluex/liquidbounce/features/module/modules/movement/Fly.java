@@ -462,6 +462,7 @@ public class Fly extends Module {
                         }
                         pearlState = 3;    
                     }
+                }
 
                 if (pearlState == 3) {
                    mc.timer.timerSpeed = 0.4f;
