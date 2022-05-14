@@ -15,6 +15,7 @@ LiquidBounce++ discord: https://discord.gg/EyqcPDEBd8
 - [WYSI-Foundation/LiquidBouncePlus](https://github.com/WYSI-Foundation/LiquidBouncePlus)
 - [FlorianMichael/ViaForge](https://github.com/FlorianMichael/ViaForge/)
 - [Sk1erLLC/Patcher](https://github.com/Sk1erLLC/Patcher/)
+- EpocCatto for being cool
 
 ## Issues
 If you notice any bugs or missing features, you can let us know by opening an issue [here](https://github.com/TheMosKau/LiquidBouncePlusPlus/issues).
