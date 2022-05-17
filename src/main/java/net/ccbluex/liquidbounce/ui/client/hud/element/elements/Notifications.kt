@@ -39,7 +39,7 @@ class Notifications(x: Double = 0.0, y: Double = 30.0, scale: Float = 1F,
     private val smoothYTransition = BoolValue("Smooth-YTransition", true)
     private val blurValue = BoolValue("Blur", false)
     private val blurStrength = FloatValue("Blur-Strength", 0F, 0F, 30F)
-    private val styleValue = ListValue("Style", arrayOf("Compact", "Full", "New"), "Compact")
+    private val styleValue = ListValue("Style", arrayOf("Compact", "Full", "New"), "New")
     private val newAnimValue = BoolValue("UseNewAnim", true)
     private val animationSpeed = FloatValue("Anim-Speed", 0.5F, 0.01F, 1F, { newAnimValue.get() })
     private val bgRedValue = IntegerValue("Background-Red", 0, 0, 255)
