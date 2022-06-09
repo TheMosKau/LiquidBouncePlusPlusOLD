@@ -31,7 +31,7 @@ public class Sneak extends Module {
         if(mc.thePlayer == null)
             return;
 
-        if("vanilla".equalsIgnoreCase(modeValue.get())) {
+        if("vanilla".equalsIgnoreCase(modeValue.get()) || "switch".equalsIgnoreCase(modeValue.get())) {
             mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
         }
     }
@@ -58,11 +58,9 @@ public class Sneak extends Module {
                         if (!MovementUtils.isMoving())
                             return;
 
-                        mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
                         mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
                         break;
                     case POST:
-                        mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
                         mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
                         break;
                 }
@@ -92,12 +90,12 @@ public class Sneak extends Module {
 
         switch(modeValue.get().toLowerCase()) {
             case "legit":
-            case "vanilla":
-            case "switch":
             case "aac3.6.4":
                 if(!GameSettings.isKeyDown(mc.gameSettings.keyBindSneak))
                     mc.gameSettings.keyBindSneak.pressed = false;
                 break;
+            case "vanilla":
+            case "switch":
             case "minesecure":
                 mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
                 break;

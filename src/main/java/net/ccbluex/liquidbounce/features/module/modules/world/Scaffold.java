@@ -378,8 +378,6 @@ public class Scaffold extends Module {
                             ++verusState;
                             break;
                         case 1:
-                            ++verusState;
-                            break;
                         case 2:
                             ++verusState;
                             break;
@@ -551,7 +549,6 @@ public class Scaffold extends Module {
             float calcStrafe = 0F;
             /*
             Rotation Dif
-
             7 \ 0 / 1     +  +  +      +  |  -
             6   +   2     -- F --      +  S  -
             5 / 4 \ 3     -  -  -      +  |  -
