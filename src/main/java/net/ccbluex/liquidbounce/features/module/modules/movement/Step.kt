@@ -60,8 +60,8 @@ class Step : Module() {
     override fun onDisable() {
         mc.thePlayer ?: return
 
-        // Change step height back to default (0.5 is default)
-        mc.thePlayer.stepHeight = 0.5F
+        // Change step height back to default (0.6 is default)
+        mc.thePlayer.stepHeight = 0.6F
         mc.timer.timerSpeed = 1.0F
         mc.thePlayer.speedInAir = 0.02F
     }
@@ -194,8 +194,8 @@ class Step : Module() {
                 mode.equals("Jump", ignoreCase = true) || mode.equals("MotionNCP", ignoreCase = true)
                 || mode.equals("LAAC", ignoreCase = true) || mode.equals("AAC3.3.4", ignoreCase = true)
                 || mode.equals("AACv4", ignoreCase = true) || mode.equals("1.5Twillight", true)) {
-            mc.thePlayer.stepHeight = 0.5F
-            event.stepHeight = 0.5F
+            mc.thePlayer.stepHeight = 0.6F
+            event.stepHeight = 0.6F
             return
         }
 
@@ -207,7 +207,7 @@ class Step : Module() {
         event.stepHeight = height
 
         // Detect possible step
-        if (event.stepHeight > 0.5F) {
+        if (event.stepHeight > 0.6F) {
             isStep = true
             stepX = mc.thePlayer.posX
             stepY = mc.thePlayer.posY
@@ -220,7 +220,7 @@ class Step : Module() {
         if (mc.thePlayer == null || !isStep) // Check if step
             return
 
-        if (mc.thePlayer.entityBoundingBox.minY - stepY > 0.5) { // Check if full block step
+        if (mc.thePlayer.entityBoundingBox.minY - stepY > 0.6) { // Check if full block step
             val mode = modeValue.get()
 
             when {
