@@ -378,8 +378,6 @@ public class Scaffold extends Module {
                             ++verusState;
                             break;
                         case 1:
-                            ++verusState;
-                            break;
                         case 2:
                             ++verusState;
                             break;
