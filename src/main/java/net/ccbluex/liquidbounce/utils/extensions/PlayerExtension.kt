@@ -20,18 +20,18 @@ fun Entity.getDistanceToEntityBox(entity: Entity): Double {
 }
 
 fun Entity.squaredBoxedDistanceTo(entity: Entity): Double {
-    val eyes = entity.getCameraPosVec(1F)
-    val pos = getNearestPointBB(eyes, boundingBox)
+    val eyes = this.getPositionEyes(1F)
+    val pos = getNearestPointBB(eyes, entity.entityBoundingBox)
 
-    val xDist = pos.x - eyes.x
-    val yDist = pos.y - eyes.y
-    val zDist = pos.z - eyes.z
+    val xDist = pos.xCoord - eyes.xCoord
+    val yDist = pos.yCoord - eyes.yCoord
+    val zDist = pos.zCoord - eyes.zCoord
 
     return xDist * xDist + yDist * yDist + zDist * zDist
 }
 
 fun getNearestPointBB(eyes: Vec3d, box: Box): Vec3d {
-    val origin = doubleArrayOf(eyes.x, eyes.y, eyes.z)
+    val origin = doubleArrayOf(eyes.xCoord, eyes.yCoord, eyes.zCoord)
     val destMins = doubleArrayOf(box.minX, box.minY, box.minZ)
     val destMaxs = doubleArrayOf(box.maxX, box.maxY, box.maxZ)
 
