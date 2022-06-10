@@ -29,34 +29,24 @@ class SuperKnockback : Module() {
 
     @EventTarget
     // i added since LB only have one superKnockback mode.ik there is superkb script that better than this
+    // actually, there is, https://forums.ccbluex.net/topic/1042/core-better-superknock
     fun onAttack(event: AttackEvent) {
         if (event.targetEntity is EntityLivingBase) {
             if (event.targetEntity.hurtTime > hurtTimeValue.get() || !timer.hasTimePassed(delay.get().toLong()))
                 return
             when (modeValue.get().toLowerCase()) {
                 "extrapacket" -> {
-                    if (mc.thePlayer.isSprinting)
-                        mc.thePlayer.isSprinting = true
-                    mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING))
-
                     mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING))
-                    mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING))
-                    mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING))
-                    mc.thePlayer.serverSprintState = true
+                    // added that so you don't get stuck in sprint state without sprinting
+                    mc.thePlayer.isSprinting = true
                 }
 
                 "wtap" -> {
                     if (mc.thePlayer.isSprinting)
-                        mc.thePlayer.isSprinting = false
-                    mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING))
-                    mc.thePlayer.serverSprintState = true
+                        mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING))
                 }
                 "packet" -> {
-                    if(mc.thePlayer.isSprinting)
-                        mc.thePlayer.isSprinting = true
-                    mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING))
                     mc.netHandler.addToSendQueue(C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING))
-                    mc.thePlayer.serverSprintState = true
                 }
             }
             timer.reset()
