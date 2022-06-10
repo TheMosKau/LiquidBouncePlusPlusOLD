@@ -16,33 +16,20 @@ import kotlin.math.sqrt
  * Allows to get the distance between the current entity and [entity] from the nearest corner of the bounding box
  */
 fun Entity.getDistanceToEntityBox(entity: Entity): Double {
-    return sqrt(squaredBoxedDistanceTo(entity))
-}
-
-fun Entity.squaredBoxedDistanceTo(entity: Entity): Double {
-    val eyes = this.getPositionEyes(1F)
+    val eyes = this.getPositionEyes(0f)
     val pos = getNearestPointBB(eyes, entity.entityBoundingBox)
-
-    val xDist = pos.xCoord - eyes.xCoord
-    val yDist = pos.yCoord - eyes.yCoord
-    val zDist = pos.zCoord - eyes.zCoord
-
-    return xDist * xDist + yDist * yDist + zDist * zDist
+    val xDist = abs(pos.xCoord - eyes.xCoord)
+    val yDist = abs(pos.yCoord - eyes.yCoord)
+    val zDist = abs(pos.zCoord - eyes.zCoord)
+    return sqrt(xDist.pow(2) + yDist.pow(2) + zDist.pow(2))
 }
 
-fun getNearestPointBB(eyes: Vec3d, box: Box): Vec3d {
-    val origin = doubleArrayOf(eyes.xCoord, eyes.yCoord, eyes.zCoord)
+fun getNearestPointBB(eye: Vec3, box: AxisAlignedBB): Vec3 {
+    val origin = doubleArrayOf(eye.xCoord, eye.yCoord, eye.zCoord)
     val destMins = doubleArrayOf(box.minX, box.minY, box.minZ)
     val destMaxs = doubleArrayOf(box.maxX, box.maxY, box.maxZ)
-
-    // It loops through every coordinate of the double arrays and picks the nearest point
     for (i in 0..2) {
-        if (origin[i] > destMaxs[i]) {
-            origin[i] = destMaxs[i]
-        } else if (origin[i] < destMins[i]) {
-            origin[i] = destMins[i]
-        }
+        if (origin[i] > destMaxs[i]) origin[i] = destMaxs[i] else if (origin[i] < destMins[i]) origin[i] = destMins[i]
     }
-
-    return Vec3d(origin[0], origin[1], origin[2])
+    return Vec3(origin[0], origin[1], origin[2])
 }
