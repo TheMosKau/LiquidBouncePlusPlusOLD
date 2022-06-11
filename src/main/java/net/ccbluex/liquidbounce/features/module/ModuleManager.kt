@@ -116,6 +116,8 @@ class ModuleManager : Listenable {
                 PotionSaver::class.java,
                 CameraClip::class.java,
                 WaterSpeed::class.java,
+				NoClip::class.java,
+				CivBreak::class.java,
                 SuperKnockback::class.java,
                 Reach::class.java,
                 Rotations::class.java,
