@@ -34,7 +34,7 @@ class NoClip : Module() {
 		mc.thePlayer.noClip = true
 		mc.thePlayer.jumpMovementFactor = 0.0f
         val speed = speed.get()
-        val yaw = MovementUtils.getDirectionRotation(mc.thePlayer!!.rotationYaw, mc.thePlayer!!.moveStrafing, mc.thePlayer!!.moveForward).toDouble()
+        val yaw = getMoveYaw().toDouble()
 		mc.thePlayer.onGround = false
 		if (mc.thePlayer!!.movementInput.moveForward != 0F || mc.thePlayer!!.movementInput.moveStrafe != 0F) {
 			mc.thePlayer!!.motionX = -Math.sin(Math.toRadians(yaw)) * speed.toDouble()
@@ -51,5 +51,21 @@ class NoClip : Module() {
 		} else {
 			mc.thePlayer!!.motionY = 0.0
 		}
+    }
+    private fun getMoveYaw(): Float {
+        var moveYaw = mc.thePlayer!!.rotationYaw
+        if (mc.thePlayer!!.moveForward != 0F && mc.thePlayer!!.moveStrafing == 0F) {
+            moveYaw += if(mc.thePlayer!!.moveForward > 0) 0 else 180
+        } else if (mc.thePlayer!!.moveForward != 0F && mc.thePlayer!!.moveStrafing != 0F) {
+            if (mc.thePlayer!!.moveForward > 0) {
+                moveYaw += if (mc.thePlayer!!.moveStrafing > 0) -45 else 45
+            } else {
+                moveYaw -= if (mc.thePlayer!!.moveStrafing > 0) -45 else 45
+            }
+            moveYaw += if(mc.thePlayer!!.moveForward > 0) 0 else 180
+        } else if (mc.thePlayer!!.moveStrafing != 0F && mc.thePlayer!!.moveForward == 0F) {
+            moveYaw += if(mc.thePlayer!!.moveStrafing > 0) -90 else 90
+        }
+        return moveYaw
     }
 }
