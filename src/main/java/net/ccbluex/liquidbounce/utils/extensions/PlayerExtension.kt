@@ -16,12 +16,16 @@ import kotlin.math.sqrt
  * Allows to get the distance between the current entity and [entity] from the nearest corner of the bounding box
  */
 fun Entity.getDistanceToEntityBox(entity: Entity): Double {
-    val eyes = this.getPositionEyes(1F)
-    val pos = getNearestPointBB(eyes, entity.entityBoundingBox)
-    val xDist = abs(pos.xCoord - eyes.xCoord)
-    val yDist = abs(pos.yCoord - eyes.yCoord)
-    val zDist = abs(pos.zCoord - eyes.zCoord)
-    return sqrt(xDist.pow(2) + yDist.pow(2) + zDist.pow(2))
+    val eyes = this.getPositionEyes(1.0F)
+    val collisionBorderSize = entity.collisionBorderSize.toDouble()
+    val axisAlignedBB = entity.entityBoundingBox.expand(collisionBorderSize, collisionBorderSize, collisionBorderSize)
+    val pos = getNearestPointBB(eyes, axisAlignedBB)
+
+    val xDist = pos.xCoord - eyes.xCoord
+    val yDist = pos.yCoord - eyes.yCoord
+    val zDist = pos.zCoord - eyes.zCoord
+
+    return sqrt(xDist * xDist + yDist * yDist + zDist * zDist)
 }
 
 fun getNearestPointBB(eye: Vec3, box: AxisAlignedBB): Vec3 {
