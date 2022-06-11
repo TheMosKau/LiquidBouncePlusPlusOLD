@@ -31,8 +31,9 @@ class NoClip : Module() {
 	
     @EventTarget
     fun onStrafe(event: StrafeEvent) {
-		mc.thePlayer.noClip = true
-		mc.thePlayer.jumpMovementFactor = 0.0f
+	mc.thePlayer.noClip = true
+	mc.thePlayer.jumpMovementFactor = 0.0f
+	mc.thePlayer.capabilities.isFlying = false
         val speed = speed.get()
         val yaw = getMoveYaw().toDouble()
 		mc.thePlayer.onGround = false
