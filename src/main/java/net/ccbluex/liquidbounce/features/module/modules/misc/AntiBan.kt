@@ -81,11 +81,31 @@ class AntiBan : Module() {
         if (mc.theWorld == null || mc.thePlayer == null) return
 
         val packet = event.packet // smart convert
-        if (packet is S18PacketEntityTeleport || packet is S20PacketEntityProperties || packet is S1DPacketEntityEffect) {
+        if (packet is S1DPacketEntityEffect) {
+            val entity = mc.theWorld.getEntityByID(packet.entityId)
+            if (entity != null && (obStaffs.contains(entity.name) || obStaffs.contains(entity.displayName.unformattedText))) {
+                if (!detected) {
+                    LiquidBounce.hud.addNotification(Notification("${entity.name} detected through effect packet!", Notification.Type.ERROR))
+                    mc.thePlayer.sendChatMessage("/leave")
+                    detected = true
+                }
+            }
+        }
+        if (packet is S18PacketEntityTeleport) {
             val entity = mc.theWorld.getEntityByID(packet.entityId)
             if (entity != null && (obStaffs.contains(entity.name) || obStaffs.contains(entity.displayName.unformattedText))) {
                 if (!detected) {
                     LiquidBounce.hud.addNotification(Notification("${entity.name} detected through teleportation packet!", Notification.Type.ERROR))
+                    mc.thePlayer.sendChatMessage("/leave")
+                    detected = true
+                }
+            }
+        }
+        if (packet is S20PacketEntityProperties) {
+            val entity = mc.theWorld.getEntityByID(packet.entityId)
+            if (entity != null && (obStaffs.contains(entity.name) || obStaffs.contains(entity.displayName.unformattedText))) {
+                if (!detected) {
+                    LiquidBounce.hud.addNotification(Notification("${entity.name} detected through properties packet!", Notification.Type.ERROR))
                     mc.thePlayer.sendChatMessage("/leave")
                     detected = true
                 }
@@ -101,12 +121,45 @@ class AntiBan : Module() {
                 }
             }
         }
-        if (packet is S14PacketEntity || packet is S19PacketEntityStatus || packet is S19PacketEntityHeadLook || packet is S49PacketUpdateEntityNBT) {
+        if (packet is S14PacketEntity) {
             val entity = packet.getEntity(mc.theWorld)
 
             if (entity != null && (obStaffs.contains(entity.name) || obStaffs.contains(entity.displayName.unformattedText))) {
                 if (!detected) {
                     LiquidBounce.hud.addNotification(Notification("${entity.name} detected through update packet!", Notification.Type.ERROR))
+                    mc.thePlayer.sendChatMessage("/leave")
+                    detected = true
+                }
+            }
+        }
+        if (packet is S19PacketEntityStatus) {
+            val entity = packet.getEntity(mc.theWorld)
+
+            if (entity != null && (obStaffs.contains(entity.name) || obStaffs.contains(entity.displayName.unformattedText))) {
+                if (!detected) {
+                    LiquidBounce.hud.addNotification(Notification("${entity.name} detected through status packet!", Notification.Type.ERROR))
+                    mc.thePlayer.sendChatMessage("/leave")
+                    detected = true
+                }
+            }
+        }
+        if (packet is S19PacketEntityHeadLook) {
+            val entity = packet.getEntity(mc.theWorld)
+
+            if (entity != null && (obStaffs.contains(entity.name) || obStaffs.contains(entity.displayName.unformattedText))) {
+                if (!detected) {
+                    LiquidBounce.hud.addNotification(Notification("${entity.name} detected through head packet!", Notification.Type.ERROR))
+                    mc.thePlayer.sendChatMessage("/leave")
+                    detected = true
+                }
+            }
+        }
+        if (packet is S49PacketUpdateEntityNBT) {
+            val entity = packet.getEntity(mc.theWorld)
+
+            if (entity != null && (obStaffs.contains(entity.name) || obStaffs.contains(entity.displayName.unformattedText))) {
+                if (!detected) {
+                    LiquidBounce.hud.addNotification(Notification("${entity.name} detected through nbt packet!", Notification.Type.ERROR))
                     mc.thePlayer.sendChatMessage("/leave")
                     detected = true
                 }
