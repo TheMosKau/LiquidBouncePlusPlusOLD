@@ -102,7 +102,7 @@ class TeleportAura : Module() {
 
         for (entity in mc.theWorld.loadedEntityList)
             if (entity is EntityLivingBase && EntityUtils.isSelected(entity, true) && mc.thePlayer.getDistanceToEntity(entity) <= rangeValue.get()) {
-                if (entityCount > maxTargetsValue.get())
+                if (entityCount > maxTargetsValue.get() - 1)
                     break
 
                 targets.add(entity)

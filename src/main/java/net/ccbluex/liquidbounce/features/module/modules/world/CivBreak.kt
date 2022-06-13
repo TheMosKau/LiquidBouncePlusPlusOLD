@@ -21,22 +21,22 @@ import net.minecraft.network.play.client.C0APacketAnimation
 import net.minecraft.util.BlockPos
 import net.minecraft.util.EnumFacing
 import java.awt.Color
+import net.ccbluex.liquidbounce.utils.timer.MSTimer
 
 @ModuleInfo(name = "CivBreak", description = "Allows you to break blocks instantly.", category = ModuleCategory.WORLD)
-class CivBreak: Module() {
+class CivBreak : Module() {
 
-    private
-    var blockPos: BlockPos ? = null
-    private
-    var enumFacing: EnumFacing ? = null
+    private var blockPos: BlockPos? = null
+    private var enumFacing: EnumFacing? = null
 
-    private val range = FloatValue("Range", 5 F, 1 F, 6 F)
+    private val range = FloatValue("Range", 5F, 1F, 6F)
     private val rotationsValue = BoolValue("Rotations", true)
     private val visualSwingValue = BoolValue("VisualSwing", true)
 
     private val airResetValue = BoolValue("Air-Reset", true)
     private val rangeResetValue = BoolValue("Range-Reset", true)
-    private TickTimer delayTimer = new TickTimer();
+	
+	private val timer = MSTimer()
 
 
     @EventTarget
@@ -50,15 +50,15 @@ class CivBreak: Module() {
         // Break
         mc.netHandler.addToSendQueue(C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, blockPos, enumFacing))
         mc.netHandler.addToSendQueue(C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, blockPos, enumFacing))
-        delayTimer.reset()
+		timer.reset()
     }
 
     @EventTarget
     fun onUpdate(event: MotionEvent) {
-        val pos = blockPos ? : return
+        val pos = blockPos ?: return
 
         if (airResetValue.get() && BlockUtils.getBlock(pos) is BlockAir ||
-            rangeResetValue.get() && BlockUtils.getCenterDistance(pos) > range.get()) {
+                rangeResetValue.get() && BlockUtils.getCenterDistance(pos) > range.get()) {
             blockPos = null
             return
         }
@@ -66,15 +66,12 @@ class CivBreak: Module() {
         if (BlockUtils.getBlock(pos) is BlockAir || BlockUtils.getCenterDistance(pos) > range.get())
             return
 
-        when(event.eventState) {
-            EventState.PRE - >
-                if (rotationsValue.get())
-                    RotationUtils.setTargetRotation((RotationUtils.faceBlock(pos) ? : return).rotation)
+        when (event.eventState) {
+            EventState.PRE -> if (rotationsValue.get())
+                RotationUtils.setTargetRotation((RotationUtils.faceBlock(pos) ?: return).rotation)
 
-            EventState.POST - > {
-                delayTimer.update()
-		// Avoid spamming packets for no reason
-                if (delayTimer.hasTimePassed(6)) {
+            EventState.POST -> {
+                if (timer.hasTimePassed(600)) {
                     if (visualSwingValue.get())
                         mc.thePlayer.swingItem()
                     else
@@ -86,7 +83,7 @@ class CivBreak: Module() {
                     mc.netHandler.addToSendQueue(C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK,
                         blockPos, enumFacing))
                     mc.playerController.clickBlock(blockPos, enumFacing)
-                    delayTimer.reset()
+                    timer.reset()
                 }
             }
         }
@@ -94,6 +91,6 @@ class CivBreak: Module() {
 
     @EventTarget
     fun onRender3D(event: Render3DEvent) {
-        RenderUtils.drawBlockBox(blockPos ? : return, Color.RED, true)
+        RenderUtils.drawBlockBox(blockPos ?: return, Color.RED, true)
     }
 }
