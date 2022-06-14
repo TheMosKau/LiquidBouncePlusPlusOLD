@@ -48,12 +48,14 @@ class AutoClicker : Module() {
     private var rightLastSwing = 0L
     private var leftDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
     private var leftLastSwing = 0L
+	private var lastBlockDamage = 0F
+	private var isMining = false;
 
     @EventTarget
     fun onRender(event: Render3DEvent) {
         // Left click
         if (mc.gameSettings.keyBindAttack.isKeyDown && leftValue.get() &&
-                System.currentTimeMillis() - leftLastSwing >= leftDelay && mc.playerController.curBlockDamageMP == 0F) {
+                System.currentTimeMillis() - leftLastSwing >= leftDelay && !isMining) {
             KeyBinding.onTick(mc.gameSettings.keyBindAttack.keyCode) // Minecraft Click Handling
 
             leftLastSwing = System.currentTimeMillis()
@@ -72,7 +74,9 @@ class AutoClicker : Module() {
 
     @EventTarget
     fun onUpdate(event: UpdateEvent) {
-        if (jitterValue.get() && (leftValue.get() && mc.gameSettings.keyBindAttack.isKeyDown && mc.playerController.curBlockDamageMP == 0F
+		isMining = mc.playerController.curBlockDamageMP > lastBlockDamage
+		lastBlockDamage = mc.playerController.curBlockDamageMP
+        if (jitterValue.get() && (leftValue.get() && mc.gameSettings.keyBindAttack.isKeyDown && !isMining
                         || rightValue.get() && mc.gameSettings.keyBindUseItem.isKeyDown && !mc.thePlayer.isUsingItem)) {
             if (Random.nextBoolean()) mc.thePlayer.rotationYaw += if (Random.nextBoolean()) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
 
