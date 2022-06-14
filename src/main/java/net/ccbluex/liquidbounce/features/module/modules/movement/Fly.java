@@ -951,7 +951,7 @@ public class Fly extends Module {
 
     private void handleVanillaKickBypass() {
         if(!vanillaKickBypassValue.get()) return;
-			groundTimer.update();
+		groundTimer.update();
 		if (!groundTimer.hasTimePassed(70)) return;
 
         final double ground = calculateGround();
