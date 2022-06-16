@@ -50,10 +50,17 @@ class AutoClicker : Module() {
     private var leftLastSwing = 0L
 	private var lastBlockDamage = 0F
 	private var isMining = false;
+	private var firstLeftClick = false;
+	private var firstRightClick = false;
 
     @EventTarget
     fun onRender(event: Render3DEvent) {
         // Left click
+		if (!firstLeftClick && mc.gameSettings.keyBindAttack.isKeyDown) {
+            leftLastSwing = System.currentTimeMillis()
+            leftDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
+		}
+		firstLeftClick = mc.gameSettings.keyBindAttack.isKeyDown
         if (mc.gameSettings.keyBindAttack.isKeyDown && leftValue.get() &&
                 System.currentTimeMillis() - leftLastSwing >= leftDelay && !isMining) {
             KeyBinding.onTick(mc.gameSettings.keyBindAttack.keyCode) // Minecraft Click Handling
@@ -63,6 +70,12 @@ class AutoClicker : Module() {
         }
 
         // Right click
+		if (!firstRightClick && mc.gameSettings.keyBindUseItem.isKeyDown) {
+            rightLastSwing = System.currentTimeMillis()
+            rightDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
+			
+		}
+		firstRightClick = mc.gameSettings.keyBindUseItem.isKeyDown
         if (mc.gameSettings.keyBindUseItem.isKeyDown && !mc.thePlayer.isUsingItem && rightValue.get() &&
                 System.currentTimeMillis() - rightLastSwing >= rightDelay) {
             KeyBinding.onTick(mc.gameSettings.keyBindUseItem.keyCode) // Minecraft Click Handling
@@ -74,7 +87,7 @@ class AutoClicker : Module() {
 
     @EventTarget
     fun onUpdate(event: UpdateEvent) {
-		isMining = mc.playerController.curBlockDamageMP > lastBlockDamage
+		isMining = (mc.playerController.curBlockDamageMP > lastBlockDamage) || (mc.playerController.curBlockDamageMP != lastBlockDamage && mc.playerController.curBlockDamageMP > 0)
 		lastBlockDamage = mc.playerController.curBlockDamageMP
         if (jitterValue.get() && (leftValue.get() && mc.gameSettings.keyBindAttack.isKeyDown && !isMining
                         || rightValue.get() && mc.gameSettings.keyBindUseItem.isKeyDown && !mc.thePlayer.isUsingItem)) {
