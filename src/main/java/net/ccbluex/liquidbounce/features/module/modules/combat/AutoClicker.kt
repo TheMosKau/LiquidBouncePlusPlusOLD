@@ -73,7 +73,6 @@ class AutoClicker : Module() {
 		if (!firstRightClick && mc.gameSettings.keyBindUseItem.isKeyDown) {
             rightLastSwing = System.currentTimeMillis()
             rightDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
-			
 		}
 		firstRightClick = mc.gameSettings.keyBindUseItem.isKeyDown
         if (mc.gameSettings.keyBindUseItem.isKeyDown && !mc.thePlayer.isUsingItem && rightValue.get() &&
