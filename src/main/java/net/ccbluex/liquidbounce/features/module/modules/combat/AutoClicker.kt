@@ -16,6 +16,7 @@ import net.ccbluex.liquidbounce.utils.timer.TimeUtils
 import net.ccbluex.liquidbounce.value.BoolValue
 import net.ccbluex.liquidbounce.value.IntegerValue
 import net.minecraft.client.settings.KeyBinding
+import net.ccbluex.liquidbounce.event.KeyEvent
 import kotlin.random.Random
 
 @ModuleInfo(name = "AutoClicker", spacedName = "Auto Clicker", description = "Constantly clicks when holding down a mouse button.", category = ModuleCategory.COMBAT)
@@ -50,17 +51,10 @@ class AutoClicker : Module() {
     private var leftLastSwing = 0L
 	private var lastBlockDamage = 0F
 	private var isMining = false;
-	private var firstLeftClick = false;
-	private var firstRightClick = false;
 
     @EventTarget
     fun onRender(event: Render3DEvent) {
         // Left click
-		if (!firstLeftClick && mc.gameSettings.keyBindAttack.isKeyDown) {
-            leftLastSwing = System.currentTimeMillis()
-            leftDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
-		}
-		firstLeftClick = mc.gameSettings.keyBindAttack.isKeyDown
         if (mc.gameSettings.keyBindAttack.isKeyDown && leftValue.get() &&
                 System.currentTimeMillis() - leftLastSwing >= leftDelay && !isMining) {
             KeyBinding.onTick(mc.gameSettings.keyBindAttack.keyCode) // Minecraft Click Handling
@@ -70,11 +64,6 @@ class AutoClicker : Module() {
         }
 
         // Right click
-		if (!firstRightClick && mc.gameSettings.keyBindUseItem.isKeyDown) {
-            rightLastSwing = System.currentTimeMillis()
-            rightDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
-		}
-		firstRightClick = mc.gameSettings.keyBindUseItem.isKeyDown
         if (mc.gameSettings.keyBindUseItem.isKeyDown && !mc.thePlayer.isUsingItem && rightValue.get() &&
                 System.currentTimeMillis() - rightLastSwing >= rightDelay) {
             KeyBinding.onTick(mc.gameSettings.keyBindUseItem.keyCode) // Minecraft Click Handling
@@ -82,6 +71,17 @@ class AutoClicker : Module() {
             rightLastSwing = System.currentTimeMillis()
             rightDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
         }
+    }
+	
+    @EventTarget
+    fun onKey(event: KeyEvent) {
+        if(event.key == mc.gameSettings.keyBindAttack.keyCode) {
+            leftLastSwing = System.currentTimeMillis()
+            leftDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
+        } else if (event.key == mc.gameSettings.keyBindUseItem.keyCode) {
+            rightLastSwing = System.currentTimeMillis()
+            rightDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
+		}
     }
 
     @EventTarget
