@@ -39,6 +39,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -166,7 +167,14 @@ public abstract class MixinMinecraft {
     private void onTick(final CallbackInfo callbackInfo) {
         LiquidBounce.eventManager.callEvent(new TickEvent());
     }
-
+	
+    @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButtonState()Z", ordinal = 0))
+    private void onMouse(CallbackInfo ci) {
+        if (Mouse.getEventButtonState() && currentScreen == null) {
+            LiquidBounce.eventManager.callEvent(new KeyEvent(Mouse.getEventButton() - 100));
+        }
+    }
+	
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;dispatchKeypresses()V", shift = At.Shift.AFTER))
     private void onKey(CallbackInfo callbackInfo) {
         if(Keyboard.getEventKeyState() && currentScreen == null)

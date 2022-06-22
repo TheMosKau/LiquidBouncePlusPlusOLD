@@ -25,9 +25,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SideOnly(Side.CLIENT)
 public class MixinPlayerControllerMP {
 
-    @Inject(method = "attackEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;syncCurrentPlayItem()V"))
+    @Inject(method = "attackEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;syncCurrentPlayItem()V"), cancellable = true)
     private void attackEntity(EntityPlayer entityPlayer, Entity targetEntity, CallbackInfo callbackInfo) {
-        LiquidBounce.eventManager.callEvent(new AttackEvent(targetEntity));
+        AttackEvent attackEvent = new AttackEvent(targetEntity);
+        LiquidBounce.eventManager.callEvent(attackEvent);
+        if (attackEvent.isCancelled()) {
+            callbackInfo.cancel();
+        }
     }
 
     @Inject(method = "getIsHittingBlock", at = @At("HEAD"), cancellable = true)

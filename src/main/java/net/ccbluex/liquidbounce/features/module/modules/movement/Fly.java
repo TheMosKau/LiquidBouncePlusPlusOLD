@@ -143,8 +143,7 @@ public class Fly extends Module {
 
     private double startY;
 
-    private final MSTimer groundTimer = new MSTimer();
-    
+    private final TickTimer groundTimer = new TickTimer();
     private final TickTimer spartanTimer = new TickTimer();
     private final TickTimer verusTimer = new TickTimer();
 
@@ -951,7 +950,9 @@ public class Fly extends Module {
     }
 
     private void handleVanillaKickBypass() {
-        if(!vanillaKickBypassValue.get() || !groundTimer.hasTimePassed(1000)) return;
+        if(!vanillaKickBypassValue.get()) return;
+		groundTimer.update();
+		if (!groundTimer.hasTimePassed(70)) return;
 
         final double ground = calculateGround();
 
@@ -978,10 +979,10 @@ public class Fly extends Module {
     // TODO: Make better and faster calculation lol
     private double calculateGround() {
         final AxisAlignedBB playerBoundingBox = mc.thePlayer.getEntityBoundingBox();
-        double blockHeight = 1D;
+        double blockHeight = 0.05D;
 
         for(double ground = mc.thePlayer.posY; ground > 0D; ground -= blockHeight) {
-            final AxisAlignedBB customBox = new AxisAlignedBB(playerBoundingBox.maxX, ground + blockHeight, playerBoundingBox.maxZ, playerBoundingBox.minX, ground, playerBoundingBox.minZ);
+            final AxisAlignedBB customBox = new AxisAlignedBB(playerBoundingBox.maxX, ground + blockHeight, playerBoundingBox.maxZ, playerBoundingBox.minX, ground - 0.5, playerBoundingBox.minZ);
 
             if(mc.theWorld.checkBlockCollision(customBox)) {
                 if(blockHeight <= 0.05D)

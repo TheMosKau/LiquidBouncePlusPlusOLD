@@ -16,6 +16,7 @@ import net.ccbluex.liquidbounce.utils.timer.TimeUtils
 import net.ccbluex.liquidbounce.value.BoolValue
 import net.ccbluex.liquidbounce.value.IntegerValue
 import net.minecraft.client.settings.KeyBinding
+import net.ccbluex.liquidbounce.event.KeyEvent
 import kotlin.random.Random
 
 @ModuleInfo(name = "AutoClicker", spacedName = "Auto Clicker", description = "Constantly clicks when holding down a mouse button.", category = ModuleCategory.COMBAT)
@@ -48,12 +49,14 @@ class AutoClicker : Module() {
     private var rightLastSwing = 0L
     private var leftDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
     private var leftLastSwing = 0L
+	private var lastBlockDamage = 0F
+	private var isMining = false;
 
     @EventTarget
     fun onRender(event: Render3DEvent) {
         // Left click
         if (mc.gameSettings.keyBindAttack.isKeyDown && leftValue.get() &&
-                System.currentTimeMillis() - leftLastSwing >= leftDelay && mc.playerController.curBlockDamageMP == 0F) {
+                System.currentTimeMillis() - leftLastSwing >= leftDelay && !isMining) {
             KeyBinding.onTick(mc.gameSettings.keyBindAttack.keyCode) // Minecraft Click Handling
 
             leftLastSwing = System.currentTimeMillis()
@@ -69,10 +72,23 @@ class AutoClicker : Module() {
             rightDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
         }
     }
+	
+    @EventTarget
+    fun onKey(event: KeyEvent) {
+        if(event.key == mc.gameSettings.keyBindAttack.keyCode) {
+            leftLastSwing = System.currentTimeMillis()
+            leftDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
+        } else if (event.key == mc.gameSettings.keyBindUseItem.keyCode) {
+            rightLastSwing = System.currentTimeMillis()
+            rightDelay = TimeUtils.randomClickDelay(minCPSValue.get(), maxCPSValue.get())
+		}
+    }
 
     @EventTarget
     fun onUpdate(event: UpdateEvent) {
-        if (jitterValue.get() && (leftValue.get() && mc.gameSettings.keyBindAttack.isKeyDown && mc.playerController.curBlockDamageMP == 0F
+		isMining = (mc.playerController.curBlockDamageMP > lastBlockDamage) || (mc.playerController.curBlockDamageMP != lastBlockDamage && mc.playerController.curBlockDamageMP > 0)
+		lastBlockDamage = mc.playerController.curBlockDamageMP
+        if (jitterValue.get() && (leftValue.get() && mc.gameSettings.keyBindAttack.isKeyDown && !isMining
                         || rightValue.get() && mc.gameSettings.keyBindUseItem.isKeyDown && !mc.thePlayer.isUsingItem)) {
             if (Random.nextBoolean()) mc.thePlayer.rotationYaw += if (Random.nextBoolean()) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
 
