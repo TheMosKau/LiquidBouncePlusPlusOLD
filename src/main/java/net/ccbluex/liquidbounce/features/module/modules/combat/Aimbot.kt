@@ -61,9 +61,7 @@ class Aimbot : Module() {
                             false, range).rotation,
                 (turnSpeedValue.get() + Math.random()).toFloat()
         )
-
-        rotation.toPlayer(mc.thePlayer)
-
+        
         if (jitterValue.get()) {
             val yaw = Random.nextBoolean()
             val pitch = Random.nextBoolean()
@@ -71,15 +69,18 @@ class Aimbot : Module() {
             val pitchNegative = Random.nextBoolean()
 
             if (yaw)
-                mc.thePlayer.rotationYaw += if (yawNegative) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
+                rotation.yaw += if (yawNegative) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
 
             if (pitch) {
-                mc.thePlayer.rotationPitch += if (pitchNegative) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
-                if (mc.thePlayer.rotationPitch > 90)
-                    mc.thePlayer.rotationPitch = 90F
+                rotation.pitch += if (pitchNegative) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
+                if (rotation.pitch > 90)
+                    rotation.pitch = 90F
                 else if (mc.thePlayer.rotationPitch < -90)
-                    mc.thePlayer.rotationPitch = -90F
+                    rotation.pitch = -90F
             }
         }
+
+        rotation.toPlayer(mc.thePlayer)
+
     }
 }
