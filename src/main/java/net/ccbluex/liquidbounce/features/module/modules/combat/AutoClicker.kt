@@ -85,22 +85,26 @@ class AutoClicker : Module() {
     }
 
     @EventTarget
-    fun onUpdate(event: UpdateEvent) {
+    fun onStrafe(event: StrafeEvent) {
 		isMining = (mc.playerController.curBlockDamageMP > lastBlockDamage) || (mc.playerController.curBlockDamageMP != lastBlockDamage && mc.playerController.curBlockDamageMP > 0)
 		lastBlockDamage = mc.playerController.curBlockDamageMP
         if (jitterValue.get() && (leftValue.get() && mc.gameSettings.keyBindAttack.isKeyDown && !isMining
                         || rightValue.get() && mc.gameSettings.keyBindUseItem.isKeyDown && !mc.thePlayer.isUsingItem)) {
-            if (Random.nextBoolean()) mc.thePlayer.rotationYaw += if (Random.nextBoolean()) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
+	    val rotation = Rotation(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch)	
+	
+            if (Random.nextBoolean()) rotation.yaw += if (Random.nextBoolean()) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
 
             if (Random.nextBoolean()) {
-                mc.thePlayer.rotationPitch += if (Random.nextBoolean()) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
+                rotation.pitch += if (Random.nextBoolean()) -RandomUtils.nextFloat(0F, 1F) else RandomUtils.nextFloat(0F, 1F)
 
                 // Make sure pitch is not going into unlegit values
-                if (mc.thePlayer.rotationPitch > 90)
-                    mc.thePlayer.rotationPitch = 90F
-                else if (mc.thePlayer.rotationPitch < -90)
-                    mc.thePlayer.rotationPitch = -90F
+                if (rotation.pitch > 90)
+                    rotation.pitch = 90F
+                else if (rotation.pitch < -90)
+                    rotation.pitch = -90F
             }
+	    
+	    rotation.toPlayer(mc.thePlayer);
         }
     }
 }
